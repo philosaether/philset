@@ -33,10 +33,10 @@ philset overrides the following Claude Code skills by default:
   flow, which produces collaborative design docs instead of
   approve-then-execute plans
 
-Do not invoke these skills unless the user's signpost.yml sets
-`allow-plan: true`. If the user explicitly asks for plan mode
-(e.g., "enter plan mode", "use /plan"), comply — the override is
-a default, not a prohibition.
+Do not invoke these skills unless (a) the user's signpost.yml sets
+`allow-plan: true`, or (b) the user explicitly requests it in the
+current session (e.g., "enter plan mode", "use /plan"). The override
+is a default preference, not a hard prohibition.
 
 If you notice collaboration friction during the session — conflicting
 guidance, repeated rejections, mismatched expectations — invoke `/retro`

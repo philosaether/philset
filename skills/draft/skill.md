@@ -74,9 +74,9 @@ Keep it specific enough to implement from. Name files, endpoints, fields.
 
 ## Tradeoffs
 
-Alternatives considered and why each was chosen or rejected. Focus on
-forks where the decision could plausibly go either way — not every
-micro-choice, but the ones a reviewer or future reader would wonder about.
+Alternatives considered — both decided and undecided. Focus on forks
+where the decision could plausibly go either way — not every micro-choice,
+but the ones a reviewer or future reader would wonder about.
 
 For each tradeoff:
 - What the alternative was

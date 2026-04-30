@@ -36,6 +36,12 @@ Go deep enough to be accurate. Don't skim.
 
 ## Step 3: Write the assessment
 
+If the topic involves infrastructure, scaling, or data — include a
+Capacity Estimate section with napkin math. Skip for UI, workflow, or
+process assessments unless the user asks for it (via `--capacity` flag
+or informally). When in doubt, a few lines of rough math is better than
+none.
+
 Create or update a file at `assessments/<topic-slug>.md` in the state dir with this structure:
 
 ```markdown
@@ -75,12 +81,6 @@ Any feedback, requests, or constraints from users, inbox items, or design docs.
 Ordered list of what to do next, informed by the gaps and input above.
 Not a plan — just directional. The plan comes later.
 ```
-
-If the topic involves infrastructure, scaling, or data — include a
-Capacity Estimate section with napkin math. Skip for UI, workflow, or
-process assessments unless the user asks for it (via `--capacity` flag
-or informally). When in doubt, a few lines of rough math is better than
-none.
 
 Keep it factual and concise. This doc should be useful to a fresh session that hasn't seen the exploration.
 

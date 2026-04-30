@@ -83,7 +83,7 @@ function prompt(question) {
 function diffReport(sourceDir, targetDir) {
   const changes = [];
   if (!fs.existsSync(targetDir)) {
-    changes.push(`  + ${targetDir} (new)`);
+    changes.push(`  + ${path.basename(targetDir)}/ (new)`);
     return changes;
   }
   for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
@@ -177,7 +177,12 @@ function cmdBegin(options = {}) {
   try {
     execSync(`claude${claudeArgs}`, { cwd, stdio: 'inherit' });
   } catch (error) {
-    // claude exited — normal behavior
+    if (error.code === 'ENOENT') {
+      console.error('claude is not installed or not on PATH.');
+      console.error('Install Claude Code: https://docs.anthropic.com/en/docs/claude-code');
+      process.exit(1);
+    }
+    // claude exited — codes 0-1 are normal
     if (error.status && error.status > 1) {
       console.error(`claude exited with code ${error.status}`);
       process.exit(error.status);
