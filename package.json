@@ -1,0 +1,27 @@
+{
+  "name": "philset",
+  "version": "0.2.1",
+  "description": "Claude Code skills library for iterative, document-driven development",
+  "license": "MIT",
+  "bin": {
+    "philset": "bin/philset.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "templates/",
+    "references/",
+    "README.md"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "development-workflow",
+    "skills"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philosaether/philset.git"
+  }
+}
