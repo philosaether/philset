@@ -6,3 +6,4 @@
 | [skill-improvements.md](skill-improvements.md) | accepted | 2026-04-30 | Tradeoffs in /draft, capacity estimation in /assess |
 | [signpost-links-plan-override.md](signpost-links-plan-override.md) | accepted | 2026-04-30 | Quick links in signpost + plan mode override |
 | [philset-npm-package.md](philset-npm-package.md) | accepted | 2026-04-30 | CLI, templates, references, package structure |
+| [no-build-without-ship.md](no-build-without-ship.md) | accepted | 2026-05-01 | Implementation gate in /assess and /draft |

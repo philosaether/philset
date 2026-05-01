@@ -87,3 +87,9 @@ Keep it factual and concise. This doc should be useful to a fresh session that h
 ## Step 4: Present
 
 Show the user the assessment. They may adjust scope, correct assumptions, or redirect before moving to design/planning.
+
+Do not proceed to implementation after presenting the assessment. The
+assessment informs design work — it is not a green light to build. If the
+user's response is ambiguous (e.g., "looks good, let's do it"), clarify
+whether they mean "move to /draft" or "start building." An explicit
+"just build it" overrides this constraint.

@@ -6,7 +6,7 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-- **v0.2.1 publish**: CLI built, templates created, references bundled. Next: README, npm publish, end-to-end test.
+- **v0.2.3 bugfix**: Implement no-build-without-ship guard in /assess and /draft skills (from retro).
 
 ## To Explore
 

@@ -9,3 +9,5 @@ Append-only log. Don't edit old entries.
 2026-04-30: Accepted signpost-links-plan-override design. Quick links in signpost.yml (merged across tree walk, displayed as clickable paths). /plan and /ultraplan overridden by default; allow-plan signpost flag to opt back in.
 2026-04-30: Accepted philset-npm-package design. Separate philset repo (philosaether/philset), not same as meta. v0.2.1, Node builtins only, README before publish.
 2026-04-30: philset repo created. Skills, philset-specific designs, and assessment moved from meta. Meta retains career and personal designs.
+2026-05-01: Accepted no-build-without-ship design. Implementation gate in /assess and /draft to prevent agents skipping /ship.
+2026-05-01: Guard placement: primary constraint at final step (action boundary), lighter framing note earlier. Agents weight local step instructions more heavily than preambles when generating responses — constraints at the decision point are most effective.
