@@ -54,7 +54,9 @@ Launch explore agents in parallel, each focused on the changed files:
 
 5. **Design reconciliation** (only if an accepted design doc exists in `designs/` that matches the branch or recent work): Read the design doc and compare against the diff. Categorize each section: implemented as designed, diverged (different but intentional), deferred (in design but not built), or added (built but not in design). Report divergences alongside other findings and suggest reconciliation steps (update the design doc to match what was actually built).
 
-6. **Merge readiness**: Assess whether `.meta/` state files (decisions.md, in-progress.md) will conflict with the base branch. Check if code merged to main since the branch diverged introduces contradictions — overlapping decisions, conflicting in-progress items, or architectural changes that affect the same areas. Flag contradictory decisions across branches for human resolution.
+6. **Track reconciliation** (only if a track file exists in `tracks/` matching the current branch): Read each note in the track. Categorize: played (implemented and committed), deferred (sent to roadmap via /defer), unplayed (written but not implemented). Flag unplayed notes — they may indicate forgotten work or scope that was silently dropped. Report alongside other findings.
+
+7. **Merge readiness**: Assess whether `.meta/` state files (decisions.md, in-progress.md) will conflict with the base branch. Check if code merged to main since the branch diverged introduces contradictions — overlapping decisions, conflicting in-progress items, or architectural changes that affect the same areas. Flag contradictory decisions across branches for human resolution.
 
 ## Step 4: Present findings
 

@@ -8,3 +8,4 @@
 | [philset-npm-package.md](philset-npm-package.md) | accepted | 2026-04-30 | CLI, templates, references, package structure |
 | [no-build-without-ship.md](no-build-without-ship.md) | accepted | 2026-05-01 | Implementation gate in /assess and /draft |
 | [defer-skill.md](defer-skill.md) | accepted | 2026-05-23 | /defer skill + roadmap.md and inbox/to-do.md as canonical .meta/ files |
+| [riff-skill.md](riff-skill.md) | accepted | 2026-05-23 | /riff skill + tracks/ as canonical .meta/ directory |

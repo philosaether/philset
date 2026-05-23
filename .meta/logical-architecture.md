@@ -7,12 +7,13 @@ philset — Claude Code skills library for iterative, document-driven developmen
 ```
 philset/
 ├── bin/philset.js        # CLI entry point (init, begin, dsp, update, sync, help)
-├── skills/               # Eight workflow skills, each a skill.md
+├── skills/               # Nine workflow skills, each a skill.md
 │   ├── hello/            # Session startup — context loading, status summary
 │   ├── ttyl/             # Session wind-down — persist decisions and progress
 │   ├── assess/           # Current state snapshot of a feature/system/area
 │   ├── draft/            # Design doc creation and collaborative iteration
 │   ├── ship/             # Accept design, begin implementation
+│   ├── riff/             # Lightweight iteration — tracks, note-before-code
 │   ├── review/           # Pre-merge review with design reconciliation
 │   ├── retro/            # Mid-session calibration or end-of-session retrospective
 │   └── defer/            # Backlog-building — capture future work with provenance
@@ -30,6 +31,7 @@ philset/
 │   ├── decisions-format.md
 │   ├── in-progress-format.md
 │   ├── roadmap-format.md
+│   ├── tracks-format.md
 │   └── designs-index.md
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
@@ -59,6 +61,7 @@ Two orthogonal cadences:
 
 - **Workday:** `/hello` → work → `/ttyl`
 - **Feature:** `/assess` → `/draft` → `/ship` → `/review`
+- **Riff:** `/riff` → note-before-code loop → `/review`
 - **Backlog:** `/defer` (agent-invoked or explicit, routes to roadmap or inbox)
 - **Calibration:** `/retro` (mid-session or end-of-session)
 
@@ -75,6 +78,7 @@ All state lives in `.meta/` directories, organized as a tree:
     ├── in-progress.md      # current work state (Active, Parked)
     ├── roadmap.md          # future work (deferred items, append-forward)
     ├── designs/            # design docs (draft → accepted → implemented)
+    ├── tracks/             # riff scratchpads (one per riff branch)
     ├── assessments/        # state snapshots (archived when consumed)
     ├── inbox/              # drop zone for review
     │   └── to-do.md        # cross-project deferrals and manual capture

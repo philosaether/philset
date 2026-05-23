@@ -108,6 +108,7 @@ whatever doesn't, skip it:
 - `in-progress.md` — current work state
 - `roadmap.md` — future work and deferred items
 - `designs/index.md` — active designs
+- `tracks/` — riff scratchpads (if any exist, note them)
 - `inbox/` — items waiting for review (including `to-do.md`)
 - `logical-architecture.md` — codebase map (handled in Step 4)
 - `signpost.yml` — already read during tree walk
@@ -128,6 +129,7 @@ If the user says yes, create:
   - `in-progress.md` — Current work state (Active, Parked). Present-tense only.
   - `roadmap.md` — Future work and deferred items. Append-forward via `/defer`.
   - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
+  - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
   - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
   - `inbox/` — Drop files here for review (screenshots, references, etc.).
     - `to-do.md` — Inbound items from cross-project deferrals or manual capture.
@@ -136,6 +138,7 @@ If the user says yes, create:
 - `.meta/in-progress.md` — header only
 - `.meta/roadmap.md` — header only
 - `.meta/designs/.gitkeep`
+- `.meta/tracks/.gitkeep`
 - `.meta/assessments/.gitkeep`
 - `.meta/inbox/.gitkeep`
 
@@ -172,6 +175,11 @@ Don't auto-fix.
 Quick scan of the project: `ls`, check git status, note the branch and
 any uncommitted work. Don't go deep — just enough to know where things
 stand.
+
+If on a `riff/` branch and a matching track file exists in `tracks/`,
+read it — you're resuming a riff session. Surface the track in the
+summary: "On riff/demo-polish, track has 4 notes (3 played, 1 in
+progress)."
 
 Read `.meta/logical-architecture.md` if it exists — it's the authoritative
 map for navigating and adding to the codebase.

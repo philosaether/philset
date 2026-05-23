@@ -162,6 +162,7 @@ function cmdBegin(options = {}) {
     copyTemplate('in-progress.md', path.join(metaDir, 'in-progress.md'));
     copyTemplate('roadmap.md', path.join(metaDir, 'roadmap.md'));
     gitkeep(path.join(metaDir, 'designs'));
+    gitkeep(path.join(metaDir, 'tracks'));
     gitkeep(path.join(metaDir, 'assessments'));
     gitkeep(path.join(metaDir, 'inbox'));
     console.log('Scaffolded .meta/ directory');
