@@ -33,14 +33,18 @@ philset overrides the following Claude Code skills by default:
   flow, which produces collaborative design docs instead of
   approve-then-execute plans
 
-Do not invoke these skills unless (a) the user's signpost.yml sets
-`allow-plan: true`, or (b) the user explicitly requests it in the
-current session (e.g., "enter plan mode", "use /plan"). The override
-is a default preference, not a hard prohibition.
+Do not invoke these skills unless the user's signpost.yml sets
+`allow-plan: true`. If the user explicitly asks for plan mode
+(e.g., "enter plan mode", "use /plan"), comply — the override is
+a default, not a prohibition.
 
 If you notice collaboration friction during the session — conflicting
 guidance, repeated rejections, mismatched expectations — invoke `/retro`
 yourself to diagnose it. Don't wait for the user to ask.
+
+If you recognize deferral intent during the session — "add that to the
+roadmap," "we'll deal with that later," "put that on PE's backlog" —
+invoke `/defer` yourself. Don't wait for the user to type `/defer`.
 
 ## Step 1: Tree walk
 
@@ -55,7 +59,9 @@ Discover context by walking up from the current working directory:
 
 **Read context outermost-first** (root → domain → project):
 - From the root `.meta/`: read `WORKFLOW.md` (user context)
-- From intermediate `.meta/` dirs: read context files (domain conventions)
+- From intermediate `.meta/` dirs: read context files (domain conventions),
+  plus `roadmap.md` and `inbox/to-do.md` if they exist (domain-level items
+  surface during `/hello` on any project under that domain)
 - From cwd `.meta/`: this is the project level, read in Step 3
 
 **Fallback**: If you reach `~` without finding a root signpost, check
@@ -100,8 +106,10 @@ Check for `.meta/` in cwd:
 whatever doesn't, skip it:
 - `decisions.md` — decision history
 - `in-progress.md` — current work state
+- `roadmap.md` — future work and deferred items
 - `designs/index.md` — active designs
-- `inbox/` — items waiting for review
+- `tracks/` — riff scratchpads (if any exist, note them)
+- `inbox/` — items waiting for review (including `to-do.md`)
 - `logical-architecture.md` — codebase map (handled in Step 4)
 - `signpost.yml` — already read during tree walk
 
@@ -118,16 +126,21 @@ If the user says yes, create:
   Project working state. Tracked in git, maintained by the team.
 
   - `decisions.md` — Append-only decision log. Add entries, never edit old ones.
-  - `in-progress.md` — Current work state. Update constantly, prune when done.
+  - `in-progress.md` — Current work state (Active, Parked). Present-tense only.
+  - `roadmap.md` — Future work and deferred items. Append-forward via `/defer`.
   - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
+  - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
   - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
   - `inbox/` — Drop files here for review (screenshots, references, etc.).
+    - `to-do.md` — Inbound items from cross-project deferrals or manual capture.
   ```
 - `.meta/decisions.md` — header + empty log
 - `.meta/in-progress.md` — header only
+- `.meta/roadmap.md` — header only
 - `.meta/designs/.gitkeep`
+- `.meta/tracks/.gitkeep`
 - `.meta/assessments/.gitkeep`
-- `.meta/inbox/.gitkeep`
+- `.meta/inbox/to-do.md` — header only
 
 If no, proceed without it — never force scaffolding.
 
@@ -163,6 +176,11 @@ Quick scan of the project: `ls`, check git status, note the branch and
 any uncommitted work. Don't go deep — just enough to know where things
 stand.
 
+If on a `riff/` branch and a matching track file exists in `tracks/`,
+read it — you're resuming a riff session. Surface the track in the
+summary: "On riff/demo-polish, track has 4 notes (3 played, 1 in
+progress)."
+
 Read `.meta/logical-architecture.md` if it exists — it's the authoritative
 map for navigating and adding to the codebase.
 
@@ -183,9 +201,11 @@ clear it at end of session.
 Give the user a short status readout:
 - What project this is and what it's for
 - What `.meta/` state was found (e.g., "14 decisions, 2 active designs,
-  3 items in progress" — concrete, not categorical)
+  3 items in progress, 8 roadmap items" — concrete, not categorical)
 - What's currently in progress (if in-progress.md exists)
-- Any inbox items waiting
+- Roadmap highlights: total items, plus any with `Due:` dates within 14
+  days ("2 roadmap items approaching deadline")
+- Any inbox items waiting (including to-do.md entries needing triage)
 - Any uncommitted work or notable git state
 - Tree context loaded (e.g., "loaded user context from ~/Development/.meta/,
   domain context from html/.meta/")

@@ -29,18 +29,14 @@ Gather current state from the codebase and docs. Depending on the topic:
 - Read relevant source files, templates, endpoints
 - Check git log for recent changes in the area
 - Read related design docs, decisions, and in-progress items
+- Check `roadmap.md` for related deferred items ("is this already on the
+  roadmap? are there adjacent roadmap items that should be considered?")
 - Check for known bugs or TODOs mentioning the topic
 - Check inbox for related feedback
 
 Go deep enough to be accurate. Don't skim.
 
 ## Step 3: Write the assessment
-
-If the topic involves infrastructure, scaling, or data — include a
-Capacity Estimate section with napkin math. Skip for UI, workflow, or
-process assessments unless the user asks for it (via `--capacity` flag
-or informally). When in doubt, a few lines of rough math is better than
-none.
 
 Create or update a file at `assessments/<topic-slug>.md` in the state dir with this structure:
 
@@ -87,9 +83,3 @@ Keep it factual and concise. This doc should be useful to a fresh session that h
 ## Step 4: Present
 
 Show the user the assessment. They may adjust scope, correct assumptions, or redirect before moving to design/planning.
-
-Do not proceed to implementation after presenting the assessment. The
-assessment informs design work — it is not a green light to build. If the
-user's response is ambiguous (e.g., "looks good, let's do it"), clarify
-whether they mean "move to /draft" or "start building." An explicit
-"just build it" overrides this constraint.

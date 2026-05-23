@@ -6,12 +6,7 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-- **v0.2.3 bugfix**: Implement no-build-without-ship guard in /assess and /draft skills (from retro).
-
-## To Explore
-
-- ultradraft mode (cloud-based design iteration) — v0.3+
-- PM integration via signpost flags — v0.3+
-- Context compaction resilience testing
+- /defer skill: implemented and committed. Pending /review.
+- /riff skill implementation (design accepted 2026-05-23). Skill.md, tracks/ scaffolding, /hello riff-mode awareness, /review track reconciliation.
 
 ## Parked

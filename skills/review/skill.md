@@ -54,7 +54,9 @@ Launch explore agents in parallel, each focused on the changed files:
 
 5. **Design reconciliation** (only if an accepted design doc exists in `designs/` that matches the branch or recent work): Read the design doc and compare against the diff. Categorize each section: implemented as designed, diverged (different but intentional), deferred (in design but not built), or added (built but not in design). Report divergences alongside other findings and suggest reconciliation steps (update the design doc to match what was actually built).
 
-6. **Merge readiness**: Assess whether `.meta/` state files (decisions.md, in-progress.md) will conflict with the base branch. Check if code merged to main since the branch diverged introduces contradictions — overlapping decisions, conflicting in-progress items, or architectural changes that affect the same areas. Flag contradictory decisions across branches for human resolution.
+6. **Track reconciliation** (only if a track file exists in `tracks/` matching the current branch): Read each note in the track. Categorize: played (implemented and committed), deferred (sent to roadmap via /defer), unplayed (written but not implemented). Flag unplayed notes — they may indicate forgotten work or scope that was silently dropped. Report alongside other findings.
+
+7. **Merge readiness**: Assess whether `.meta/` state files (decisions.md, in-progress.md) will conflict with the base branch. Check if code merged to main since the branch diverged introduces contradictions — overlapping decisions, conflicting in-progress items, or architectural changes that affect the same areas. Flag contradictory decisions across branches for human resolution.
 
 ## Step 4: Present findings
 
@@ -97,14 +99,27 @@ If a design doc was reconciled in Step 2 (dimension 5), update it in place:
   Deferred: <items not built, or "none">
   ---
   ```
-- File deferred items: roadmap for milestone work, `in-progress.md` for
-  bugs/small fixes, Deferred section for future features
+- For each deferred item, judge disposition: `/defer` to roadmap if it's
+  genuine future work, leave in the design doc if it's design-iteration
+  scope, or note as intentionally cut
 - Log to `decisions.md` if divergences are architecturally significant
 
 Do NOT archive the design doc — designs stay in `designs/` as the current spec until superseded by a newer design (archival happens in `/ship`).
 
 If no design doc was involved, skip this step.
 
-## Step 8: Archive assessments
+## Step 8: Graduate roadmap items
+
+If `roadmap.md` exists, check whether any items have been completed by
+the work under review. For each completed item:
+
+1. Remove it from `roadmap.md`
+2. Append it to `archive/rearview.md` (create the file if needed, with
+   header: `# Rearview — Completed Roadmap Items`)
+3. Add a `Completed: [date] ([branch])` line to the archived entry
+
+If no roadmap items were completed, skip this step.
+
+## Step 9: Archive assessments
 
 If any assessment docs in `assessments/` were consumed during this session's work (i.e., the work addressed gaps or next steps from the assessment), move them to `assessments/archive/` with a date prefix. Assessments are snapshots — once acted on, they belong in the archive.
