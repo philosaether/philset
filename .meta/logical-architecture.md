@@ -7,19 +7,21 @@ philset — Claude Code skills library for iterative, document-driven developmen
 ```
 philset/
 ├── bin/philset.js        # CLI entry point (init, begin, dsp, update, sync, help)
-├── skills/               # Seven workflow skills, each a skill.md
+├── skills/               # Eight workflow skills, each a skill.md
 │   ├── hello/            # Session startup — context loading, status summary
 │   ├── ttyl/             # Session wind-down — persist decisions and progress
 │   ├── assess/           # Current state snapshot of a feature/system/area
 │   ├── draft/            # Design doc creation and collaborative iteration
 │   ├── ship/             # Accept design, begin implementation
 │   ├── review/           # Pre-merge review with design reconciliation
-│   └── retro/            # Mid-session calibration or end-of-session retrospective
+│   ├── retro/            # Mid-session calibration or end-of-session retrospective
+│   └── defer/            # Backlog-building — capture future work with provenance
 ├── templates/            # Scaffolding copied by init/begin
 │   ├── CLAUDE.md         # Project-level Claude instructions
 │   ├── WORKFLOW.md       # User context placeholder
 │   ├── decisions.md      # Append-only log template
-│   ├── in-progress.md    # Work state template
+│   ├── in-progress.md    # Work state template (Active, Parked)
+│   ├── roadmap.md        # Future work template (deferred items)
 │   ├── meta-README.md    # .meta/ directory explainer
 │   ├── signpost.yml      # Project-level signpost (no root flag)
 │   └── signpost-root.yml # Root-level signpost (root: true)
@@ -27,6 +29,7 @@ philset/
 │   ├── signpost-schema.md
 │   ├── decisions-format.md
 │   ├── in-progress-format.md
+│   ├── roadmap-format.md
 │   └── designs-index.md
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
@@ -56,6 +59,7 @@ Two orthogonal cadences:
 
 - **Workday:** `/hello` → work → `/ttyl`
 - **Feature:** `/assess` → `/draft` → `/ship` → `/review`
+- **Backlog:** `/defer` (agent-invoked or explicit, routes to roadmap or inbox)
 - **Calibration:** `/retro` (mid-session or end-of-session)
 
 ## State Persistence
@@ -68,10 +72,13 @@ All state lives in `.meta/` directories, organized as a tree:
 ├── domain/.meta/           # domain conventions (optional)
 └── project/.meta/          # project state
     ├── decisions.md        # append-only decision log
-    ├── in-progress.md      # current work state
+    ├── in-progress.md      # current work state (Active, Parked)
+    ├── roadmap.md          # future work (deferred items, append-forward)
     ├── designs/            # design docs (draft → accepted → implemented)
     ├── assessments/        # state snapshots (archived when consumed)
     ├── inbox/              # drop zone for review
+    │   └── to-do.md        # cross-project deferrals and manual capture
+    ├── archive/rearview.md # graduated roadmap items
     └── logical-architecture.md  # this file
 ```
 

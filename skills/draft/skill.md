@@ -9,11 +9,6 @@ Create a working design document. The user typed `/draft <topic>` — produce
 the first iteration of a design doc for collaborative iteration. The design
 session ends when the doc reflects shared understanding.
 
-**Implementation gate:** Do not begin implementation from this skill.
-`/draft` produces a design doc — `/ship` authorizes building. When the
-design is satisfactory, wait for the user to invoke `/ship` rather than
-proceeding to implementation.
-
 **State dir convention:** Always write to `.meta/`, creating it (and subdirectories) if needed.
 
 ## Step 0: Branch check
@@ -79,9 +74,9 @@ Keep it specific enough to implement from. Name files, endpoints, fields.
 
 ## Tradeoffs
 
-Alternatives considered — both decided and undecided. Focus on forks
-where the decision could plausibly go either way — not every micro-choice,
-but the ones a reviewer or future reader would wonder about.
+Alternatives considered and why each was chosen or rejected. Focus on
+forks where the decision could plausibly go either way — not every
+micro-choice, but the ones a reviewer or future reader would wonder about.
 
 For each tradeoff:
 - What the alternative was
@@ -124,9 +119,3 @@ Expect the user to:
 - Expand or narrow the scope
 
 Iterate until the user is satisfied, then wait for `/ship`.
-
-Do not begin implementation until the user invokes `/ship` or explicitly
-asks you to build (e.g., "just build it", "skip /ship and implement").
-If the user signals satisfaction with the design but doesn't invoke
-`/ship`, prompt: "Ready to /ship this?" The gate exists to prevent
-accidental skips, not to block deliberate ones.

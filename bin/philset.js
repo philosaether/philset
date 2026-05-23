@@ -160,6 +160,7 @@ function cmdBegin(options = {}) {
     copyTemplate('meta-README.md', path.join(metaDir, 'README.md'));
     copyTemplate('decisions.md', path.join(metaDir, 'decisions.md'));
     copyTemplate('in-progress.md', path.join(metaDir, 'in-progress.md'));
+    copyTemplate('roadmap.md', path.join(metaDir, 'roadmap.md'));
     gitkeep(path.join(metaDir, 'designs'));
     gitkeep(path.join(metaDir, 'assessments'));
     gitkeep(path.join(metaDir, 'inbox'));

@@ -97,14 +97,27 @@ If a design doc was reconciled in Step 2 (dimension 5), update it in place:
   Deferred: <items not built, or "none">
   ---
   ```
-- File deferred items: roadmap for milestone work, `in-progress.md` for
-  bugs/small fixes, Deferred section for future features
+- For each deferred item, judge disposition: `/defer` to roadmap if it's
+  genuine future work, leave in the design doc if it's design-iteration
+  scope, or note as intentionally cut
 - Log to `decisions.md` if divergences are architecturally significant
 
 Do NOT archive the design doc — designs stay in `designs/` as the current spec until superseded by a newer design (archival happens in `/ship`).
 
 If no design doc was involved, skip this step.
 
-## Step 8: Archive assessments
+## Step 8: Graduate roadmap items
+
+If `roadmap.md` exists, check whether any items have been completed by
+the work under review. For each completed item:
+
+1. Remove it from `roadmap.md`
+2. Append it to `archive/rearview.md` (create the file if needed, with
+   header: `# Rearview — Completed Roadmap Items`)
+3. Add a `Completed: [date] ([branch])` line to the archived entry
+
+If no roadmap items were completed, skip this step.
+
+## Step 9: Archive assessments
 
 If any assessment docs in `assessments/` were consumed during this session's work (i.e., the work addressed gaps or next steps from the assessment), move them to `assessments/archive/` with a date prefix. Assessments are snapshots — once acted on, they belong in the archive.

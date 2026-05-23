@@ -22,11 +22,13 @@ Append any decisions made this session that aren't already logged. Follow the ex
 
 ## Step 3: Update in-progress.md
 
-Rewrite the Active, To Explore, and Parked sections to reflect current reality:
+Rewrite the Active and Parked sections to reflect current reality:
 - Move completed items out of Active
 - Add anything that came up but wasn't finished
 - Park things that were deprioritized
 - Keep it tight — this is read at session start
+- Future work and ideas go in `roadmap.md`, not here — in-progress.md
+  is present-tense only
 
 ## Step 4: Clean up breadcrumbs
 

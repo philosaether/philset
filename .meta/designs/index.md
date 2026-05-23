@@ -7,3 +7,4 @@
 | [signpost-links-plan-override.md](signpost-links-plan-override.md) | accepted | 2026-04-30 | Quick links in signpost + plan mode override |
 | [philset-npm-package.md](philset-npm-package.md) | accepted | 2026-04-30 | CLI, templates, references, package structure |
 | [no-build-without-ship.md](no-build-without-ship.md) | accepted | 2026-05-01 | Implementation gate in /assess and /draft |
+| [defer-skill.md](defer-skill.md) | accepted | 2026-05-23 | /defer skill + roadmap.md and inbox/to-do.md as canonical .meta/ files |

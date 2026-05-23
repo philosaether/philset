@@ -17,23 +17,18 @@ Current work state. Update constantly, delete items when done.
 - Feature X: brief description of current state and immediate next step
 - Bug Y: what's broken, what's been tried
 
-## To Explore
-
-- Idea A — one-line context for why it's interesting
-- Idea B — reference to where it came up
-
 ## Parked
 
-- Feature Z: was deprioritized because of W. Resume when condition changes.
+- Feature Z: was deprioritized because of W. Branch: `feature/Z`. Resume when condition changes.
 ```
 
 ## Guidelines
 
 - **Active**: things being worked on right now. Include enough context
   that a fresh session can pick up without asking.
-- **To Explore**: interesting but not committed. May become Active or
-  get deleted.
-- **Parked**: deliberately set aside. Include the reason so you remember
-  why.
+- **Parked**: active work deliberately suspended. Include the branch name
+  and the reason. This is present-tense paused work, not future backlog.
 - Move items between sections as their status changes. Delete completed
   items — don't leave them as clutter.
+- **Future work and ideas go in `roadmap.md`**, not here. `in-progress.md`
+  is present-tense only.
