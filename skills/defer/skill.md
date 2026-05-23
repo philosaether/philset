@@ -52,8 +52,15 @@ The user named a target project (e.g., "defer to PE", "add that to
 chipper's backlog").
 
 1. Walk the signpost tree to find the target project directory
-2. Append to `{project}/.meta/inbox/to-do.md` (create the file and
-   parent directories if needed)
+2. Append to `{project}/.meta/inbox/to-do.md` (create parent directories
+   if needed). If the file doesn't exist, create it with:
+   ```markdown
+   # To Do
+
+   Items for triage. From cross-project `/defer` or manual capture.
+
+   ---
+   ```
 3. If the target project is not found in the tree: ask for the path.
    Don't guess.
 

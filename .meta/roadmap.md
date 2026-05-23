@@ -15,3 +15,7 @@ into categories that make sense for the project.
   (where to document project-specific conventions like SII).
   Deferred from: philset/feature/riff-defer-skills (2026-05-23).
   Blocker: after /review and merge of this branch
+- **Extract hardcoded meta-README from /hello** — /hello Step 3
+  scaffolding inlines the .meta/ directory description, duplicating
+  templates/meta-README.md. Should reference the template instead.
+  Deferred from: philset/feature/riff-defer-skills (2026-05-23).

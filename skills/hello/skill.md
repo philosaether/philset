@@ -140,7 +140,7 @@ If the user says yes, create:
 - `.meta/designs/.gitkeep`
 - `.meta/tracks/.gitkeep`
 - `.meta/assessments/.gitkeep`
-- `.meta/inbox/.gitkeep`
+- `.meta/inbox/to-do.md` — header only
 
 If no, proceed without it — never force scaffolding.
 
