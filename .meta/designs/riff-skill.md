@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-05-23
 Accepted: 2026-05-23
+Implemented: 2026-05-23 (feature/riff-defer-skills)
+Divergences: none
+Deferred: developer documentation (to roadmap)
 Assessment: ../assessments/riff-skill.md
 ---
 
