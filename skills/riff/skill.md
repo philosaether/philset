@@ -80,9 +80,9 @@ special commit prefix — the `riff/` branch provides context in git log.
 
 ### 4d: Verify
 
-The iteration engine depends on the change type:
-- **Visual**: SII loop (screenshot → tweak → screenshot)
-- **Logic**: test/verify loop (run → check → fix → run)
+Confirm the change works before moving on. Use whatever tight feedback
+loop fits the change — the goal is fast, concrete verification, not
+formal testing. One round-trip should tell you if it's right.
 
 ### 4e: Freeze the note
 

@@ -10,3 +10,8 @@ into categories that make sense for the project.
 - ultradraft mode (cloud-based design iteration) — v0.3+
 - PM integration via signpost flags — v0.3+
 - Context compaction resilience testing
+- **Developer documentation for /riff and /defer** — README sections
+  covering the new skills, including a section on verification loops
+  (where to document project-specific conventions like SII).
+  Deferred from: philset/feature/riff-defer-skills (2026-05-23).
+  Blocker: after /review and merge of this branch
