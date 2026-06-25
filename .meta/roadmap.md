@@ -6,6 +6,12 @@ into categories that make sense for the project.
 
 ---
 
+- **Chunks 2–5 (from philset-development-state assessment, 2026-06-25)** —
+  chunk 1 (close-the-loop) is done. Next up **chunk 2: multi-user state
+  model** (thread-vs-project state partition, branch-based .meta, where
+  /ttyl's commit lands — unblocks ttyl-commit and /suspend). Then chunk 3
+  (onboarding/voice split), chunk 4 (altitude skills: /study, /bounce),
+  chunk 5 (naming hygiene: philset mv). Full plan in the assessment.
 - /suspend + /resume skill: workstream switching with state snapshots. Assessed 2026-05-04, annotated, inboxed. Design questions around cross-branch .meta ownership and multi-developer use cases need /draft session.
 - ultradraft mode (cloud-based design iteration) — v0.3+
 - PM integration via signpost flags — v0.3+
@@ -35,3 +41,19 @@ into categories that make sense for the project.
   Related: /suspend + /resume (already on roadmap) covers the
   multi-session case; /bounce covers the single-session case.
   Deferred from: WWTS/meta/wp-nonprofit-scope (2026-06-17).
+- **philset deploy vs. symlink setup** — `philset init`/`update` *copy*
+  skills into `~/.claude/skills/` and references into
+  `~/Development/.meta/references/`, but the actual dev environment
+  *symlinks* each skill into the repo. So `update` would create divergent
+  real copies for new skills (e.g. amend/triage), fighting the symlink
+  model; references are copy-deployed and silently drift stale. Reconcile:
+  make deploy symlink-aware (e.g. a `philset link` command), and/or have
+  `update` refresh references reliably. New skills currently require a
+  manual `ln -s`.
+  Deferred from: philset/feature/close-the-loop (2026-06-25).
+- **/riff default cadence + push-based scope** — From the contact-form riff
+  postvivem: (1) make note-then-code the *default* cadence `/riff` instructs
+  (currently left to the user to establish each session), and (2) support a
+  push-based "standing by" scope for parallel-session-driven riffs — Claude
+  idles between pushed items instead of pulling the next from a list.
+  Deferred from: philset/main (2026-06-25).
