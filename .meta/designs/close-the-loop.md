@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-06-25
 Accepted: 2026-06-25
+Implemented: 2026-06-25 (feature/close-the-loop)
+Divergences: none
+Deferred: none
 Assessment: ../assessments/philset-development-state.md
 ---
 

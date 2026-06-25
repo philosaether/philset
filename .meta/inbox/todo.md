@@ -16,22 +16,11 @@ Inbound items and open process questions. Triaged 2026-06-25 against
     - Does philset ship with opinionated defaults? Leaning "yes"
     - `[chunk 3]` — answer lands with per-developer vs. shared-team context split.
 
-- `[chunk 1]` `[RESOLVED → /amend]` Accepted design docs can accumulate new open questions post-acceptance. Observed in chipper session (2026-05-12): user added killer-app showcase candidates to demo-page.md (status: accepted) as a new open question. The design was implemented, but the question is forward-looking — it doesn't invalidate the accepted design, it extends it.
-    - What should this do to the doc's status? Reopen as draft? A new status like "amended"? Leave as accepted with a modification date?
-    - When does the new question become actionable? Should /ship surface open questions from accepted docs? Should /hello mention them?
-    - The pattern will recur — accepted designs are living documents in practice, not frozen specs. philset needs a convention for this.
-    - Disposition: this is exactly what `/amend` formalizes (improvised twice). Designed in chunk 1.
-
 - `[RESOLVED → /defer]` I catch myself wanting to say things like "add that to our feature list."
     - Praxis has a beta-roadmap.md file which I keep adding to
     - I just caught myself wanting it in chipper
     - How do we generalize the pattern?
     - Disposition: `/defer` (shipped 2026-05-23) is the generalized pattern — routes to roadmap.md / inbox with provenance.
-
-- `[chunk 1]` Should we commit between /drafts?
-    - What about supporting an iteration number? So that changes can iterate on a design doc rather than superseding it entirely
-    - Can be useful during development -- sometimes, following a bug surfaces gaps which deserve a design iteration before building, but don't need a whole doc just to themselves
-    - Disposition: the "iterate without superseding" need is `/amend`. Designed in chunk 1.
 
 - Formalize signpost notes — per-project skill overrides in signpost.yml.
     - Concrete case: chipper wants /review to verify README alignment with current API surface.
@@ -44,19 +33,6 @@ Inbound items and open process questions. Triaged 2026-06-25 against
     - Every session ends with a few uncommitted changes in the codebase.
     - Typically, we're on main. Committing to main is not a great idea, and while it would work for a solo developer flow, if we formalized committing ttyl changes it would break the philset for multideveloper repos.
     - Decided: **/ttyl will commit `.meta/` state.** The auto-clean of consumed inbox items is chunk 1; *where* the commit lands (so multi-dev repos don't conflict) is gated on the chunk 2 state model. Don't build the commit step until chunk 2 settles the branch/thread-state question.
-
-- `[chunk 1]` **Mid-flight design expansion** — During chipper keyboard nav
-  implementation, the second commit (alt-coordinate + reference popups)
-  was complex enough to want a mini design doc before coding, but the
-  accepted design doc was already shipped and implementation was underway.
-  No clear skill handles this: `/draft` creates new docs, `/riff` tracks
-  notes but doesn't produce design artifacts mid-implementation. Possible
-  solutions: (1) `/draft --expand` to add a section to an accepted design,
-  (2) a riff note that's explicitly a design sketch (riff already supports
-  notes-before-code), (3) a new mode. One data point — watch for recurrence
-  before building anything.
-  From: chipper/main retro (2026-05-24).
-    - Disposition: recurred — this is `/amend`. Designed in chunk 1.
 
 - `[chunk 1]` **Roadmap-inbox association** — Ability to link `.meta/inbox/` items
   and miscellaneous notes to specific roadmap items, so they stay

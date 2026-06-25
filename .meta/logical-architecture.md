@@ -26,6 +26,7 @@ philset/
 │   ├── in-progress.md    # Work state template (Active, Parked)
 │   ├── roadmap.md        # Future work template (deferred items)
 │   ├── meta-README.md    # .meta/ directory explainer
+│   ├── todo.md           # inbox item-inbox template
 │   ├── signpost.yml      # Project-level signpost (no root flag)
 │   └── signpost-root.yml # Root-level signpost (root: true)
 ├── references/           # Format docs installed to user's .meta/references/
