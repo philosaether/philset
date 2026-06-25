@@ -52,7 +52,15 @@ didn't object during iteration, treat it as confirmed:
 - Append to `decisions.md`: one-line summary of what was accepted (create the file if it doesn't exist)
 - Update `in-progress.md`: add the work to the Active section (create the file if it doesn't exist)
 
-## Step 5: Begin implementation
+## Step 5: Graduate a fulfilled roadmap item
+
+If this design fulfills an item already on `roadmap.md` (or `inbox/todo.md`),
+graduate it now per the archival convention (`references/archival.md`):
+remove it from its source file and append it to `archive/rearview.md` with a
+`Completed: <today> (<branch>)` stamp. Match semantically; confirm before
+removing a hand-curated item. If nothing matches, skip.
+
+## Step 6: Begin implementation
 
 `/ship` is license to start building immediately. No confirmation step.
 Proceed with implementation based on the accepted design.

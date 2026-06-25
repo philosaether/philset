@@ -33,6 +33,10 @@ links:
 # Re-enable /plan and /ultraplan (overridden by philset by default)
 # Default: false. Inherited down the tree; child can override.
 allow-plan: false
+
+# Keep consumed screenshots (SII files) at /ttyl instead of deleting them
+# Default: false (consumed screenshots are deleted).
+archive-screenshots: false
 ```
 
 ## Inheritance

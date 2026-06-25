@@ -60,7 +60,7 @@ Discover context by walking up from the current working directory:
 **Read context outermost-first** (root → domain → project):
 - From the root `.meta/`: read `WORKFLOW.md` (user context)
 - From intermediate `.meta/` dirs: read context files (domain conventions),
-  plus `roadmap.md` and `inbox/to-do.md` if they exist (domain-level items
+  plus `roadmap.md` and `inbox/todo.md` if they exist (domain-level items
   surface during `/hello` on any project under that domain)
 - From cwd `.meta/`: this is the project level, read in Step 3
 
@@ -81,6 +81,7 @@ note to `breadcrumbs.log` `## Notes`:
 | `architecture` | `true` | Whether to maintain `.meta/logical-architecture.md`. Inherited down the tree; child can override. |
 | `links` | `{}` | Named shortcuts to frequently-used files. Merged across tree walk (parent + child, child overrides on key collision). |
 | `allow-plan` | `false` | Re-enable `/plan` and `/ultraplan` for this directory tree. |
+| `archive-screenshots` | `false` | Keep consumed screenshots at `/ttyl` instead of deleting them. |
 
 When reading signpost.yml at each level, collect any `links` entries
 into a merged map (outermost-first, child overrides on key collision).
@@ -107,9 +108,10 @@ whatever doesn't, skip it:
 - `decisions.md` — decision history
 - `in-progress.md` — current work state
 - `roadmap.md` — future work and deferred items
-- `designs/index.md` — active designs
+- `designs/index.md` — active designs (note any accepted design whose
+  frontmatter carries an amendment with `status: proposed` — surface in Step 7)
 - `tracks/` — riff scratchpads (if any exist, note them)
-- `inbox/` — items waiting for review (including `to-do.md`)
+- `inbox/` — items waiting for review (including `todo.md`)
 - `logical-architecture.md` — codebase map (handled in Step 4)
 - `signpost.yml` — already read during tree walk
 
@@ -132,7 +134,7 @@ If the user says yes, create:
   - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
   - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
   - `inbox/` — Drop files here for review (screenshots, references, etc.).
-    - `to-do.md` — Inbound items from cross-project deferrals or manual capture.
+    - `todo.md` — Inbound items from cross-project deferrals or manual capture.
   ```
 - `.meta/decisions.md` — header + empty log
 - `.meta/in-progress.md` — header only
@@ -140,7 +142,7 @@ If the user says yes, create:
 - `.meta/designs/.gitkeep`
 - `.meta/tracks/.gitkeep`
 - `.meta/assessments/.gitkeep`
-- `.meta/inbox/to-do.md` — header only
+- `.meta/inbox/todo.md` — header only
 
 If no, proceed without it — never force scaffolding.
 
@@ -205,7 +207,11 @@ Give the user a short status readout:
 - What's currently in progress (if in-progress.md exists)
 - Roadmap highlights: total items, plus any with `Due:` dates within 14
   days ("2 roadmap items approaching deadline")
-- Any inbox items waiting (including to-do.md entries needing triage)
+- Any inbox items waiting (including todo.md entries needing triage). If
+  `todo.md` has grown large (~10+ open items), nudge: "todo.md has N items —
+  want to run a /triage session?"
+- Any accepted design carrying a *proposed* (unaccepted) amendment — surface
+  it; living designs with open amendments are easy to forget
 - Any uncommitted work or notable git state
 - Tree context loaded (e.g., "loaded user context from ~/Development/.meta/,
   domain context from html/.meta/")

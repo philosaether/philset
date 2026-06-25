@@ -43,13 +43,27 @@ If `breadcrumbs.log` exists in the state dir:
 
 Don't delete the file — the hook expects it to exist.
 
-## Step 5: Flag unclosed designs
+## Step 5: Archive consumed inbox files
+
+Check `inbox/` for files consumed this session — content folded into a
+design, decision, or skill, or explicitly resolved. Move them to
+`archive/inbox/` per the archival convention (`references/archival.md`).
+Report what was archived; ask before archiving anything ambiguous.
+
+Screenshots (SII files, e.g. `*.png`) are usually throwaway once acted on.
+Default: **delete** consumed screenshots rather than archive them. The
+`archive-screenshots: true` signpost flag opts into keeping them.
+
+Don't touch `todo.md` itself — it's the standing item-inbox, not a consumed
+file. (Completed todo *items* graduate via `/triage` or `/review`.)
+
+## Step 6: Flag unclosed designs
 
 Check `designs/` for any accepted designs whose work appears
 complete (based on git log and in-progress.md). If found, remind the
 user — they may want to run `/review` to formally close them before ending.
 Don't block on this.
 
-## Step 6: Confirm
+## Step 7: Confirm
 
 Show the user what you wrote/changed so they can adjust before the session ends.

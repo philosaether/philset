@@ -52,7 +52,7 @@ The user named a target project (e.g., "defer to PE", "add that to
 chipper's backlog").
 
 1. Walk the signpost tree to find the target project directory
-2. Append to `{project}/.meta/inbox/to-do.md` (create parent directories
+2. Append to `{project}/.meta/inbox/todo.md` (create parent directories
    if needed). If the file doesn't exist, create it with:
    ```markdown
    # To Do
@@ -64,13 +64,13 @@ chipper's backlog").
 3. If the target project is not found in the tree: ask for the path.
    Don't guess.
 
-Cross-project items always land in `inbox/to-do.md`, never directly
+Cross-project items always land in `inbox/todo.md`, never directly
 in `roadmap.md`. You don't have full project context from an external
 session — the inbox is the staging area for triage during a local session.
 
 ## Step 3: Write the item
 
-Use this format for both roadmap.md and inbox/to-do.md entries:
+Use this format for both roadmap.md and inbox/todo.md entries:
 
 ```markdown
 - **Item name** — Description.

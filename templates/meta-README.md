@@ -9,4 +9,4 @@ Project working state. Tracked in git, maintained by the team.
 - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
 - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
 - `inbox/` — Drop files here for review (screenshots, references, etc.).
-  - `to-do.md` — Inbound items from cross-project deferrals or manual capture.
+  - `todo.md` — Inbound items from cross-project deferrals or manual capture.

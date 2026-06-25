@@ -108,18 +108,20 @@ Do NOT archive the design doc — designs stay in `designs/` as the current spec
 
 If no design doc was involved, skip this step.
 
-## Step 8: Graduate roadmap items
+## Step 8: Graduate completed items
 
-If `roadmap.md` exists, check whether any items have been completed by
-the work under review. For each completed item:
+Check whether any items in `roadmap.md` **or** `inbox/todo.md` have been
+completed by the work under review. For each completed item, per the archival
+convention (`references/archival.md`):
 
-1. Remove it from `roadmap.md`
+1. Remove it from its source file (`roadmap.md` or `todo.md`)
 2. Append it to `archive/rearview.md` (create the file if needed, with
-   header: `# Rearview — Completed Roadmap Items`)
+   header: `# Rearview — Completed Items`)
 3. Add a `Completed: [date] ([branch])` line to the archived entry
 
-If no roadmap items were completed, skip this step.
+Match semantically; confirm before removing a hand-curated item. If nothing
+was completed, skip this step.
 
 ## Step 9: Archive assessments
 
-If any assessment docs in `assessments/` were consumed during this session's work (i.e., the work addressed gaps or next steps from the assessment), move them to `assessments/archive/` with a date prefix. Assessments are snapshots — once acted on, they belong in the archive.
+If any assessment docs in `assessments/` were consumed during this session's work (i.e., the work addressed gaps or next steps from the assessment), move them to `archive/assessments/` with a date prefix, per the archival convention (`references/archival.md`). Assessments are snapshots — once acted on, they belong in the archive.
