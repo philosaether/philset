@@ -38,10 +38,21 @@ Create `tracks/<branch-name>.md` in the project's `.meta/`:
 
 Started: <today>
 
+## Targets
+
+<Aspirational, not prescriptive — items under consideration this session.
+If the riff is backlog-driven, populate by pulling candidate items from
+`roadmap.md` and/or `inbox/todo.md`. They're candidates, not commitments.
+Omit the section if the riff isn't drawing from the backlog.>
+
 ---
 ```
 
 If `tracks/` doesn't exist, create it. One track per branch.
+
+If the riff is drawing from the backlog, ask which roadmap/todo items are in
+scope and list them under `## Targets`. Played notes graduate matching
+targets (Step 4e).
 
 If resuming a riff on an existing branch (track file already exists),
 read the existing track and continue from where it left off.
@@ -88,6 +99,12 @@ formal testing. One round-trip should tell you if it's right.
 
 Once verified and committed, the note is "played." Don't revise played
 notes — append new notes for follow-up work.
+
+If the played note completes a `## Targets` item (or a matching `roadmap.md`/
+`todo.md` entry), graduate it per the archival convention
+(`references/archival.md`): append to `archive/rearview.md` with a
+`Completed: <date> (<branch>)` stamp and remove it from its source. Confirm
+before removing a hand-curated backlog item.
 
 ### 4f: Continue or escalate
 

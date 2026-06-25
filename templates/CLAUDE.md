@@ -6,7 +6,7 @@ Read these files first:
 - `.meta/decisions.md` - Workflow decisions (append-only log)
 - `.meta/in-progress.md` - Active work and parked branches
 - `.meta/roadmap.md` - Future work and deferred items
-- `.meta/inbox/` - Files dropped for review (including `to-do.md`)
+- `.meta/inbox/` - Files dropped for review (including `todo.md`)
 
 **During the session:** When making workflow decisions, append to
 `.meta/decisions.md`. When starting/finishing work, update

@@ -7,16 +7,18 @@ philset — Claude Code skills library for iterative, document-driven developmen
 ```
 philset/
 ├── bin/philset.js        # CLI entry point (init, begin, dsp, update, sync, help)
-├── skills/               # Nine workflow skills, each a skill.md
+├── skills/               # Eleven workflow skills, each a skill.md
 │   ├── hello/            # Session startup — context loading, status summary
-│   ├── ttyl/             # Session wind-down — persist decisions and progress
+│   ├── ttyl/             # Session wind-down — persist decisions, auto-clean inbox
 │   ├── assess/           # Current state snapshot of a feature/system/area
 │   ├── draft/            # Design doc creation and collaborative iteration
 │   ├── ship/             # Accept design, begin implementation
+│   ├── amend/            # Scoped addition to an accepted design (no supersede)
 │   ├── riff/             # Lightweight iteration — tracks, note-before-code
 │   ├── review/           # Pre-merge review with design reconciliation
 │   ├── retro/            # Mid-session calibration or end-of-session retrospective
-│   └── defer/            # Backlog-building — capture future work with provenance
+│   ├── defer/            # Backlog-building — capture future work with provenance
+│   └── triage/           # Process inbox todo items into the curated roadmap
 ├── templates/            # Scaffolding copied by init/begin
 │   ├── CLAUDE.md         # Project-level Claude instructions
 │   ├── WORKFLOW.md       # User context placeholder
@@ -32,8 +34,9 @@ philset/
 │   ├── in-progress-format.md
 │   ├── roadmap-format.md
 │   ├── tracks-format.md
-│   ├── to-do-format.md
-│   └── designs-index.md
+│   ├── todo-format.md
+│   ├── designs-index.md
+│   └── archival.md
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
 ├── package.json          # v0.2.2, zero dependencies, Node builtins only
@@ -61,9 +64,11 @@ Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDir
 Two orthogonal cadences:
 
 - **Workday:** `/hello` → work → `/ttyl`
-- **Feature:** `/assess` → `/draft` → `/ship` → `/review`
+- **Feature:** `/assess` → `/draft` → `/ship` → `/review`, with `/amend` for
+  scoped additions to accepted designs
 - **Riff:** `/riff` → note-before-code loop → `/review`
-- **Backlog:** `/defer` (agent-invoked or explicit, routes to roadmap or inbox)
+- **Backlog:** `/defer` in (routes to roadmap or inbox), `/triage` to promote
+  inbox todo items to the roadmap, graduation out to `archive/rearview.md`
 - **Calibration:** `/retro` (mid-session or end-of-session)
 
 ## State Persistence
@@ -82,8 +87,12 @@ All state lives in `.meta/` directories, organized as a tree:
     ├── tracks/             # riff scratchpads (one per riff branch)
     ├── assessments/        # state snapshots (archived when consumed)
     ├── inbox/              # drop zone for review
-    │   └── to-do.md        # cross-project deferrals and manual capture
-    ├── archive/rearview.md # graduated roadmap items
+    │   └── todo.md         # item-inbox: cross-project deferrals, manual capture
+    ├── archive/            # closed artifacts, mirrors live structure
+    │   ├── designs/        # superseded designs
+    │   ├── assessments/    # consumed assessments
+    │   ├── inbox/          # processed inbox files
+    │   └── rearview.md     # graduated roadmap/todo items
     └── logical-architecture.md  # this file
 ```
 

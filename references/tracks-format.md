@@ -13,6 +13,12 @@ summary of the conversation.
 
 Started: <date>
 
+## Targets
+
+<Optional, aspirational. Candidate roadmap/todo items under consideration
+this session — pulled from the backlog at riff start. Candidates, not
+commitments. Played notes graduate matching targets.>
+
 ---
 
 ## Note 1: <topic>
@@ -40,3 +46,7 @@ Started: <date>
   log.
 - **Tracks stay in `tracks/`.** No archival after merge — they're small
   and have lookup value for git blame context.
+- **`## Targets` is input, not scope law.** It records which backlog items
+  the riff is drawing from so played notes can graduate them. It's
+  aspirational — don't treat unfinished targets as dropped work; they just
+  stay in the backlog.

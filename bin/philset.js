@@ -165,7 +165,7 @@ function cmdBegin(options = {}) {
     gitkeep(path.join(metaDir, 'tracks'));
     gitkeep(path.join(metaDir, 'assessments'));
     ensureDir(path.join(metaDir, 'inbox'));
-    copyTemplate('to-do.md', path.join(metaDir, 'inbox', 'to-do.md'));
+    copyTemplate('todo.md', path.join(metaDir, 'inbox', 'todo.md'));
     console.log('Scaffolded .meta/ directory');
   }
 

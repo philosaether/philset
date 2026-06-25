@@ -19,3 +19,19 @@ into categories that make sense for the project.
   scaffolding inlines the .meta/ directory description, duplicating
   templates/meta-README.md. Should reference the template instead.
   Deferred from: philset/feature/riff-defer-skills (2026-05-23).
+- **Formalize "external writes go through inbox" principle** — The
+  invariant that cross-project writes land in inbox, not directly in
+  curated state files. Currently documented in defer-skill.md design
+  doc but should be a stated philset principle in the README and
+  referenced in skill docs.
+  Deferred from: philset/main (2026-05-23).
+- **`/bounce` skill (mid-session project switch)** — Runs ttyl-writes
+  for the outgoing project + hello-reads for the incoming project in
+  one move, without resetting the conversation context. Use case:
+  a design session spawns a new project (e.g., WWTS → Aether) and
+  you want to continue working without closing the CLI. The manual
+  version is safe (update state files, switch working dir, read new
+  .meta/) but a skill formalizes it and prevents missed writes.
+  Related: /suspend + /resume (already on roadmap) covers the
+  multi-session case; /bounce covers the single-session case.
+  Deferred from: WWTS/meta/wp-nonprofit-scope (2026-06-17).

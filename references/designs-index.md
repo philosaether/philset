@@ -21,5 +21,11 @@ archived — only current designs appear here.
 - **active** — Implemented and serving as current spec.
 - **active (unreliable)** — Implementation has drifted from the doc. Needs audit.
 
+## Amendment marker
+
+When `/amend` adds an amendment to an accepted design, mark the row so the
+extension is visible without opening the doc — append `· amended <date>` to
+the Status cell, e.g. `accepted · amended 2026-06-25`.
+
 Superseded docs are moved to `archive/designs/` by `/ship` and removed
-from this index.
+from this index (see `archival.md`).
