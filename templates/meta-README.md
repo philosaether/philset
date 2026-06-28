@@ -7,6 +7,7 @@ Project working state. Tracked in git, maintained by the team.
 - `roadmap.md` — Future work and deferred items. Append-forward via `/defer`.
 - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
 - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
+- `study/` — Staged learning docs. Created with `/study`; durable, citable.
 - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
 - `inbox/` — Drop files here for review (screenshots, references, etc.).
   - `todo.md` — Inbound items from cross-project deferrals or manual capture.

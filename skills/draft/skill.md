@@ -37,6 +37,8 @@ Rules:
 ## Step 1: Gather context
 
 - Check `assessments/` in the state dir for a recent assessment matching this topic
+- Check `study/` for a relevant study — cite it as a source when its learning
+  informs the design
 - Review the conversation for scope, constraints, and decisions so far
 - Check `designs/index.md` for related existing designs
 - If existing designs will likely be superseded by this work, note them

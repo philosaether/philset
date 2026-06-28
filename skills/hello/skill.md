@@ -111,6 +111,7 @@ whatever doesn't, skip it:
 - `designs/index.md` — active designs (note any accepted design whose
   frontmatter carries an amendment with `status: proposed` — surface in Step 7)
 - `tracks/` — riff scratchpads (if any exist, note them)
+- `study/` — staged learning docs (note any in-progress studies; surfaced in Step 5)
 - `inbox/` — items waiting for review (including `todo.md`)
 - `logical-architecture.md` — codebase map (handled in Step 4)
 - `signpost.yml` — already read during tree walk
@@ -132,6 +133,7 @@ If the user says yes, create:
   - `roadmap.md` — Future work and deferred items. Append-forward via `/defer`.
   - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
   - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
+  - `study/` — Staged learning docs. Created with `/study`; durable, citable.
   - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
   - `inbox/` — Drop files here for review (screenshots, references, etc.).
     - `todo.md` — Inbound items from cross-project deferrals or manual capture.
@@ -141,6 +143,7 @@ If the user says yes, create:
 - `.meta/roadmap.md` — header only
 - `.meta/designs/.gitkeep`
 - `.meta/tracks/.gitkeep`
+- `.meta/study/.gitkeep`
 - `.meta/assessments/.gitkeep`
 - `.meta/inbox/todo.md` — header only
 
@@ -182,6 +185,11 @@ If on a `riff/` branch and a matching track file exists in `tracks/`,
 read it — you're resuming a riff session. Surface the track in the
 summary: "On riff/demo-polish, track has 4 notes (3 played, 1 in
 progress)."
+
+If `study/` exists, check for in-progress studies (status not `complete`)
+and surface them in the summary the way riffs are surfaced:
+"`.meta/study/honcho.md` — 4 of 7 stages studied." A multi-day study is
+exactly the resume case worth flagging at startup.
 
 Read `.meta/logical-architecture.md` if it exists — it's the authoritative
 map for navigating and adding to the codebase.
