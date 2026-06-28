@@ -95,3 +95,43 @@ Inbound items and open process questions. Triaged 2026-06-25 against
   interaction with skill overrides.
   Deferred from: eventsnyourcity.com/feature/astro-infrastructure (2026-06-03).
     - (Open — converge with the "Formalize signpost notes" item above; same shape.)
+
+- **Sources section in /assess output** — Add a `## Sources` / inline-citation
+  convention to the assess skill template for research-backed assessments. When
+  an assessment does web research, cite load-bearing claims inline + a Sources
+  footer (URLs). Proved its worth this session: makes claims auditable and lets
+  the reader learn the topic, not just take conclusions on faith. Consider a
+  flag (e.g. `--cite`) or just make it standard when the skill does web research.
+  Deferred from: pl-takehome-technical/meta/queue-backend-scoping (2026-06-25).
+
+- **/ship: gate on unplanned-logic complexity** — Add a pre-build check to the
+  `/ship` skill: before implementing, scan for complex logic the accepted design
+  did NOT scope (e.g. a distributed orchestration / test harness). If there's a
+  large amount of unplanned implicit logic, **block the build and surface it** for
+  a design/review pass first, rather than vibes-building it inline.
+  Deferred from: pl-takehome/feature/ambitious-head-to-head (2026-06-27).
+  Why: run-cloud-2's orchestration harness was unscoped in the design and built
+  inline during /ship — it carried 5 of 7 deployment bugs, while the
+  designed+reviewed drivers shipped ~bug-free. A /ship gate would have caught that
+  the harness deserved its own design+review treatment.
+
+- **/study multi-round stages** — The `/study` per-stage loop reads as a single
+  pass (write→annotate→comment→quiz→answer→score→unlock), but dogfooding shows
+  genuine first-time-learning stages need **multiple** annotate/followup/re-quiz
+  rounds before they clear: Round 1 exposes gaps; corrections + a targeted Round 2
+  (re-quiz on *just* the gaps) close them. Make the loop wording **and the Quiz
+  Log format** explicitly support rounds (Round 1, Round 2, …); a stage clears
+  only when the *latest* round scores clean — not after the first quiz. Distinct
+  from "one stage at a time" (that's no-writing-*ahead*; this is iterating *within*
+  a stage). Likely a study-skill amendment (A2) or a loop-wording tweak.
+  Deferred from: study/defend-the-takehome dogfood (2026-06-28).
+
+- **/study quiz concepts, sheet the facts** — Quizzes should target *concepts /
+  reasoning the learner must reconstruct under pressure*, NOT discrete facts,
+  numbers, or exact configs — those are a **lookup, not a recall**, and belong on
+  the Study Product sheet. Drilling figures is a different cognitive pathway from
+  grokking mechanisms and pulls focus off "the forest." Refines both the quiz-design
+  guidance (Step 4) and the Study Products role (the sheet is *where memorizable
+  facts live so the quiz doesn't have to*). Likely folds into the same study-skill
+  amendment/v2 as the multi-round item above.
+  Deferred from: study/defend-the-takehome dogfood (2026-06-28).

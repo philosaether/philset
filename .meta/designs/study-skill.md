@@ -2,6 +2,12 @@
 Status: accepted
 Date: 2026-06-28
 Accepted: 2026-06-28
+Amended: 2026-06-28
+Amendments:
+  - id: A1
+    title: Study-home ≠ study-target (off-repo studies)
+    date: 2026-06-28
+    status: accepted
 Assessment: (none — sourced from inbox/staged-study-skill.md, captured from a live session)
 Supersedes: (none)
 ---
@@ -282,3 +288,37 @@ asserted; all are small and **included in this branch**.
 - **Multi-learner / shared study sessions.** Single learner per doc for now.
 - **Rewriting the proven artifacts** (honcho-internals.md et al.) — they stay as
   reference exemplars in `meta/.meta/`.
+
+## Amendments
+
+### A1: Study-home ≠ study-target (off-repo studies) (2026-06-28)
+
+**Status:** accepted
+**Trigger:** Dogfooding `/study` on `pl-takehome-technical` — a repo *shared with
+take-home reviewers*. Writing the study doc into its `.meta/study/` would expose
+the learning/quiz trail to the people grading the work.
+
+**Refined reasoning:** The artifact section ("Location: `.meta/study/<topic>.md`")
+and Step 3 implicitly assume the study doc lives in the *target's* `.meta/`. That
+holds **only when the learner owns/controls the target.** The general rule is
+**study-home ≠ study-target**: the study doc lives in the *learner's own
+workspace* `.meta/study/`, and the **source anchors point outward** at the
+target. When the learner controls the target, home and target coincide (the
+common case). When the target is **shared, external, or read-only** (a take-home
+shared with reviewers, a company's OSS for interview prep, a paper, a vendored
+dependency), home is a **separate repo** — a dedicated `study` project or a
+personal workspace. This is not new behavior: the proven exemplar
+`honcho-internals.md` already lived in `~/Development/meta`, *not* the Honcho
+repo, with anchors pointing at `github.com/plastic-labs/honcho`. The skill should
+**resolve study-home at Step 1**: default to the target's `.meta/` when the
+learner controls it; otherwise prompt for / create a separate study home and
+record a "Target repo" line in the header above the source anchors.
+
+**Unchanged:** The per-stage loop, the two orthogonal axes (Mastery Targets /
+Study Products), the completion model, `study/index.md`, the `/hello` `/assess`
+`/draft` integrations, and every skill Step except the Step-1/Step-3
+study-home-resolution clarification above. Source-anchor grounding is *more*
+load-bearing now, not less.
+
+**Supersedes:** Nothing. Additive — clarifies where `.meta/study/` resides when
+the learner doesn't own the target.
