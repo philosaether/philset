@@ -6,13 +6,12 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-- **/study skill** (feature/study-skill) — building per accepted
-  `designs/study-skill.md`. Scope: `skills/study/skill.md`, study-doc +
-  study-index templates, study/ references, and three integration touches
-  (/hello Step 5, /assess Step 2, /draft Step 1). Dogfood after merge:
-  /study on pl-takehome-technical for Monday interview prep.
+_Nothing active._
 
-Chunk 2 (multi-user state model) is next after this; see roadmap + the
-philset-development-state assessment.
+**Next up: chunk 2 — multi-user state model** (thread-vs-project state
+partition, branch-based .meta, where /ttyl's commit lands). See roadmap +
+the philset-development-state assessment. `/study` shipped and merged to
+main 2026-07-01 (reviewed, A1 implemented); dogfooded on the Plastic Labs
+take-home — passed the technical.
 
 ## Parked
