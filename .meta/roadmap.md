@@ -66,20 +66,38 @@ story to the top. See `decisions.md` (2026-07-01) and the
   `/study` doc, how shallow the loop goes, durable artifact vs. ephemeral like a
   riff track. Note adjacency to `/restore` — that reloads *parked session state*;
   `/refresh` rebuilds *understanding* whether or not you formally suspended.
+  Note: `integrated-workflow-system` Stage 1 scopes a minimal `/refresh <contact>`
+  CRM meeting-prep read (Google Contacts MCP) — the contact-read slice may ship
+  ahead of / independent from the full re-orientation skill.
   Deferred from: philset/main (2026-07-01).
 
-- **Praxis integration / CRM + calendar bridge — `/assess` first** — The "bounce
-  around `Development/`, think out loud, route conclusions to project dirs"
-  workflow is buckling under meeting/third-party-org load. Points at a CRM +
-  calendar integration, and at **Praxis as a bridge** between the philset repo on
-  the work laptop and the one on the personal machine (shared task-management
-  integration). Implies **hardening + portability of the tree-based context
-  structure**, which reaches all the way to a philosophy question about the nature
-  of philset, praxis, and their relationship. **Next action: `/assess
-  philset-praxis-relationship`** — what each system owns today, the integration
-  surface (CRM, calendar, tasks), and cross-machine bridge options — *before* any
-  `/draft`. Converges the older "PM integration via signpost flags — v0.3+" item.
-  Deferred from: philset/main (2026-07-01).
+- **Integrated Workflow System (Praxis + calendar/CRM bridge)** — Now **designed**:
+  see `designs/integrated-workflow-system.md` (draft, shipping Stage 1 this
+  session) and `assessments/philset-praxis-relationship.md`. North star: keep
+  Phil's workflow scaling. Core model: philset (practical/*how*) + Praxis
+  (*importance*) + calendar (*when*) + CRM (*who*) as orthogonal relations over
+  one leaf-set; sync at the leaf via a Praxis-minted association key, never the
+  tree. Staged path:
+  - **Stage 1** — calendar-into-`/hello` + minimal CRM meeting-prep read (Google
+    MCP). *Shipping this session.*
+  - **Stage 2** — chunk 2 + `private-meta` (the Tier-1 items above).
+  - **Stage 3** — cross-machine leaf sync via the prod Praxis DB: `praxis-sync`
+    signpost flag (opt-in), association keys minted by Praxis + stamped at
+    `/triage`, bidirectional conceptual-match merge, conflicts surfaced in
+    `/triage`/`/ttyl`. First concrete value = cross-machine `/defer`.
+  - **Stage 4** (horizon) — Praxis-as-orientation-GUI, time-aware nudges,
+    why-layer→philset-agent-context, notebook↔inbox convergence.
+  Praxis-side work (key endpoint, leaf upsert/pull, Rules agent-context) is
+  cross-deferred to the praxis inbox. Supersedes the old "PM integration via
+  signpost flags" line.
+  Designed: philset/feature/integrated-workflow-system (2026-07-01).
+
+- **`/hey` — lightweight `/hello`** — Informal session-start that loads light,
+  local context only (no full tree walk, no MCP/API reads), with a `/riff`-style
+  **escalation gate** that pulls full context if the session deepens. The
+  pressure valve for `/hello` getting heavier as the integrated system adds
+  calendar/CRM/Praxis reads to session-start; pairs with Stage 1.
+  Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
 
 ## Tier 3 — Structural chunks (post-inflection)
 
