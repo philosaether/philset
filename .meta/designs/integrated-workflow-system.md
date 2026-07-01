@@ -8,6 +8,10 @@ Amendments:
     title: Step 6.5 calendar window — today + early-next-morning
     date: 2026-07-01
     status: accepted
+  - id: A2
+    title: The who-relation is backed by an interaction-log primitive
+    date: 2026-07-01
+    status: accepted
 Assessment: ../assessments/philset-praxis-relationship.md
 Supersedes: (none — converges the roadmap's "PM integration via signpost flags" item)
 Implementation: staged; Stage 1 (calendar-into-/hello + minimal CRM read) started 2026-07-01 (feature/integrated-workflow-system). Stages 2–4 tracked on the roadmap.
@@ -307,3 +311,31 @@ a single `list_events` call, just over a slightly wider window.
 `calendar` signpost flag and opt-in gating, the on-demand contact-context offer,
 Stages 2–4, and the core model. Only the read *window* widens.
 **Supersedes:** Nothing. Additive — refines the window in Stage 1 / Step 6.5.
+
+### A2: The who-relation is backed by an interaction-log primitive (2026-07-01)
+
+**Status:** accepted
+**Trigger:** The NYC-trip outreach dogfood (this session). Re-contacting
+deferred-to-virtual leads across Gmail/LinkedIn/WhatsApp showed the *who* relation
+needs more than passive contact-read: a **structured interaction history** per
+contact/org.
+**Refined reasoning:** The core-model *who* relation and Stage-1 `/refresh` scope
+the who-layer as passive lookup. This amendment names the data model that gives
+it structure — an **interaction-log primitive**, a *system-wide* primitive (it
+touches tasks, priorities, and the timeline; it is not CRM-local):
+- **Typed entities (person / org)**, with **interactions ↔ entities many-to-many**
+  — one email to David\@Farsight cc Drew\@Motion logs under David, Drew, Farsight,
+  *and* Motion Recruitment.
+- Each interaction carries a **1-sentence summary + a link back to source**.
+- **Two capture surfaces:** an **auto-hook** after MCP-backed actions (send an
+  email → log to all involved entities; the who-layer builds itself from the
+  agent's own actions), and a **manual path** (CLI, or while processing a
+  day-log / inbox notes doc — the same seam as the Stage-4 notebook↔inbox
+  convergence) for un-instrumented platforms (WhatsApp, LinkedIn, in-person).
+- **Backing:** Google Contacts now → Praxis-native (Person/Org + interaction
+  model) later. The "outreach/follow-up state" is a derived view over this log.
+**Unchanged:** Stages 1–3 as specified, the leaf-sync mechanics, and the how/why/
+when axes. This structures the *who* relation's data model; it doesn't alter them.
+**Supersedes:** Nothing. Additive — the **full primitive gets its own `/draft`**
+when prioritized (tracked on the roadmap); this entry keeps the design honest in
+the meantime.

@@ -92,6 +92,36 @@ story to the top. See `decisions.md` (2026-07-01) and the
   signpost flags" line.
   Designed: philset/feature/integrated-workflow-system (2026-07-01).
 
+- **Interaction-log primitive (the who-layer data model)** — *Wants its own
+  `/draft`.* A system-wide primitive that gives the `who` relation structure
+  (see integrated-workflow-system amendment A2). Shape:
+  - **Typed entities (person / org)**, **interactions ↔ entities many-to-many**
+    (one email to David\@Farsight cc Drew\@Motion logs under David, Drew,
+    Farsight, *and* Motion Recruitment).
+  - Each interaction = **1-sentence summary + link back to source** (the real
+    thread), so Praxis can eventually show the whole conversation, skimmable +
+    click-through, before composing new outreach.
+  - **Two capture surfaces:** an **auto-hook** after MCP-backed actions (send an
+    email → log to all involved entities — the who-layer builds itself from the
+    agent's own actions), and a **manual path** (CLI, or while processing a
+    day-log / inbox notes doc) for un-instrumented platforms (WhatsApp, LinkedIn,
+    in-person). The manual path is the same seam as the notebook↔inbox convergence.
+  - **Cross-cutting:** interacts with tasks (an interaction spawns/closes one),
+    priorities (which contacts matter), and the timeline (last-touched).
+  - **Backing:** Google Contacts now → Praxis-native (Person/Org + interaction
+    model) later. "Outreach/follow-up state" is a derived view over the log.
+  Surfaced by the NYC-trip outreach dogfood (2026-07-01): Gmail-only search found
+  one lead (Farsight) and structurally *could not* find the rest — they live on
+  LinkedIn/WhatsApp. The manual-capture path is the fallback for those
+  un-instrumented platforms (dedicated MCP integrations would be the upgrade).
+  Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
+
+- **Connector-health check at `/hello`** — Both the Calendar and Gmail MCP tokens
+  were expired at first use this session, only discovered mid-task. `/hello` (when
+  `calendar`/MCP features are on) should do a quick "connectors healthy?" check and
+  flag stale auth up front, so a re-auth happens before it bites. Small.
+  Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
+
 - **`/hey` — lightweight `/hello`** — Informal session-start that loads light,
   local context only (no full tree walk, no MCP/API reads), with a `/riff`-style
   **escalation gate** that pulls full context if the session deepens. The
