@@ -19,7 +19,12 @@ and citable: `/assess` and `/draft` may read a study as a source.
 
 **State dir convention:** Always write to `.meta/`, creating it (and
 subdirectories like `study/`) if needed. The study doc lives at
-`.meta/study/<topic>.md`.
+`.meta/study/<topic>.md` — but in the learner's **study-home**, which is
+*not always the target*. **Study-home ≠ study-target:** the doc lives in the
+learner's own workspace and the **source anchors point outward** at the target.
+When the learner controls the target, home and target coincide (the common
+case); when the target is shared/external/read-only, home is a separate repo.
+Resolve this at Step 1.
 
 **The artifact structure** is specified in `references/study-format.md` — read
 it if you need the canonical shape. Scaffold from `templates/study-doc.md`.
@@ -33,6 +38,14 @@ Capture three things before reading anything:
 - **Target** — the source set: repo URL, local path, a paper, our own
   code+test-logs. If it's missing, ask. Everything downstream is grounded in
   real source, so there must *be* a source.
+- **Study-home** — *where the doc gets written.* Default to the target's own
+  `.meta/study/` when the learner controls the target. But if the target is
+  **shared, external, or read-only** (a take-home shared with reviewers, a
+  company's OSS for interview prep, a paper, a vendored dep), the trail must not
+  live there — prompt for / create a separate study home (a dedicated `study`
+  project or personal workspace) and record a **`Target repo:`** line in the
+  header (Step 3). Exemplar: `honcho-internals.md` lived in `~/Development/meta`,
+  anchors pointing at the Honcho repo.
 - **Goal** — free text: *why* we're learning ("interview prep for Plastic
   Labs," "defend the take-home Monday," "understand pgvector indexing"). The
   goal frames quiz difficulty and pacing.
@@ -65,6 +78,9 @@ own code). Don't manufacture a source-gathering pass where the source is obvious
 Read enough of the source to lay out the study. Then write the doc **header**:
 
 - What this is, in a sentence.
+- **`Target repo:`** — include this line **only when study-home ≠ study-target**
+  (Step 1): name the outward target the anchors point at, so a reader knows the
+  source lives elsewhere.
 - **Source anchors** — real file/dir paths or source refs, so every stage is
   grounded.
 - A one-paragraph description of the loop (so a reader knows how to use the doc).

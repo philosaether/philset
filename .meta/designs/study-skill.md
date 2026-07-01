@@ -10,6 +10,9 @@ Amendments:
     status: accepted
 Assessment: (none — sourced from inbox/staged-study-skill.md, captured from a live session)
 Supersedes: (none)
+Implemented: 2026-07-01 (feature/study-skill)
+Divergences: none — all elements built as designed, including amendment A1 (study-home resolution)
+Deferred: none
 ---
 
 # /study — Staged Source-Grounded Learning — Desired State

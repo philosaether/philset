@@ -9,6 +9,11 @@ Scored review and a running weak-spots list live in `## Quiz Log` at the bottom.
 
 Goal: <why we're learning — the audience/deadline/use this serves.>
 
+<!-- Optional. Include ONLY when study-home ≠ study-target — i.e. this doc lives
+     in the learner's own workspace while the source lives elsewhere (a shared,
+     external, or read-only target). Delete when home and target coincide. -->
+**Target repo:** <the outward target the anchors point at.>
+
 **Source anchors:** <real file/dir paths or source refs — every stage is
 grounded in these.>
 
