@@ -10,3 +10,4 @@
 | [defer-skill.md](defer-skill.md) | accepted | 2026-05-23 | /defer skill + roadmap.md and inbox/to-do.md as canonical .meta/ files |
 | [riff-skill.md](riff-skill.md) | accepted | 2026-05-23 | /riff skill + tracks/ as canonical .meta/ directory |
 | [close-the-loop.md](close-the-loop.md) | accepted | 2026-06-25 | Standard archival, /amend + /triage skills, item lifecycle & graduation, /ttyl auto-clean (Theme A) |
+| [study-skill.md](study-skill.md) | accepted · amended 2026-06-28 | 2026-06-28 | /study — staged source-grounded learning loop (write→annotate→quiz→score), durable study doc |

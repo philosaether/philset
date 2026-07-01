@@ -27,6 +27,8 @@ First, check `assessments/` in the state dir (including any archive subdirectory
 
 Gather current state from the codebase and docs. Depending on the topic:
 - Read relevant source files, templates, endpoints
+- Check `study/` for a relevant study — a `/study` doc is prior research read
+  to-the-metal; cite it as a source when it informs the assessment
 - Check git log for recent changes in the area
 - Read related design docs, decisions, and in-progress items
 - Check `roadmap.md` for related deferred items ("is this already on the
