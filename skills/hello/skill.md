@@ -82,6 +82,7 @@ note to `breadcrumbs.log` `## Notes`:
 | `links` | `{}` | Named shortcuts to frequently-used files. Merged across tree walk (parent + child, child overrides on key collision). |
 | `allow-plan` | `false` | Re-enable `/plan` and `/ultraplan` for this directory tree. |
 | `archive-screenshots` | `false` | Keep consumed screenshots at `/ttyl` instead of deleting them. |
+| `calendar` | `false` | Surface today's calendar at session start (Google Calendar MCP). Opt-in; inherited down the tree. |
 
 When reading signpost.yml at each level, collect any `links` entries
 into a merged map (outermost-first, child overrides on key collision).
@@ -206,6 +207,34 @@ If the user says drop it, remove the note. If they want to address it,
 handle it before continuing. If they defer, leave the note — `/ttyl` will
 clear it at end of session.
 
+## Step 6.5: Surface today's calendar (if enabled)
+
+Only if the resolved `calendar` signpost flag is true (inherited down the
+tree, so setting it once at the root turns it on everywhere). If the flag is
+false or absent, skip this step entirely — philset must work with no external
+dependency.
+
+When enabled and a Google Calendar MCP tool is available:
+
+1. Read **today + early next morning** in a single `list_events` call (window:
+   now → tomorrow ~10am — one API call, so session-start stays light). The
+   early-morning reach means an evening session warns about an early start the
+   next day, instead of hiding it behind the day boundary.
+2. Surface them in the summary (Step 7): "2 meetings today (3pm mixer, 5pm warm
+   intro); tomorrow starts early — 7:30am with Sam." If the wider week is busy,
+   add a one-line tail: "3 more this week."
+3. **Meeting prep, on demand.** If a meeting has identifiable attendees/people
+   and a contacts source is available (Google Contacts / Gmail MCP), don't
+   auto-pull their info — *offer* it: "Want me to pull contact context for
+   tomorrow's attendees?" This keeps `/hello` light while making the CRM
+   *who* relation one step away when it's actually wanted.
+
+The "N more this week" tail is a *count*, not a full listing — a cheap
+lookahead cue. Only expand it if the user asks.
+
+If the flag is on but no calendar MCP tool is available, note it once quietly
+and continue — don't error or block the summary.
+
 ## Step 7: Brief summary
 
 Give the user a short status readout:
@@ -213,6 +242,7 @@ Give the user a short status readout:
 - What `.meta/` state was found (e.g., "14 decisions, 2 active designs,
   3 items in progress, 8 roadmap items" — concrete, not categorical)
 - What's currently in progress (if in-progress.md exists)
+- Today's calendar, if the `calendar` flag surfaced any (Step 6.5)
 - Roadmap highlights: total items, plus any with `Due:` dates within 14
   days ("2 roadmap items approaching deadline")
 - Any inbox items waiting (including todo.md entries needing triage). If

@@ -11,3 +11,4 @@
 | [riff-skill.md](riff-skill.md) | accepted | 2026-05-23 | /riff skill + tracks/ as canonical .meta/ directory |
 | [close-the-loop.md](close-the-loop.md) | accepted | 2026-06-25 | Standard archival, /amend + /triage skills, item lifecycle & graduation, /ttyl auto-clean (Theme A) |
 | [study-skill.md](study-skill.md) | accepted · amended 2026-06-28 | 2026-06-28 | /study — staged source-grounded learning loop (write→annotate→quiz→score), durable study doc |
+| [integrated-workflow-system.md](integrated-workflow-system.md) | accepted · amended 2026-07-01 · Stage 1 building | 2026-07-01 | philset+Praxis as relations over one leaf-set; north star = workflow scaling; staged path, first move = calendar/CRM MCP hooks |

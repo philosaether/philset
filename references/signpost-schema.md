@@ -37,6 +37,11 @@ allow-plan: false
 # Keep consumed screenshots (SII files) at /ttyl instead of deleting them
 # Default: false (consumed screenshots are deleted).
 archive-screenshots: false
+
+# Surface today's calendar at session start (Google Calendar MCP)
+# Default: false. Opt-in; inherited down the tree. Requires a calendar MCP
+# tool to be connected — /hello skips silently if the flag is off or no MCP.
+calendar: false
 ```
 
 ## Inheritance
@@ -64,3 +69,6 @@ signposts can add more or override by key.
   walking here. Also used to create isolated context subtrees.
 - `allow-plan: true` — Re-enables `/plan` and `/ultraplan`, which philset
   overrides by default in favor of the assess → draft → ship flow.
+- `calendar: true` — `/hello` reads today's calendar (Google Calendar MCP)
+  and surfaces meetings in the session summary, offering on-demand contact
+  context for attendees. Stage 1 of the integrated-workflow-system design.
