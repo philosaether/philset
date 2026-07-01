@@ -57,3 +57,22 @@ into categories that make sense for the project.
   push-based "standing by" scope for parallel-session-driven riffs — Claude
   idles between pushed items instead of pulling the next from a list.
   Deferred from: philset/main (2026-06-25).
+- **`/refresh` — lightweight `/study` sibling (working name)** — A fast
+  re-orientation / shallow-overview skill: what `/riff` is to `/draft`,
+  `/refresh` is to `/study`. Reuses the note→comment→quiz loop (proven
+  highly effective for internalizing fast) but for *quick recall*, not a
+  full source-grounded deep dive. Two shapes to design for:
+  (1) **get back up to speed** on a repo you've been away from — too much
+  nuance to trust pure code intuition, but a full `/study` is overkill; and
+  (2) **quick topic overview** without entering deep-dive territory.
+  Motivating case: the **aether** repo — dropped last week for interview
+  prep, hard to pick back up yesterday (implementation-plan + code nuance).
+  Consider non-code use cases while drafting, since the loop is
+  knowledge-general: prep for next week's meetings, refresh CRM people
+  before tonight's nonprofit mixer, brush up college Quantum before a
+  conversation with a physicist. Belongs in the altitude-skills family
+  (chunk 4, alongside `/study` and `/bounce`); design questions: how it
+  relates to / can bootstrap from an existing `/study` doc, how shallow the
+  loop goes, whether it produces a durable artifact or is ephemeral like a
+  riff track.
+  Deferred from: philset/main (2026-07-01).
