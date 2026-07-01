@@ -2,6 +2,12 @@
 Status: accepted
 Date: 2026-07-01
 Accepted: 2026-07-01
+Amended: 2026-07-01
+Amendments:
+  - id: A1
+    title: Step 6.5 calendar window — today + early-next-morning
+    date: 2026-07-01
+    status: accepted
 Assessment: ../assessments/philset-praxis-relationship.md
 Supersedes: (none — converges the roadmap's "PM integration via signpost flags" item)
 Implementation: staged; Stage 1 (calendar-into-/hello + minimal CRM read) started 2026-07-01 (feature/integrated-workflow-system). Stages 2–4 tracked on the roadmap.
@@ -282,3 +288,22 @@ this is the horizon we steer by, not a blueprint. Two shapes already looming:
   future flagship, but *this* doc scopes only the CRM *relation* the workflow
   needs, not the product. (Its multi-dimensional payoff may pull it forward
   later — tracked separately.)
+
+## Amendments
+
+### A1: Step 6.5 calendar window — today + early-next-morning (2026-07-01)
+
+**Status:** accepted
+**Trigger:** Same-session dogfood of Stage 1 (the first real `/hello` calendar
+read). Today's calendar was empty while a **7:30 AM next-morning** meeting sat
+just outside the window — an evening `/hello` would have surfaced nothing, hiding
+an early start the user would want flagged the night before.
+**Refined reasoning:** Stage 1's "surface *today's* meetings" is too narrow at
+the day boundary. Widen the read to **today + early next morning** (so an evening
+session warns about an early start), and add a one-line **"N more this week"**
+tail for lookahead without bloat. This holds the session-light constraint — still
+a single `list_events` call, just over a slightly wider window.
+**Unchanged:** The Stage 1 decision (calendar-into-`/hello` via Google MCP), the
+`calendar` signpost flag and opt-in gating, the on-demand contact-context offer,
+Stages 2–4, and the core model. Only the read *window* widens.
+**Supersedes:** Nothing. Additive — refines the window in Stage 1 / Step 6.5.

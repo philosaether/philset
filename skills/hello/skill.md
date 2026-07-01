@@ -216,15 +216,21 @@ dependency.
 
 When enabled and a Google Calendar MCP tool is available:
 
-1. Read **today's** events (a single list-events call for the current day —
-   keep it to one API call so session-start stays light).
-2. Surface them in the summary (Step 7): "2 meetings today: 3pm nonprofit
-   mixer, 5pm warm intro."
+1. Read **today + early next morning** in a single `list_events` call (window:
+   now → tomorrow ~10am — one API call, so session-start stays light). The
+   early-morning reach means an evening session warns about an early start the
+   next day, instead of hiding it behind the day boundary.
+2. Surface them in the summary (Step 7): "2 meetings today (3pm mixer, 5pm warm
+   intro); tomorrow starts early — 7:30am with Sam." If the wider week is busy,
+   add a one-line tail: "3 more this week."
 3. **Meeting prep, on demand.** If a meeting has identifiable attendees/people
    and a contacts source is available (Google Contacts / Gmail MCP), don't
    auto-pull their info — *offer* it: "Want me to pull contact context for
-   tonight's mixer attendees?" This keeps `/hello` light while making the CRM
+   tomorrow's attendees?" This keeps `/hello` light while making the CRM
    *who* relation one step away when it's actually wanted.
+
+The "N more this week" tail is a *count*, not a full listing — a cheap
+lookahead cue. Only expand it if the user asks.
 
 If the flag is on but no calendar MCP tool is available, note it once quietly
 and continue — don't error or block the summary.
