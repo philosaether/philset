@@ -140,3 +140,62 @@ stays tracked and untouched. Docs updated (signpost-schema, README).
 
 **Target 1 (private-meta) DONE** — Notes 1+2 played. Graduated to
 `archive/rearview.md`.
+
+## Note 3: deploy vs. symlink — `philset link` (Target 2)
+
+**Dogfood ground truth (this machine, now):**
+- **Skills:** all 12 `~/.claude/skills/*` are symlinks → `philset/skills/*`. Live.
+- **References:** `~/Development/.meta/references/*` are *copies*, and drifting:
+  - `signpost-schema.md` — **stale** (I edited the repo copy this session for
+    private-meta; deployed copy is the old Jun-25 one).
+  - `study-format.md` — **missing** (added with `/study`, never re-copied).
+
+**Root cause — one sentence:** philset conflates *developer mode* (edit the repo,
+want changes live → symlink) with *user mode* (installed the package, just want
+the latest → copy). `init`/`update` only do copy; the dev env is hand-symlinked;
+the two fight. Worse, `copyDirRecursive` does `fs.copyFileSync(src, dest)` where,
+for a symlinked skill dir, `dest` resolves back to `src` → a **same-file copy that
+throws EINVAL**. So `philset update` is effectively unrunnable in the dev env
+today, which is *why* references never refreshed and new skills need manual `ln -s`.
+
+**Proposed reconciliation (riff-sized):**
+
+1. **New `philset link` — the developer path.** Idempotently symlink every repo
+   skill into `~/.claude/skills/` **and** every repo reference into
+   `<root>/.meta/references/` (root via `findRoot`). Removes any existing
+   file/dir/symlink at each target first, then links. Picks up new skills/refs
+   automatically — no more manual `ln -s`, and references can't drift because
+   they're the same inode as the repo. This is what *this* machine should run.
+2. **`philset update` stays the user path (copy latest), made symlink-safe.**
+   Fix `copyDirRecursive` to **skip destinations that are already symlinks**
+   (lstat → `isSymbolicLink`), logging `symlinked (dev) — skipped`. That kills the
+   EINVAL crash and stops `update` from clobbering a dev's live links. Users
+   (real copies) are unaffected; new skills still copy for them.
+3. **Fix the live drift now:** running `philset link` re-points references at the
+   repo, so `signpost-schema.md` (my edit) goes live and `study-format.md` appears.
+
+**Why link-only for references?** The root `.meta` is its own git repo; committing
+symlinks with absolute `philset/…` paths is machine-specific — fine for a dev
+workstation, wrong for a user. So links are strictly the dev path; copy stays the
+user path. Clean split, matches the two modes.
+
+**Open for you:**
+- (a) `philset link` as the reconciliation (dev=symlink, user=copy)? [my strong rec]
+- (b) `update` over a symlinked dest → **skip** (my rec: safe no-op in dev) vs.
+  **replace with copy** (would break your live-edit workflow — I don't recommend).
+- (c) Link references too, not just skills (fixes the drift at its root)? [rec: yes]
+- (d) Should `philset link` also cover **`sync`**'s project-local `.claude/skills/`
+  case, or leave `sync` as-is (copy)? [my read: leave `sync` — it's for committing
+  skills into a shared repo, where copies are correct; `link` is global-only.]
+
+---
+
+### Housekeeping: graduate Target 1 from the roadmap?
+
+Target 1 (private-meta) is in `rearview.md`. It's also a hand-curated Tier 1 item
+in `roadmap.md`, part of the visible **v0.3 bundle**. Riff says confirm before
+removing a curated backlog item. Two options:
+- **Leave it** on the roadmap (struck/annotated "done") so the whole v0.3 bundle
+  stays visible until the release cuts, then graduate all four together. [my lean]
+- **Remove it now** (it's already in rearview). Cleaner roadmap, but the v0.3
+  bundle looks partial.
