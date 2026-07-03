@@ -56,6 +56,8 @@ showing up in their git — day-one shared-codebase survival.
    stray `.meta/` entry in their diff, no "what's this philset thing" in review.
    (Alternative considered: appending `/.meta/` to the repo's root `.gitignore` —
    rejected as invasive; it puts your local tooling in everyone's tree.)
+   - Mmm, I wouldn't mind it. Turns the next PR review into guerilla marketing
+      - But you're right in principle. Let's be respectful.
 
 2. **Flag scope — inherited, child-overrides, default `false`** (same as other
    signpost flags). Lets you either flip it per-repo, or set `private-meta: true`
@@ -66,6 +68,8 @@ showing up in their git — day-one shared-codebase survival.
    `philset begin`. Writes the `.git/info/exclude` entry **and** sets
    `private-meta: true` in the project `signpost.yml`. Idempotent (safe to re-run;
    don't double-append the exclude line).
+   - Love it
+      - Let's do both, a la --dsp
 
 4. **Graceful degradation — mostly already true.** `/hello` already offers to
    scaffold when `.meta/` is absent. The real forward-obligation is a **one-line
@@ -79,11 +83,47 @@ showing up in their git — day-one shared-codebase survival.
 - (a) `.git/info/exclude` vs. repo `.gitignore` — I strongly prefer exclude for
   invisibility; push back if you'd rather the ignore be *visible* to teammates as
   an honest "philset lives here" signal.
+  - Agreed inline
 - (b) `philset private` as its own subcommand vs. folding into `philset begin`.
+   - Both; formal philset begin --private flag with philset private sugar
+   - at work, my default session start command will be "philset private --dsp"
 - (c) Does the flag *also* need a runtime effect in the skills now, or is
   "ignore + degrade-when-absent + plant the chunk-2 guard" enough for v0.3? My
   read: enough. The skills don't commit yet, so there's nothing to suppress.
+  - Agreed
 
 **Scope check:** this note is a lightweight /draft. If (a)–(c) open up more than a
 riff can hold, we escalate private-meta to a real `/draft`. My bet: it stays
 riff-sized — the mechanism is small once we pick the exclude approach.
+- Think it paid off there Claude
+
+**PLAYED (2026-07-03).** Built per your calls: `.git/info/exclude` (a),
+`philset private` sugar + `philset begin --private` flag composing with `--dsp`
+(b), no runtime skill effect (c). `enablePrivateMeta()` in `bin/philset.js` sets
+`private-meta: true` in signpost.yml + writes `/.meta/` to `.git/info/exclude`
+(idempotent, worktree-safe via `git rev-parse --git-path`). Verified in a
+throwaway repo: `git status` shows no `.meta/` after; second run doesn't dupe.
+Documented in signpost-schema.md, `/hello` fields table, README, logical-
+architecture. Chunk-2 commit guard planted in the state-model assessment.
+
+## Note 2: `philset private` also leaks CLAUDE.md — exclude it too?
+
+**Dogfood finding.** Running `philset private` in the test repo left this:
+`git status → ?? CLAUDE.md`. `cmdBegin` scaffolds `CLAUDE.md` into the repo root,
+and unlike `.meta/` it's *visible* to teammates. Same leak Note 1 set out to
+prevent ("without `.meta/` ever showing up in their git") — just a different file.
+
+The tension: in private mode you *want* your philset `CLAUDE.md` active locally
+(it drives session behavior) but you *don't* want to commit it to someone else's
+repo. That's exactly what `.git/info/exclude` is for.
+
+**Proposed:** in private mode, also add `/CLAUDE.md` to `.git/info/exclude` (only
+if philset created it / it's untracked — never exclude a CLAUDE.md the host repo
+already tracks). Two-line change to `enablePrivateMeta`.
+
+**Open for you:**
+- (a) Exclude CLAUDE.md in private mode? (my read: yes — it's the same leak.)
+- (b) Guard: only exclude if untracked, so we never hide the host's own tracked
+  CLAUDE.md. (my read: yes, essential.)
+- (c) Or would you rather private mode *not scaffold* CLAUDE.md at all? (I lean
+  no — you want the instructions locally; exclude keeps them working + invisible.)

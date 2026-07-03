@@ -263,8 +263,9 @@ Or launch Claude Code however you prefer and type `/hello`.
 | Command | Description |
 |---------|-------------|
 | `philset init` | First-time setup (root dir, skills, references) |
-| `philset begin [--dsp]` | Scaffold project if needed, launch claude |
+| `philset begin [--dsp] [--private]` | Scaffold project if needed, launch claude |
 | `philset dsp` | Alias for `begin --dsp` |
+| `philset private [--dsp]` | Alias for `begin --private`: ignore `.meta/` locally for a shared repo, then launch |
 | `philset update` | Update global skills and reference docs to latest |
 | `philset sync [--remove]` | Copy (or remove) skills to project `.claude/skills/` |
 | `philset help` | Show usage summary |
@@ -289,6 +290,17 @@ To remove project-local skills and rely on global:
 philset sync --remove
 ```
 
+For a shared repo where you want philset but *don't* want to touch anyone
+else's setup — no buy-in required — start in private mode:
+
+```bash
+cd their-repo && philset private   # or: philset private --dsp
+```
+
+This sets `private-meta: true` and ignores `.meta/` locally via the repo's
+`.git/info/exclude` (not the tracked `.gitignore`), so your philset state
+stays on your machine and teammates see nothing in their diffs.
+
 ## Configuration
 
 ### `signpost.yml`
@@ -300,6 +312,7 @@ root: true                    # Stop condition for tree walk
 name: "My Projects"          # Display name in status readouts
 architecture: true            # Maintain logical-architecture.md (default: true)
 allow-plan: false             # Re-enable /plan and /ultraplan (default: false)
+private-meta: false           # Keep .meta/ out of a shared repo's git (default: false)
 links:                        # Named shortcuts to frequently-used files
   design: ~/projects/main/.meta/designs/current.md
 ```

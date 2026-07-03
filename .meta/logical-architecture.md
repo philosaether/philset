@@ -56,13 +56,14 @@ Single executable, no dependencies. Commands:
 | Command | Purpose |
 |---------|---------|
 | `init` | One-time setup: root signpost, references, global skills |
-| `begin [--dsp]` | Scaffold .meta/ + CLAUDE.md, launch Claude Code |
+| `begin [--dsp] [--private]` | Scaffold .meta/ + CLAUDE.md, launch Claude Code |
 | `dsp` | Shorthand for `begin --dsp` |
+| `private [--dsp]` | Shorthand for `begin --private`: ignore .meta/ locally (shared repo) |
 | `update` | Update global skills and references from package |
 | `sync [--remove]` | Copy global skills to project-local .claude/skills/ |
 | `help` | Usage summary |
 
-Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDirRecursive()`.
+Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDirRecursive()`, `enablePrivateMeta()` (signpost flag + `.git/info/exclude`).
 
 ## Skills Pipeline
 

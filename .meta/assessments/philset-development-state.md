@@ -124,6 +124,14 @@ undocumented.
   committing to `main` is fine solo but breaks multi-developer repos. So
   the ttyl-commit work is gated on the Theme B state model (where does
   branch-volatile state live so it doesn't conflict?).
+  - **GUARD (planted 2026-07-03, v0.3 private-meta riff):** when `/ttyl` (or any
+    skill) gains a commit step, it MUST check the `private-meta` signpost flag
+    and **never commit `.meta/` into the host repo** when it's set. In private
+    mode `.meta/` is already ignored via `.git/info/exclude`, so a naive `git add
+    .meta && commit` would either no-op or fight the exclude — the commit must
+    route elsewhere (the chunk-2 question: a side branch, a separate `.meta` repo
+    à la the root `.meta`, or skip). Ties to the deferred commit-convention flag.
+    Do not implement ttyl-commit without honoring this.
 - **"the philset repo" is ambiguous** → items meant for *this* project land
   in `~/Development/.meta/` or `~/Development/meta/.meta/`. Root cause: a
   sibling `meta/` directory next to the tree-root `.meta/`. Naming
