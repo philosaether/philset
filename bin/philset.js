@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const readline = require('readline');
 const os = require('os');
 
@@ -163,7 +163,7 @@ async function cmdInit() {
 function isTracked(gitTop, filePath) {
   try {
     const rel = path.relative(gitTop, filePath).split(path.sep).join('/');
-    execSync(`git ls-files --error-unmatch -- ${JSON.stringify(rel)}`, {
+    execFileSync('git', ['ls-files', '--error-unmatch', '--', rel], {
       cwd: gitTop, stdio: 'ignore',
     });
     return true;
