@@ -7,8 +7,9 @@ philset — Claude Code skills library for iterative, document-driven developmen
 ```
 philset/
 ├── bin/philset.js        # CLI entry point (init, begin, dsp, update, sync, help)
-├── skills/               # Twelve workflow skills, each a skill.md
+├── skills/               # Thirteen workflow skills, each a skill.md
 │   ├── hello/            # Session startup — context loading, status summary
+│   ├── hey/             # Lightweight session floor — local-only, auto-escalates, network-exempt
 │   ├── ttyl/             # Session wind-down — persist decisions, auto-clean inbox
 │   ├── assess/           # Current state snapshot of a feature/system/area
 │   ├── study/           # Deeply learn an existing system via staged source-grounded loop

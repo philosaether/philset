@@ -19,6 +19,15 @@
   graduated items go. Standardized in chunk 1: one top-level `.meta/archive/`
   mirroring live structure, with `archive/rearview.md` as the item graveyard.
   Completed: 2026-06-25 (feature/close-the-loop).
+- **`/hey` — lightweight `/hello`** — informal, local-only session floor with an
+  escalation gate; the pressure valve for `/hello` getting heavier. Shipped as
+  `skills/hey/skill.md` (Phase 0 of progressive-disclosure): loads cwd `.meta/`
+  only, auto-escalates on local-context need, network-exempt.
+  Completed: 2026-07-03 (feature/progressive-disclosure).
+- **Connector-health check at `/hello`** — flag stale MCP/API auth up front rather
+  than discovering it mid-task. Shipped as the `connectors` entry in the
+  `hello.check` list (Phase 0 of progressive-disclosure).
+  Completed: 2026-07-03 (feature/progressive-disclosure).
 - **`private-meta` signpost flag — shared-codebase unblock** — day-one
   survival for running philset inside someone else's repo with no buy-in.
   `philset private` (= `begin --private`, composes with `--dsp`) sets

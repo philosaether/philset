@@ -82,7 +82,8 @@ note to `breadcrumbs.log` `## Notes`:
 | `links` | `{}` | Named shortcuts to frequently-used files. Merged across tree walk (parent + child, child overrides on key collision). |
 | `allow-plan` | `false` | Re-enable `/plan` and `/ultraplan` for this directory tree. |
 | `archive-screenshots` | `false` | Keep consumed screenshots at `/ttyl` instead of deleting them. |
-| `calendar` | `false` | Surface today's calendar at session start (Google Calendar MCP). Opt-in; inherited down the tree. |
+| `hello.check` | `[]` | List of optional session-start checks `/hello` runs (Step 6.5): `calendar`, `connectors`, `updates` (inert). Empty = run none. Inherited down the tree. |
+| `calendar` | `false` | **Alias** for adding `calendar` to `hello.check` (back-compat). Surface today's calendar at session start (Google Calendar MCP). |
 | `private-meta` | `false` | Keep `.meta/` out of a shared repo's git (ignored locally via `.git/info/exclude`, invisible to teammates). Set by `philset private`. Inherited down the tree. |
 
 When reading signpost.yml at each level, collect any `links` entries
@@ -208,14 +209,32 @@ If the user says drop it, remove the note. If they want to address it,
 handle it before continuing. If they defer, leave the note — `/ttyl` will
 clear it at end of session.
 
-## Step 6.5: Surface today's calendar (if enabled)
+## Step 6.5: Optional session-start checks (`hello.check`)
 
-Only if the resolved `calendar` signpost flag is true (inherited down the
-tree, so setting it once at the root turns it on everywhere). If the flag is
-false or absent, skip this step entirely — philset must work with no external
-dependency.
+`/hello` runs **only the optional checks the user has opted into**, via the
+`hello.check` signpost list (resolved during the tree walk, inherited, child
+overrides). **Default is `[]`** — a fresh install runs *no* optional checks and
+assumes nothing (philset must work with no external dependency).
 
-When enabled and a Google Calendar MCP tool is available:
+**Skip this step entirely when reached via `/hey` auto-escalation** — `/hey` is
+offline/local-only, so its escalation never runs any `hello.check` entry. Run only
+the entries present in the resolved list:
+
+- **`calendar`** — surface today's calendar (below). **Back-compat:** a bare
+  `calendar: true` signpost flag is an **alias** — treat it as if `calendar` were
+  in the list.
+- **`connectors`** — connector-health check: quickly verify the MCP/API tokens the
+  enabled checks depend on are live, and flag stale auth up front ("Calendar token
+  looks expired — re-auth before it bites") so it's fixed before mid-session. Only
+  meaningful once an MCP is connected.
+- **`updates`** — reserved for the future `mcp.philbas.com` updates pull. **Inert
+  in this version** — if present, note it's not yet active and continue; do NOT
+  reach the network.
+- Any entry with no available MCP tool: note it once quietly and continue — never
+  error or block the summary.
+
+### `calendar` entry — how to run it
+When `calendar` is enabled and a Google Calendar MCP tool is available:
 
 1. Read **today + early next morning** in a single `list_events` call (window:
    now → tomorrow ~10am — one API call, so session-start stays light). The
@@ -232,9 +251,6 @@ When enabled and a Google Calendar MCP tool is available:
 
 The "N more this week" tail is a *count*, not a full listing — a cheap
 lookahead cue. Only expand it if the user asks.
-
-If the flag is on but no calendar MCP tool is available, note it once quietly
-and continue — don't error or block the summary.
 
 ## Step 7: Brief summary
 

@@ -174,20 +174,52 @@ Serves both inflection floors. Cut the release when these four land.
   rest — they live on LinkedIn/WhatsApp.
   Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
 
-- **Connector-health check at `/hello`** — Both Calendar and Gmail MCP tokens were
-  expired at first use (2026-07-01), only discovered mid-task. `/hello` (when
-  `calendar`/MCP features are on) should do a quick "connectors healthy?" check
-  and flag stale auth up front. Small.
-  Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
+### Progressive disclosure — staged (from `designs/progressive-disclosure.md`, 2026-07-03)
 
-- **`/hey` — lightweight `/hello`** — Informal session-start that loads light,
-  local context only (no full tree walk, no MCP/API reads), with a `/riff`-style
-  **escalation gate** that pulls full context if the session deepens. The pressure
-  valve for `/hello` getting heavier as the integrated system adds calendar/CRM/
-  Praxis reads to session-start.
-  Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
+Phase 0 (`/hey` + `hello.check`) shipped in feature/progressive-disclosure. The
+rest is staged here; all trace to the accepted design.
 
-- **Git-setup tutorial for non-devs — wants its own `/draft`** — Pulled out of the
+- **Self-calibrating disclosure** — learn the user's preferred `/hello` verbosity
+  (and other interaction settings) by observation + light questions over the first
+  N sessions, persist, allow correction — the "Random meets the Guide" pattern.
+  **Second instance of the self-calibrating-preferences primitive** shipped as
+  `review.dimensions`; generalize the primitive out of `/review` when building it.
+  Feedback-gated (needs real usage to tune; over-eager calibration is the failure
+  mode). Manual `/hey`/`/hello` floor is the v0.3 stand-in.
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+
+- **Convention auto-updating** — `/hello` detects out-of-date philset conventions
+  (e.g. a bare `calendar: true` → `hello.check`) and fixes them **with consent**,
+  gated on a signpost flag, rather than one-off aliases forever. Phil's preferred
+  way to handle convention churn generally. Same family as self-calibrating prefs.
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+
+- **Per-skill suggestion layer + cross-domain nudges (Phase 1)** — make the
+  emergent next-step nudges deliberate + encouraged, and add cross-domain offers
+  ("`/study` before `/draft`ing a strategy?"). Rides on the self-calibrating
+  verbosity layer for eagerness-gating; needs guardrails for *detecting* the
+  opportunity without being preachy/wrong (Q6).
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+
+- **Phase 2 — plugin distribution** — repackage philset as a Claude Code **plugin**
+  + marketplace (`/plugin install philset` → `/hello` scaffolds locally). The real
+  onboarding win; grounded as the only mechanism that can distribute skills (remote
+  MCP can't). **Absorbs/supersedes:** the git-setup tutorial (below — becomes the
+  plugin's `guided` first-run), **deploy-vs-symlink** (Tier 1 — plugin is the
+  distribution mechanism; `npm run link` stays dev-only), and the **work-laptop
+  release** (Tier 1 — "install the plugin"). **Timing: after cutting v0.3, before
+  rewriting the philbas.com copy.**
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+
+- **Phase 3 — MCP enhancement layer** — stand up `mcp.philbas.com` as the opt-in
+  top-of-ladder: the `updates` `hello.check` (pull-at-session-start, user-visible,
+  never auto-applied — trust model in the design) + guided onboarding assist.
+  Depends on Phase 2. Capacity trivial (~12 QPS at 100k users; a CF Worker at ~$0);
+  the real cost is the trust/verification model. Server build cross-defers to Praxis/infra.
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+
+- **Git-setup tutorial for non-devs — wants its own `/draft`** *(now Phase 2's
+  `guided` first-run — see above)* — Pulled out of the
   v0.3 non-code low-hanging pass (deserves more than a riff bullet). A guided,
   precision-preserving onboarding flow for solo creatives who don't know git:
   *git stays* (prose version history is a feature, not a tax) — we teach the ~5
