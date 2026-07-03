@@ -22,6 +22,8 @@ ignore:
 
 # Whether /hello maintains logical-architecture.md
 # Default: true. Inherited down the tree; child can override.
+# Set false for non-code projects (writing, research, etc.) — turns off the
+# codebase-map prompt. The non-code escape hatch.
 architecture: true
 
 # Named shortcuts to frequently-used files

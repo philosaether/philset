@@ -25,7 +25,7 @@ State the scope back to the user in one line. If it's ambiguous, ask.
 
 First, check `assessments/` in the state dir (including any archive subdirectory) for prior assessments on this topic. Prior research may be stale but provides useful baseline context.
 
-Gather current state from the codebase and docs. Depending on the topic:
+Gather current state from the codebase (or your documents/work) and docs. Depending on the topic:
 - Read relevant source files, templates, endpoints
 - Check `study/` for a relevant study — a `/study` doc is prior research read
   to-the-metal; cite it as a source when it informs the assessment

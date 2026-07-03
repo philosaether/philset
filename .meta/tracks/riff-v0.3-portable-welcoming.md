@@ -262,6 +262,7 @@ roadmap's "git-setup / onboarding flow, git stays"): why philset uses git (versi
 history is a feature for a writer), the ~5 commands you actually need, and that
 philset drives the rest. A reference doc, pointed at from the README onboarding
 (Target 4 links it — keeps the human-facing prose in one place).
+- let's /defer this to a full draft after we finish the ship
 
 **D. Flag the `/review`-dimensions sharp edge** — NO build. Already captured in
 roadmap (Tier 4 signpost per-skill config → Tier 3 deep generalization). One-line
@@ -274,7 +275,26 @@ mechanical bits; Target 4 is the human framing. No parallel structures.
 
 **Open for you:**
 - (a) Rewordings A — right set? Too timid / too aggressive?
+   - Right set
 - (b) `git-setup.md` as a reference doc (C), or fold the git tutorial straight
   into the README (Target 4) instead of a separate file? [my lean: reference doc,
   README links it — reusable + keeps README lean.]
+  - /deferred inline
 - (c) Anything you'd *add* to the non-code pass that I'm not seeing?
+   Let's /defer /review generalization
+
+**PLAYED (2026-07-03).** Built A + B, deferred C + D per your annotations:
+- A: 3 rewordings landed — `/retro` ("code or the work itself"), `/assess`
+  ("codebase (or your documents/work) and docs"), `/riff` ("go straight to the
+  change"). Coined terms / proper nouns / code-map lines left intact.
+- B: `architecture: false` documented as the non-code escape hatch in
+  `signpost-schema.md` (yaml comment). No behavior change.
+- C (git-setup tutorial): **/deferred** to its own `/draft` post-ship → new Tier 2
+  roadmap item. Pulled out of the Tier 1 non-code bullet.
+- D (/review prose dimensions): **/deferred** — already on the roadmap (Tier 3
+  non-code deep generalization + Tier 4 signpost per-skill config); no dup. The
+  README (Target 4) will state the code-shaped caveat.
+
+**Target 3 (non-code low-hanging pass) DONE.** Net finding: philset was already
+concept-level general, so the pass was small by design — the leverage moved to the
+deferred git tutorial + the Target-4 positioning prose.

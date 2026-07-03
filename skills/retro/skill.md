@@ -127,7 +127,7 @@ may belong at a domain level once one is created.
 
 Rules:
 - Don't duplicate what's already captured in decisions.md or git history
-- Don't write things derivable from reading the code
+- Don't write things derivable from reading the code or the work itself
 - Propose all writes, let the user approve before saving
 - Keep WORKFLOW.md tight — it's read every session, so only patterns that generalize
 - For discovered workflows: propose whether it belongs as a WORKFLOW.md entry, a new skill, or just a thing to remember

@@ -82,7 +82,7 @@ lightweight equivalent of a /draft — skipping sign-off defeats the
 purpose.
 
 Bug fixes, one-line changes, and mechanical adjustments skip this step
-— go straight to code with a descriptive commit message.
+— go straight to the change with a descriptive commit message.
 
 ### 4c: Build
 

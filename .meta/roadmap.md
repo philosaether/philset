@@ -61,13 +61,13 @@ Serves both inflection floors. Cut the release when these four land.
     is the *signpost per-skill config* item (Tier 4) → the deep generalization
     (Tier 3). Flag it as the first thing user feedback will pull in; don't build
     it speculatively.
-  - **Git-setup tutorial / onboarding flow for non-devs** — philset is tightly
-    git-integrated (skills commit, branch, diff), which is a real barrier for a
-    non-developer. The *low-hanging* answer is a guided setup flow, not skill
-    surgery: git *stays* (version history of prose is a feature for a writer, not
-    a tax) and we just help them adopt it. The heavier alternative — a
-    `git-integration: false` flag that makes skills degrade to no-git mode — is
-    Tier 3, gated on feedback (see below). One now, the other later.
+  - **Git-setup tutorial for non-devs** — *pulled out to its own `/draft`
+    post-v0.3-ship* (deserves more than a riff bullet; see Tier 2). git *stays*;
+    a guided setup flow, not skill surgery. The heavier `git-integration: false`
+    no-git flag remains Tier 3, gated on feedback.
+  Delivered in v0.3 riff (2026-07-03): language audit + `architecture: false`
+  doc landed; `/review` prose-dimensions and the git tutorial pulled to their own
+  roadmap items (below / Tier 3).
   Deferred from: philset/main (2026-07-03, triage).
 
 - **README-for-humans + onboarding pass** *(brand/onboarding — both audiences)* —
@@ -180,6 +180,17 @@ Serves both inflection floors. Cut the release when these four land.
   valve for `/hello` getting heavier as the integrated system adds calendar/CRM/
   Praxis reads to session-start.
   Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
+
+- **Git-setup tutorial for non-devs — wants its own `/draft`** — Pulled out of the
+  v0.3 non-code low-hanging pass (deserves more than a riff bullet). A guided,
+  precision-preserving onboarding flow for solo creatives who don't know git:
+  *git stays* (prose version history is a feature, not a tax) — we teach the ~5
+  commands you actually need and let philset drive the rest. Design Qs for the
+  draft: reference doc vs. README section vs. an interactive `/hello`-adjacent
+  flow; how much git to expose; where it's pointed at from (README onboarding).
+  Distinct from the `git-integration: false` no-git flag (Tier 3, feedback-gated)
+  — this *keeps* git and lowers the adoption ramp. Do **after** v0.3 ships.
+  Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03).
 
 ## Tier 3 — Structural chunks + deep generalization (post-inflection)
 
