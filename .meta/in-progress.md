@@ -6,21 +6,32 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-- **progressive-disclosure** (`feature/progressive-disclosure`) — accepted
-  2026-07-03, implementing **Phase 0 only**: `/hey` skill (light local-only floor,
-  auto-escalate on local-context need, network-exempt) + `hello.check: [...]`
-  signpost list in `/hello` (default `[]`; `calendar` becomes an entry, `calendar:
-  true` kept as alias; `connectors` entry; `updates` documented-but-inert).
-  Everything else deferred to roadmap (self-calibrating disclosure, convention
-  auto-updating, Phase 1 nudges, Phase 2 plugin, Phase 3 MCP). Reframed via the
-  Guide-bird: disclosure = self-calibration, 2nd instance of the `review.dimensions`
-  primitive.
+_Nothing in flight._ Everything designed this session shipped, reviewed, and
+merged to `main`.
 
-**Done this session (on `main`):** configurable-review-dimensions
-(designed→shipped→reviewed→merged). v0.3 riff Targets 1–3 merged.
+**Shipped + merged 2026-07-03 (all on `main`):**
+- **v0.3 "portable + welcoming" riff** — Targets 1–3: `private-meta` +
+  `philset private`; `npm run link` (dev-link) + symlink-safe `update`; non-code
+  low-hanging pass (rewordings + `architecture: false` doc). Target 4 (README
+  coverage-update) audited → deferred to Phil-solo.
+- **configurable-review-dimensions** — `/review` resolves medium dimensions
+  (config/infer/ask) + always-on structural; breadcrumb + N=3 auto-persist;
+  `/retro` calibration. Amended A1 (N=3 counts only project-representative
+  inferences).
+- **progressive-disclosure Phase 0** — `/hey` (light local-only floor,
+  network-exempt) + `hello.check: [...]` list (default `[]`). Phases 1–3 deferred.
 
-**v0.3 release status:** the *cut* (version bump/tag) waits on this Phase-0 build +
-the README coverage-update (Phil-solo).
+**v0.3 release — NOT yet cut.** The version bump/tag + npm/plugin publish still
+waits on two things (next session):
+1. **README coverage-update** (Phil-solo) — the README omits `/riff`, `/defer`,
+   `/amend`, `/triage`, `/study`, `/hey` + non-code positioning. Punch-list is in
+   the roadmap item "README update — cover changes since the voice pass."
+2. **The cut itself** — bump `package.json` (currently 0.2.3 → 0.3.0), tag.
+
+**Next up (roadmap, ordered):** the rest of progressive-disclosure (self-calibrating
+disclosure, convention auto-updating, Phase 1 nudges, Phase 2 plugin distribution
+— *post-cut, pre-philbas-copy*, Phase 3 MCP); chunk 2 multi-user state model
+(still the #1 structural project); interaction-log primitive `/draft`.
 
 **Next up:**
 - **chunk 2 — multi-user state model** (Stage 2 of integrated-workflow-system;

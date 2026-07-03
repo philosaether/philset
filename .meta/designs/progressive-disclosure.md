@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-07-03
 Accepted: 2026-07-03
+Implemented: 2026-07-03 (feature/progressive-disclosure) — Phase 0 only
+Divergences: none
+Deferred: Phases 1–3 + self-calibrating disclosure + convention-auto-updating (all staged in roadmap.md)
 Assessment: assessments/progressive-disclosure.md
 Supersedes: (none; Phase 0 absorbs the /hey + connector-health roadmap items; Phase 2 absorbs git-setup-tutorial)
 ---

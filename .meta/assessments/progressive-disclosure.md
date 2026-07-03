@@ -21,6 +21,7 @@ for root dir, `git init`s root `.meta`, copies skills globally) → make a proje
 dir under root → `cd` → `philset begin`/`dsp` (scaffold + launch). ~5–6 steps,
 Node/npm/CLI literacy assumed. Trivial for a senior eng; hoops for a writer. The
 `philset dsp` shorthand exists but you have to *discover* it.
+- Also, the git setup onboarding flow we deferred this morning
 
 **Surface 2 — Runtime feature-gating.** `/hello` is **273 lines, 8 steps**
 (0–7 + 6.5-calendar) and growing. It already gates calendar behind a `calendar`
@@ -62,6 +63,8 @@ This is the designed path for exactly what philset is.
    (or clone a repo with a committed `.mcp.json` + plugin ref).
 3. Open a directory, type `/hello` — Claude scaffolds `.meta/` locally via its
    own tools.
+   - Let's do this, then
+   - After cutting 0.3, before rewriting the philbas.com copy
 
 → **~2 commands + `/hello`**, zero manual file editing, no `npm`/`init`/dir-dance.
 A big cut from today's 5–6 steps, and it degrades to "just works offline" once
@@ -72,6 +75,7 @@ queries a `mcp.philbas.com` resource at session start → `{latest_version,
 migration_needed, notices:[...]}`. Pull-at-session-start, not real-time push (an
 MCP "channels" push capability exists but is overkill here). This is the *right*
 job for the MCP — the enhancement layer, not the installer.
+- Agreed
 
 ## The cross-cutting tension (surface prominently in the design)
 
@@ -88,6 +92,8 @@ progressive-disclosure framing resolves this cleanly:**
 
 This keeps the offline story intact while getting the easy install + update
 channel. It's the load-bearing decision the `/draft` should open with.
+- Agreed
+
 
 ## Capacity Estimate — the updates endpoint (surface 4)
 
@@ -129,6 +135,7 @@ The four surfaces are separable and ship independently. Suggested staging:
    floor) + generalize the opt-in idea to a `hello.check: [...]` signpost list so
    `/hello` stops assuming calendar. Cheap, no external dep, immediately useful.
    *Reuses the just-shipped per-skill-config convention.*
+   - And we can add the mcp check to the array for easy opt-out
 2. **Phase 1 — per-skill suggestion layer (surface 3):** a shared "disclosure"
    convention skills apply — deliberate, encouraged, cross-domain nudges. No
    external dep. Pure skill-prose work, philset-native.
