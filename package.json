@@ -6,6 +6,9 @@
   "bin": {
     "philset": "bin/philset.js"
   },
+  "scripts": {
+    "link": "node scripts/dev-link.js"
+  },
   "files": [
     "bin/",
     "skills/",

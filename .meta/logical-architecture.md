@@ -42,9 +42,11 @@ philset/
 │   ├── designs-index.md
 │   ├── study-format.md
 │   └── archival.md
+├── scripts/              # Dev-only tooling, excluded from the npm package
+│   └── dev-link.js       # `npm run link` — symlink skills+refs into place (dev live-edit)
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
-├── package.json          # v0.2.2, zero dependencies, Node builtins only
+├── package.json          # v0.2.3, zero dependencies, Node builtins only
 ├── CLAUDE.md             # Project-specific instructions
 └── README.md             # User-facing documentation
 ```

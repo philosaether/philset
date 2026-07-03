@@ -181,12 +181,26 @@ user path. Clean split, matches the two modes.
 
 **Open for you:**
 - (a) `philset link` as the reconciliation (dev=symlink, user=copy)? [my strong rec]
+   - Agreed that we need this line, not sure philset is the right namespace for it
+   - After all, we're not releasing developer-mode into the world. This computer is the only place where this command will be used
+   - Could just add it to my usr/bin and be done with it? Or is there a better convention?
+   - **CLAUDE reply → agreed, don't put it in the shipped CLI (your volatility axiom:
+     stable user-facing CLI vs. volatile local dev setup). But not `~/usr/bin` — a
+     repo-local dev script beats it: `scripts/dev-link.js` wired as an npm script
+     (`npm run link`). Reproducible + travels to a fresh clone / 2nd dev box,
+     co-located with the skills/refs it links (won't drift), idiomatic (`npm run`
+     = repo-dev chores), zero shipped-CLI surface. The `~/bin` script is none of
+     those. DECISION: `npm run link`, not `philset link`.**
+   - The `copyDirRecursive` symlink-safety fix STAYS in `bin/philset.js` — that's a
+     real bug in the *shipped* update/init path (EINVAL on same-file copy),
+     independent of where the linker lives.
 - (b) `update` over a symlinked dest → **skip** (my rec: safe no-op in dev) vs.
   **replace with copy** (would break your live-edit workflow — I don't recommend).
 - (c) Link references too, not just skills (fixes the drift at its root)? [rec: yes]
 - (d) Should `philset link` also cover **`sync`**'s project-local `.claude/skills/`
   case, or leave `sync` as-is (copy)? [my read: leave `sync` — it's for committing
   skills into a shared repo, where copies are correct; `link` is global-only.]
+  - Agreed
 
 ---
 
@@ -199,3 +213,19 @@ removing a curated backlog item. Two options:
   stays visible until the release cuts, then graduate all four together. [my lean]
 - **Remove it now** (it's already in rearview). Cleaner roadmap, but the v0.3
   bundle looks partial.
+
+**PLAYED (2026-07-03).** Built the revised (npm-script, not CLI) shape:
+- `scripts/dev-link.js` + `"link": "node scripts/dev-link.js"` in package.json.
+  Symlinks 12 skills → `~/.claude/skills/` and 9 references → `<root>/.meta/
+  references/`; idempotent; picks up new items. Excluded from the npm package
+  (`files` omits `scripts/`), so users never see it.
+- `copyDirRecursive` now skips symlinked destinations (lstat → `isSymbolicLink`),
+  killing the EINVAL same-file-copy crash and protecting dev links.
+- Verified sandboxed (fake HOME + tree, real deployment untouched): link is
+  idempotent; `update` over a symlinked skill skips it (stays a link) while
+  copying the rest.
+
+**Target 2 (deploy vs. symlink) DONE.** Remaining: optionally run `npm run link`
+for real to fix the live drift (stale `signpost-schema`, missing `study-format`)
+— held for Phil's go since it converts the root `.meta` reference copies into
+machine-local symlinks (dirties that separate repo).

@@ -26,6 +26,14 @@ function copyDirRecursive(source, destination) {
   for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
     const sourcePath = path.join(source, entry.name);
     const destinationPath = path.join(destination, entry.name);
+    // Skip destinations that are symlinks — a dev environment links skills/refs
+    // back into this repo (via `npm run link`), so copying would resolve to the
+    // same file (EINVAL) or clobber the live link. Leave dev links alone; users
+    // with real copies are unaffected.
+    const destLink = fs.lstatSync(destinationPath, { throwIfNoEntry: false });
+    if (destLink && destLink.isSymbolicLink()) {
+      continue;
+    }
     if (entry.isDirectory()) {
       copyDirRecursive(sourcePath, destinationPath);
     } else {
