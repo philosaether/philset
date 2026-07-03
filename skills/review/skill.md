@@ -57,6 +57,9 @@ Resolve in precedence order — first hit wins:
      (inherited down the tree; child overrides on collision).
    - `review.extra-dimensions: [...]` — **appends** to the resolved set (e.g. a
      category dir sets one project-family check that all children inherit).
+   - **Both may coexist and combine:** `dimensions` sets the base (replacing the
+     inferred set), then `extra-dimensions` appends to that base. If only
+     `extra-dimensions` is set, it appends to the *inferred* set.
    - Else, dimension preferences stated in prose in `WORKFLOW.md` — a soft,
      lowest-precedence default (e.g. "I mostly review prose"). Structured
      (signpost) beats prose (WORKFLOW) beats inferred.
@@ -83,18 +86,22 @@ reconciliation, track reconciliation, merge readiness (see 3c).
 If the medium set came from **config**, skip this — configured runs are silent.
 If it came from **inference or ask**:
 
-- **Record a breadcrumb.** Append or update a `## Review Dimensions` note in
-  `breadcrumbs.log`: the inferred set and a run-count, e.g.
-  `- inferred [bugs, efficiency, redundancy, architecture] ×2`. This survives the
-  session boundary so a later `/retro` can calibrate it and the count can
-  accumulate across sessions.
-- **Auto-persist at N=3.** If this is the **3rd consecutive run with the same
-  inferred set** and no correction in between, write it to the project
-  `signpost.yml` as `review.dimensions`, announce *"locked in after 3 consistent
-  runs,"* and clear the note. Users who never configure still get consistency.
+- **Record a breadcrumb.** Keep a *single* `## Review Dimensions` note in
+  `breadcrumbs.log` holding one line — the current inferred set and a run-count:
+  `- inferred [bugs, efficiency, redundancy, architecture] ×2`. Update it by
+  comparing this run's inferred set to the line's set:
+  - **same set** → increment the count (`×2` → `×3`).
+  - **different set** → replace the line entirely with the new set at `×1`.
+  The note survives the session boundary, so the count accumulates across
+  sessions and a later `/retro` can calibrate it.
+- **Auto-persist at N=3.** If incrementing brings the count to **×3** (the 3rd
+  consecutive run with the same inferred set, no correction in between), then
+  *after* recording it: write the set to the project `signpost.yml` as
+  `review.dimensions`, announce *"locked in after 3 consistent runs,"* and
+  **delete the note**. Users who never configure still get consistency.
 - **On correction** (user changes the set now, or later via `/retro`): write the
-  corrected set to `signpost.yml` immediately and reset the count — a corrected
-  set skips straight to configured.
+  corrected set to `signpost.yml` immediately and **delete the note** — a
+  corrected set skips straight to configured (it does not restart at `×1`).
 
 ### 3c: Run the analysis
 

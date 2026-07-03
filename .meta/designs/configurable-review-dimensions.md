@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-07-03
 Accepted: 2026-07-03
+Implemented: 2026-07-03 (feature/review-dimensions)
+Divergences: none — mechanism + code defaults built as designed
+Deferred: the real prose/non-code dimension sets (out of scope, feedback-gated); generalizing the config convention to other skills (Tier 4)
 Assessment: (none — pulled forward from roadmap Tier 3/4)
 Supersedes: (none; subsumes the /review slice of "signpost per-skill config")
 ---
