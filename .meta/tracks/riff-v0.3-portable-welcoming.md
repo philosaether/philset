@@ -225,7 +225,56 @@ removing a curated backlog item. Two options:
   idempotent; `update` over a symlinked skill skips it (stays a link) while
   copying the rest.
 
-**Target 2 (deploy vs. symlink) DONE.** Remaining: optionally run `npm run link`
-for real to fix the live drift (stale `signpost-schema`, missing `study-format`)
-— held for Phil's go since it converts the root `.meta` reference copies into
-machine-local symlinks (dirties that separate repo).
+**Target 2 (deploy vs. symlink) DONE.** Ran `npm run link` for real — drift fixed
+(`signpost-schema` live, `study-format` present). Root `.meta` references are now
+machine-local symlinks; gitignored `references/` there + `git rm --cached`'d the 4
+formerly-tracked ones (staged, not committed — that's a separate repo). Prevents
+broken symlinks if root `.meta` lands on the work laptop.
+
+## Note 4: non-code low-hanging-fruit pass (Target 3)
+
+**Audit finding (grounded):** 27 "code/codebase/software" hits across skills, but
+most are *not* gratuitous — proper noun ("Claude Code"), genuinely code-specific
+features (`logical-architecture` map), the coined term "note-before-code", or
+examples. `/draft` already says "artifact" (0 code hits); `/study` already lists
+"codebase, an architecture, a primary source". **philset is already concept-level
+general.** So rewording is small; the leverage is the escape-hatch + git docs.
+
+**Scope (precision-preserving, audit-only):**
+
+**A. Minimal rewordings** — only the genuinely-general lines, leaving coined terms
+and code-specific features alone:
+- `/retro` L130 "derivable from reading the code" → "…from reading the code or the
+  work itself".
+- `/assess` L28 "current state from the codebase and docs" → "…from the codebase
+  (or your documents/work) and docs".
+- `/riff` L85 "go straight to code" → "go straight to the change".
+- LEAVE: "note-before-code" (signature term), "Claude Code" (proper noun),
+  `/hello`'s "codebase map" lines (that IS the code-map feature; handled by B).
+
+**B. Document `architecture: false` as the non-code escape hatch** — it already
+exists and `/hello` already writes it on decline; just make it *discoverable* as
+"the non-code move." Add one line to the `signpost-schema.md` entry ("Set false
+for non-code projects — turns off the codebase-map prompt"). No behavior change.
+
+**C. New `references/git-setup.md`** — concise git-for-non-devs tutorial (the
+roadmap's "git-setup / onboarding flow, git stays"): why philset uses git (version
+history is a feature for a writer), the ~5 commands you actually need, and that
+philset drives the rest. A reference doc, pointed at from the README onboarding
+(Target 4 links it — keeps the human-facing prose in one place).
+
+**D. Flag the `/review`-dimensions sharp edge** — NO build. Already captured in
+roadmap (Tier 4 signpost per-skill config → Tier 3 deep generalization). One-line
+acknowledgment only, so a non-code user isn't surprised `/review` is code-shaped.
+Where: leave the skill untouched; the README non-code note (Target 4) states it.
+
+**Explicitly deferred to Target 4 (README):** the *positioning prose* — "philset
+works for non-code work," which audiences, the git-setup pointer. Target 3 is the
+mechanical bits; Target 4 is the human framing. No parallel structures.
+
+**Open for you:**
+- (a) Rewordings A — right set? Too timid / too aggressive?
+- (b) `git-setup.md` as a reference doc (C), or fold the git tutorial straight
+  into the README (Target 4) instead of a separate file? [my lean: reference doc,
+  README links it — reusable + keeps README lean.]
+- (c) Anything you'd *add* to the non-code pass that I'm not seeing?
