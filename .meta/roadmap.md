@@ -91,8 +91,13 @@ Serves both inflection floors. Cut the release when these four land.
   Backing inbox file: `human-implements.md` (valid gap). `anecdotes.md` → case-study
   material, not README-structural. `readme-context.md` graduated (applied).
   Voice-heavy → Phil's solo author time; **/deferred out of the v0.3 build**
-  (2026-07-03). Open release call: does v0.3 cut now with the current (voiced but
-  coverage-stale) README and this update fast-follows, or does the cut wait on it?
+  (2026-07-03). **Release call RESOLVED (2026-07-03): FAST-FOLLOW, does not gate
+  the cut** — v0.3 cuts now on the coverage-stale README; this lands right after.
+  (Briefly set to "gate" then reversed same day — Phil implements the README solo
+  and doesn't want it blocking the tag.) **Accepted 2026-07-03** (`/ship`) →
+  `designs/readme-coverage-update.md` (feature/readme-coverage-update), first-pass
+  prose for all 6 changes written in-doc; **Phil implements** (human-as-implementer),
+  then `/review`. Roadmap item graduates when the README actually lands.
   Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03).
 
 > ═══════════ RELEASE v0.3 "portable + welcoming" cuts here ═══════════

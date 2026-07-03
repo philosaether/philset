@@ -6,8 +6,17 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-_Nothing in flight._ Everything designed this session shipped, reviewed, and
-merged to `main`.
+**readme-coverage-update** — accepted (`/ship` 2026-07-03), on
+`feature/readme-coverage-update`. **Phil implements** (human-as-implementer):
+apply the 6 changes to `README.md` using the first-pass prose specimens in
+`designs/readme-coverage-update.md` (add /hey + 5 missing skills, altitude-gradient
+table reframe, fix stale /review copy, non-code section, /ship human-implementer
+note, signpost `review.dimensions`/`hello.check`). Then `/review` → merge.
+One open call for Phil: unified ladder table vs. keep the two cadence tables
+(draft leans keep-two). **Fast-follow, does NOT gate the v0.3 cut** (reversed the
+earlier gating call) — v0.3 can tag on the coverage-stale README.
+
+Everything else designed this session shipped, reviewed, and merged to `main`.
 
 **Shipped + merged 2026-07-03 (all on `main`):**
 - **v0.3 "portable + welcoming" riff** — Targets 1–3: `private-meta` +
