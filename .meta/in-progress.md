@@ -6,6 +6,14 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
+**hey-minimal-tree-walk** — accepted + **implemented** (`/ship` 2026-07-03), on
+`feature/hey-minimal-tree-walk`. `skills/hey/skill.md` edited: minimal walk added
+to Step 1 (signpost flag-merge config pass + root `WORKFLOW.md`), Do-NOT block
+rewritten (breadth exclusions + hard network/hello.check exemption, silent — no
+calendar nudge), escalation gate updated (inheritance + user context now
+baseline), frontmatter description refreshed. **Next: `/review` → merge** (awaiting
+Phil's explicit merge call, per the guardrail this very change restores).
+
 **readme-coverage-update** — accepted (`/ship` 2026-07-03), on
 `feature/readme-coverage-update`. **Phil implements** (human-as-implementer):
 apply the 6 changes to `README.md` using the first-pass prose specimens in

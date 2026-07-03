@@ -1,6 +1,6 @@
 ---
 name: hey
-description: Lightweight session start — the sparse floor below /hello. Loads light, local context only (cwd .meta/, current branch), no tree walk, no MCP/API reads. Auto-escalates to /hello when the session needs more than local context; never touches the network. Use when you want to get moving fast without the full orientation.
+description: Lightweight session start — the sparse floor below /hello. Does a minimal tree walk (signpost-flag inheritance + root WORKFLOW.md) then reads the local .meta/ — but no full state read and no network. Auto-escalates to /hello for domain/neighborhood/full-state context; never runs MCP/API/calendar or hello.check. Use when you want to get moving fast without the full orientation.
 ---
 
 # Hey
@@ -9,21 +9,42 @@ The user typed `/hey` — a light, fast session start. This is the **sparse floo
 below `/hello` (the verbose one). Load just enough local context to get moving;
 pull more only if the work actually needs it.
 
-## Step 1: Load local context only
+## Step 1: Minimal walk + local context
 
-Read **only the current directory's** `.meta/`, if it exists:
+**First, a minimal tree walk (config pass).** Walk up from cwd to the root
+(`signpost.yml` with `root: true`, or `~`). Do exactly two things:
+
+- **Merge signpost flags**, child overriding parent — full inheritance
+  (`architecture`, `calendar`, `hello.check`, `private-meta`, `allow-plan`, …).
+  Treat this as a *config pass*: collect **all** flags into session config so the
+  rest of the session's skills are aware of them, even though `/hey` itself acts
+  on none. (Config lives above cwd often enough — e.g. a project with no local
+  `signpost.yml` under a `root: true` parent — that skipping the walk leaves the
+  session silently unconfigured.)
+- **Read the root `WORKFLOW.md`** (user context) — loads working preferences and
+  guardrails, e.g. *explicit consent required before merging to `main`*.
+
+**Then, the local `.meta/`** in cwd, if it exists:
 - `in-progress.md` — what's active
 - `decisions.md` — recent tail (last few entries), not the whole log
 - Current git branch + `git status` (uncommitted work, branch name)
 - If on a `riff/` branch with a matching `tracks/` file, read it (you're resuming
   a riff)
 
-**Do NOT:** walk the signpost tree, read parent/root context, read `WORKFLOW.md`,
-run any MCP/API/calendar reads, or run the optional `hello.check` entries. `/hey`
-is deliberately local and offline.
+**Do NOT** (these stay `/hello`-only, reachable via escalation): read intermediate
+**domain** context (`conventions.md`, domain `roadmap.md`/`inbox`), scan
+sibling/neighborhood dirs, persist quick-links to `breadcrumbs.log`, offer
+scaffolding, check `logical-architecture.md`, or surface aged notes.
+
+**Never touch the network:** run **no** MCP/API/calendar reads and **no**
+`hello.check` entries. `/hey` *collects* the `hello.check` flag (config pass) but
+runs none of them and says nothing about them — no "calendar enabled" nudge. If
+you typed `/hey`, you've opted out of the calendar for this session; that's the
+deal, not a bug.
 
 If there's no `.meta/` in cwd, say so in one line and offer `/hello` (which can
-scaffold) — don't scaffold from `/hey`.
+scaffold) — don't scaffold from `/hey`. (The minimal walk still runs — config and
+user context don't depend on a local `.meta/`.)
 
 ## Step 2: One-line summary
 
@@ -33,10 +54,12 @@ direction.
 
 ## Step 3: Escalation gate
 
-`/hey` is a floor, not a ceiling. **Auto-escalate** to the relevant `/hello`
-step(s) — without asking — the moment the session needs more than the local
-directory holds:
-- feature work that spans the tree (parent/domain context, `logical-architecture.md`)
+`/hey` is a floor, not a ceiling. Signpost inheritance and root user context are
+now **baseline** (Step 1) — so escalation is about *breadth beyond the minimal
+walk*, not config or user context. **Auto-escalate** to the relevant `/hello`
+step(s) — without asking — the moment the session needs more than the minimal walk
++ local directory hold:
+- feature work that spans the tree (**domain** context, `logical-architecture.md`)
 - a cross-project reference (another project's `.meta/`, quick-links)
 - a design/assess/ship ask that wants full project state
 - resuming something whose context isn't in cwd `.meta/`
