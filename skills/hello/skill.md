@@ -214,8 +214,11 @@ clear it at end of session.
 `/hello` runs **only the optional checks the user has opted into**, via the
 `hello.check` signpost list (resolved during the tree walk, inherited, child
 overrides). **Default is `[]`** — a fresh install runs *no* optional checks and
-assumes nothing (philset must work with no external dependency). Run only the
-entries present in the resolved list:
+assumes nothing (philset must work with no external dependency).
+
+**Skip this step entirely when reached via `/hey` auto-escalation** — `/hey` is
+offline/local-only, so its escalation never runs any `hello.check` entry. Run only
+the entries present in the resolved list:
 
 - **`calendar`** — surface today's calendar (below). **Back-compat:** a bare
   `calendar: true` signpost flag is an **alias** — treat it as if `calendar` were

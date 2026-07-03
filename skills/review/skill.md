@@ -86,6 +86,13 @@ reconciliation, track reconciliation, merge readiness (see 3c).
 If the medium set came from **config**, skip this — configured runs are silent.
 If it came from **inference or ask**:
 
+- **Only count project-representative inferences.** If you *adapted* the medium set
+  because the branch content is **atypical** for the project (a docs-only or
+  tests-only branch on a code project, etc.), **announce it but do NOT record or
+  count it** toward N=3 — that run is a one-off, not evidence about the project's
+  stable medium. Recording it would risk auto-persisting the wrong set (e.g. a prose
+  set onto a code project after a run of docs-only branches). Only inferences that
+  reflect the project's *normal* medium accumulate below. (See design amendment A1.)
 - **Record a breadcrumb.** Keep a *single* `## Review Dimensions` note in
   `breadcrumbs.log` holding one line — the current inferred set and a run-count:
   `- inferred [bugs, efficiency, redundancy, architecture] ×2`. Update it by

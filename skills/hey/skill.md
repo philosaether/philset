@@ -45,8 +45,10 @@ When you auto-escalate, say so in one line ("pulling full context — this spans
 tree") and run the specific `/hello` step(s) you need. You don't have to run all of
 `/hello`; pull what the moment requires.
 
-**Network/opt-in checks are exempt from auto-escalation.** A `/hey` session
-**never** fires `hello.check` network entries (the `updates` MCP pull, etc.), even
-after escalating for local context. Auto-pull *local* context freely; never
-auto-reach the network. If a network check is genuinely wanted, the user runs
-`/hello`.
+**`hello.check` entries are exempt from auto-escalation — all of them.** Every
+`hello.check` entry (`calendar`, `connectors`, `updates`, …) is an external/MCP/
+network read, so a `/hey` session **never runs any of them**, even after
+escalating for local context: an auto-escalated `/hello` step **skips Step 6.5
+entirely**. Auto-pull *local* context freely (tree walk, architecture,
+cross-project `.meta/`); never auto-reach the network. If an optional check is
+genuinely wanted, the user runs `/hello`.

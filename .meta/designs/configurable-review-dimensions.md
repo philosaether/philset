@@ -187,3 +187,22 @@ All six open questions resolved in the 2026-07-03 draft iteration:
   per-skill-config framework). We design the convention forward-compatibly but
   only wire `/review` (Scope decision B).
 - `git-integration: false` and other non-code items — separate roadmap threads.
+
+## Amendments
+
+### A1 (2026-07-03) — N=3 must count only project-representative inferences
+*Surfaced by dogfooding `/review` on the progressive-disclosure branch (a
+docs-only change to a code project).*
+
+**Gap:** 3b infers the medium set from *branch content* (a docs-only branch on a
+code project infers a prose-ish set), but auto-persists per *project*. So a run of
+atypical branches (e.g. several docs-only PRs in a row on a code repo) could
+auto-persist a *prose* `review.dimensions` onto a code project — mis-configuring it.
+
+**Resolution:** the N=3 counter tracks the project's *stable* medium, not per-branch
+adaptations. When `/review` adapts the inferred set because the branch content is
+*atypical* for the project (docs-only, tests-only, config-only), it **announces the
+adaptation but does NOT record/count it** toward N=3 — that run is a one-off, not
+evidence about the project's medium. Only inferences that reflect the project's
+normal medium accumulate toward auto-persist. (Manual config and `/retro`
+correction are unaffected.) Skill 3b updated to match.
