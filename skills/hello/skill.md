@@ -83,6 +83,7 @@ note to `breadcrumbs.log` `## Notes`:
 | `allow-plan` | `false` | Re-enable `/plan` and `/ultraplan` for this directory tree. |
 | `archive-screenshots` | `false` | Keep consumed screenshots at `/ttyl` instead of deleting them. |
 | `calendar` | `false` | Surface today's calendar at session start (Google Calendar MCP). Opt-in; inherited down the tree. |
+| `private-meta` | `false` | Keep `.meta/` out of a shared repo's git (ignored locally via `.git/info/exclude`, invisible to teammates). Set by `philset private`. Inherited down the tree. |
 
 When reading signpost.yml at each level, collect any `links` entries
 into a merged map (outermost-first, child overrides on key collision).

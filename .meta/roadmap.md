@@ -61,33 +61,39 @@ Serves both inflection floors. Cut the release when these four land.
     is the *signpost per-skill config* item (Tier 4) → the deep generalization
     (Tier 3). Flag it as the first thing user feedback will pull in; don't build
     it speculatively.
-  - **Git-setup tutorial / onboarding flow for non-devs** — philset is tightly
-    git-integrated (skills commit, branch, diff), which is a real barrier for a
-    non-developer. The *low-hanging* answer is a guided setup flow, not skill
-    surgery: git *stays* (version history of prose is a feature for a writer, not
-    a tax) and we just help them adopt it. The heavier alternative — a
-    `git-integration: false` flag that makes skills degrade to no-git mode — is
-    Tier 3, gated on feedback (see below). One now, the other later.
+  - **Git-setup tutorial for non-devs** — *pulled out to its own `/draft`
+    post-v0.3-ship* (deserves more than a riff bullet; see Tier 2). git *stays*;
+    a guided setup flow, not skill surgery. The heavier `git-integration: false`
+    no-git flag remains Tier 3, gated on feedback.
+  Delivered in v0.3 riff (2026-07-03): language audit + `architecture: false`
+  doc landed; `/review` prose-dimensions and the git tutorial pulled to their own
+  roadmap items (below / Tier 3).
   Deferred from: philset/main (2026-07-03, triage).
 
-- **README-for-humans + onboarding pass** *(brand/onboarding — both audiences)* —
-  The README must read for *humans deciding whether to adopt philset*, not for
-  agents. Key framing (from `inbox/readme-context.md`): assess → draft → ship is
-  a slower, collaborative `/plan` that produces a durable artifact and supersedes
-  built-in plan mode. Absorbs:
-  - `inbox/human-implements.md` — the `/ship`→`/review` loop works even when the
-    *human* is the implementer (design doc = spec; `/review` compares the artifact
-    regardless of who built it). Directly supports the non-code story.
-  - `inbox/anecdotes.md` — concrete "principles in action" evidence for the
-    README / case-study material.
-  - **Developer documentation for `/riff` and `/defer`** — README sections for the
-    newer skills, including verification loops (where to document project
-    conventions like SII). *(was Tier 4)*
-  - **Formalize "external writes go through inbox" as a stated principle** — the
-    invariant that cross-project writes land in inbox, not directly in curated
-    state files. Currently only in the defer-skill design doc. *(was Tier 4)*
-  Backing inbox files: `readme-context.md`, `human-implements.md`, `anecdotes.md`.
-  Deferred from: philset/main (2026-04-30, 2026-05-23; consolidated 2026-07-03).
+- **README update — cover changes since the voice pass** *(brand/onboarding —
+  both audiences; Phil-solo voice work)* — **Audited 2026-07-03 (v0.3 riff):** the
+  voice pass is *done* (README reads for humans, essay-voiced — the "for-humans"
+  goal is met). What's stale is **coverage** — the README documents the *old*
+  library and predates half the current skills. Punch-list for the update:
+  - **Add the 6 missing skills** — `/riff`, `/defer`, `/amend`, `/triage`,
+    `/study`. The Lifecycle/Workday cadence tables list only `/hello`,`/ttyl` /
+    `/assess`,`/draft`,`/ship`,`/review`. Reframe around the gradient-of-altitudes
+    model (mechanical → riff → amend → draft → study) from the dev-state assessment.
+  - **Non-code positioning** — a section: philset works for non-code artifacts
+    (which skills are concept-general, the `architecture: false` hatch, the
+    `/review`-is-code-shaped caveat, a pointer to the future git-setup tutorial).
+  - **`/ship` human-as-implementer note** (from `inbox/human-implements.md`, still
+    unapplied): the `/ship`→`/review` loop works even when the *human* implements
+    (design doc = spec; `/review` compares the artifact regardless of who built it).
+  - **Formalize "external writes go through inbox"** as a stated principle *(was
+    Tier 4)*.
+  - `private-meta`/`philset private` already added (v0.3 Target 1).
+  Backing inbox file: `human-implements.md` (valid gap). `anecdotes.md` → case-study
+  material, not README-structural. `readme-context.md` graduated (applied).
+  Voice-heavy → Phil's solo author time; **/deferred out of the v0.3 build**
+  (2026-07-03). Open release call: does v0.3 cut now with the current (voiced but
+  coverage-stale) README and this update fast-follows, or does the cut wait on it?
+  Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03).
 
 > ═══════════ RELEASE v0.3 "portable + welcoming" cuts here ═══════════
 > Both inflection floors covered: portable (private-meta + clean install) for the
@@ -181,6 +187,17 @@ Serves both inflection floors. Cut the release when these four land.
   Praxis reads to session-start.
   Deferred from: philset/feature/integrated-workflow-system (2026-07-01).
 
+- **Git-setup tutorial for non-devs — wants its own `/draft`** — Pulled out of the
+  v0.3 non-code low-hanging pass (deserves more than a riff bullet). A guided,
+  precision-preserving onboarding flow for solo creatives who don't know git:
+  *git stays* (prose version history is a feature, not a tax) — we teach the ~5
+  commands you actually need and let philset drive the rest. Design Qs for the
+  draft: reference doc vs. README section vs. an interactive `/hello`-adjacent
+  flow; how much git to expose; where it's pointed at from (README onboarding).
+  Distinct from the `git-integration: false` no-git flag (Tier 3, feedback-gated)
+  — this *keeps* git and lowers the adoption ramp. Do **after** v0.3 ships.
+  Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03).
+
 ## Tier 3 — Structural chunks + deep generalization (post-inflection)
 
 - **Non-code deep generalization** *(NEW 2026-07-03 — GATED ON USER FEEDBACK)* —
@@ -272,6 +289,17 @@ Serves both inflection floors. Cut the release when these four land.
   to snapshot and `/review`/merge to snapshot + diff, logged to
   `.meta/token-costs.md`.
   Deferred from: philbas.com/feature/activity-connector (2026-06-01).
+
+- **`copyDirRecursive` dereferences symlinked *sources*** — the v0.3 symlink-skip
+  guards the *destination*, but when a *source* entry is a symlink,
+  `entry.isDirectory()` is false (lstat semantics) → it falls to
+  `fs.copyFileSync(symlink, dest)`, which errors `EISDIR` for a symlinked dir. Bites
+  `philset sync` run on a dev box (where `~/.claude/skills/*` are symlinks into the
+  repo) → copying global→project skills would break. Pre-existing; surfaced by the
+  v0.3 `/review`. Fix: resolve source symlinks (dereference + recurse for dirs) or
+  skip them, per the intended `sync` semantics (probably dereference — you want the
+  real skill content copied into the shared repo).
+  Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03, /review).
 
 - **Extract hardcoded meta-README from `/hello`** — `/hello` Step 3 inlines the
   `.meta/` directory description, duplicating `templates/meta-README.md`. Should

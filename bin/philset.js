@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const readline = require('readline');
 const os = require('os');
 
@@ -26,6 +26,14 @@ function copyDirRecursive(source, destination) {
   for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
     const sourcePath = path.join(source, entry.name);
     const destinationPath = path.join(destination, entry.name);
+    // Skip destinations that are symlinks — a dev environment links skills/refs
+    // back into this repo (via `npm run link`), so copying would resolve to the
+    // same file (EINVAL) or clobber the live link. Leave dev links alone; users
+    // with real copies are unaffected.
+    const destLink = fs.lstatSync(destinationPath, { throwIfNoEntry: false });
+    if (destLink && destLink.isSymbolicLink()) {
+      continue;
+    }
     if (entry.isDirectory()) {
       copyDirRecursive(sourcePath, destinationPath);
     } else {
@@ -150,6 +158,88 @@ async function cmdInit() {
   console.log(`or launch claude and type \`/hello\`.`);
 }
 
+// Is `filePath` tracked by the git repo at `gitTop`? Used so private mode never
+// hides a file the host repo already commits (e.g. their own CLAUDE.md).
+function isTracked(gitTop, filePath) {
+  try {
+    const rel = path.relative(gitTop, filePath).split(path.sep).join('/');
+    execFileSync('git', ['ls-files', '--error-unmatch', '--', rel], {
+      cwd: gitTop, stdio: 'ignore',
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Make .meta/ private to this clone: set the signpost flag and ignore .meta/
+// (plus any philset-scaffolded CLAUDE.md) locally via .git/info/exclude — never
+// the tracked .gitignore, so teammates see nothing. Lets philset run inside a
+// shared repo with no dev buy-in.
+function enablePrivateMeta(cwd) {
+  const metaDir = path.join(cwd, '.meta');
+
+  // 1. Set private-meta: true in signpost.yml (create it if needed).
+  ensureDir(metaDir);
+  const signpostPath = path.join(metaDir, 'signpost.yml');
+  if (fs.existsSync(signpostPath)) {
+    let content = fs.readFileSync(signpostPath, 'utf8');
+    if (/^private-meta:/m.test(content)) {
+      content = content.replace(/^private-meta:.*$/m, 'private-meta: true');
+    } else {
+      if (content.length && !content.endsWith('\n')) content += '\n';
+      content += 'private-meta: true\n';
+    }
+    fs.writeFileSync(signpostPath, content);
+  } else {
+    fs.writeFileSync(signpostPath, 'private-meta: true\n');
+  }
+
+  // 2. Ignore .meta/ locally, invisibly, via .git/info/exclude.
+  let gitTop;
+  try {
+    gitTop = execSync('git rev-parse --show-toplevel', {
+      cwd, stdio: ['ignore', 'pipe', 'ignore'],
+    }).toString().trim();
+  } catch {
+    console.log('  private-meta: flag set (not a git repo — skipped local git exclude).');
+    return;
+  }
+  let excludePath;
+  try {
+    const raw = execSync('git rev-parse --git-path info/exclude', {
+      cwd, stdio: ['ignore', 'pipe', 'ignore'],
+    }).toString().trim();
+    excludePath = path.resolve(cwd, raw);
+  } catch {
+    excludePath = path.join(gitTop, '.git', 'info', 'exclude');
+  }
+  // Hide .meta/ always; hide CLAUDE.md too, but only if it exists and the host
+  // repo doesn't already track it (never hide their own file).
+  const toHide = [metaDir];
+  const claudeMd = path.join(cwd, 'CLAUDE.md');
+  if (fs.existsSync(claudeMd) && !isTracked(gitTop, claudeMd)) {
+    toHide.push(claudeMd);
+  }
+
+  ensureDir(path.dirname(excludePath));
+  let exclude = fs.existsSync(excludePath) ? fs.readFileSync(excludePath, 'utf8') : '';
+  for (const target of toHide) {
+    const rel = path.relative(gitTop, target).split(path.sep).join('/');
+    const isDir = fs.existsSync(target) && fs.statSync(target).isDirectory();
+    const pattern = `/${rel}${isDir ? '/' : ''}`;
+    const present = exclude.split('\n').some((line) => line.trim() === pattern);
+    if (present) {
+      console.log(`  private-meta: ${pattern} already excluded locally.`);
+    } else {
+      if (exclude.length && !exclude.endsWith('\n')) exclude += '\n';
+      exclude += `${pattern}\n`;
+      console.log(`  private-meta: ${pattern} ignored locally via .git/info/exclude (invisible to teammates).`);
+    }
+  }
+  fs.writeFileSync(excludePath, exclude);
+}
+
 function cmdBegin(options = {}) {
   const cwd = process.cwd();
   const metaDir = path.join(cwd, '.meta');
@@ -173,6 +263,11 @@ function cmdBegin(options = {}) {
   if (!fs.existsSync(path.join(cwd, 'CLAUDE.md'))) {
     copyTemplate('CLAUDE.md', path.join(cwd, 'CLAUDE.md'));
     console.log('Created CLAUDE.md from template');
+  }
+
+  // Make .meta/ private to this clone before launching (shared-repo mode)
+  if (options.private) {
+    enablePrivateMeta(cwd);
   }
 
   // Launch claude
@@ -258,15 +353,19 @@ function cmdHelp() {
 
 Usage:
   philset init              First-time setup (root dir, skills, references)
-  philset begin [--dsp]     Scaffold .meta/ + CLAUDE.md if needed, launch claude
+  philset begin [--dsp] [--private]
+                            Scaffold .meta/ + CLAUDE.md if needed, launch claude
   philset dsp               Alias for begin --dsp
+  philset private [--dsp]   Alias for begin --private: ignore .meta/ locally
+                            (via .git/info/exclude) for a shared repo, then launch
   philset update            Update global skills and reference docs
   philset sync [--remove]   Copy (or remove) skills to project .claude/skills/
   philset help              Show this message
 
 Quick start:
   philset init              # one-time setup
-  cd my-project && philset dsp   # start working`);
+  cd my-project && philset dsp        # start working
+  cd shared-repo && philset private --dsp   # start in someone else's repo`);
 }
 
 // --- Main ---
@@ -279,10 +378,13 @@ switch (command) {
     cmdInit();
     break;
   case 'begin':
-    cmdBegin({ dsp: args.includes('--dsp') });
+    cmdBegin({ dsp: args.includes('--dsp'), private: args.includes('--private') });
     break;
   case 'dsp':
-    cmdBegin({ dsp: true });
+    cmdBegin({ dsp: true, private: args.includes('--private') });
+    break;
+  case 'private':
+    cmdBegin({ private: true, dsp: args.includes('--dsp') });
     break;
   case 'update':
     cmdUpdate();

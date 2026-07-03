@@ -42,9 +42,11 @@ philset/
 │   ├── designs-index.md
 │   ├── study-format.md
 │   └── archival.md
+├── scripts/              # Dev-only tooling, excluded from the npm package
+│   └── dev-link.js       # `npm run link` — symlink skills+refs into place (dev live-edit)
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
-├── package.json          # v0.2.2, zero dependencies, Node builtins only
+├── package.json          # v0.2.3, zero dependencies, Node builtins only
 ├── CLAUDE.md             # Project-specific instructions
 └── README.md             # User-facing documentation
 ```
@@ -56,13 +58,14 @@ Single executable, no dependencies. Commands:
 | Command | Purpose |
 |---------|---------|
 | `init` | One-time setup: root signpost, references, global skills |
-| `begin [--dsp]` | Scaffold .meta/ + CLAUDE.md, launch Claude Code |
+| `begin [--dsp] [--private]` | Scaffold .meta/ + CLAUDE.md, launch Claude Code |
 | `dsp` | Shorthand for `begin --dsp` |
+| `private [--dsp]` | Shorthand for `begin --private`: ignore .meta/ locally (shared repo) |
 | `update` | Update global skills and references from package |
 | `sync [--remove]` | Copy global skills to project-local .claude/skills/ |
 | `help` | Usage summary |
 
-Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDirRecursive()`.
+Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDirRecursive()`, `enablePrivateMeta()` (signpost flag + `.git/info/exclude`).
 
 ## Skills Pipeline
 

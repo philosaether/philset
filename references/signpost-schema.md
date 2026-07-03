@@ -22,6 +22,8 @@ ignore:
 
 # Whether /hello maintains logical-architecture.md
 # Default: true. Inherited down the tree; child can override.
+# Set false for non-code projects (writing, research, etc.) — turns off the
+# codebase-map prompt. The non-code escape hatch.
 architecture: true
 
 # Named shortcuts to frequently-used files
@@ -42,6 +44,12 @@ archive-screenshots: false
 # Default: false. Opt-in; inherited down the tree. Requires a calendar MCP
 # tool to be connected — /hello skips silently if the flag is off or no MCP.
 calendar: false
+
+# Keep .meta/ private to this clone in a shared repo with no philset buy-in
+# Default: false. Set by `philset private` (or `philset begin --private`),
+# which also ignores .meta/ locally via .git/info/exclude — never the tracked
+# .gitignore, so teammates see nothing.
+private-meta: false
 ```
 
 ## Inheritance
@@ -72,3 +80,13 @@ signposts can add more or override by key.
 - `calendar: true` — `/hello` reads today's calendar (Google Calendar MCP)
   and surfaces meetings in the session summary, offering on-demand contact
   context for attendees. Stage 1 of the integrated-workflow-system design.
+- `private-meta: true` — Keeps `.meta/` out of a shared repo's git. Set it
+  with `philset private` (sugar for `philset begin --private`), which writes
+  `/.meta/` (and `/CLAUDE.md`, if philset scaffolded it and the host doesn't
+  already track it) to the repo's local `.git/info/exclude` — not the tracked
+  `.gitignore` — so the ignore is invisible to teammates. The day-one unblock
+  for running philset inside someone else's codebase with limited or no
+  buy-in. Note: no skill commits `.meta/` yet (auto-commit is chunk 2), so for
+  now the flag's whole job is the local ignore + graceful degradation when
+  `.meta/` is absent. The forward obligation: when a skill *does* gain a commit
+  step, it must honor `private-meta` and never commit `.meta/` to a shared repo.
