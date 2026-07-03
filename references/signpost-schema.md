@@ -40,9 +40,14 @@ allow-plan: false
 # Default: false (consumed screenshots are deleted).
 archive-screenshots: false
 
-# Surface today's calendar at session start (Google Calendar MCP)
-# Default: false. Opt-in; inherited down the tree. Requires a calendar MCP
-# tool to be connected — /hello skips silently if the flag is off or no MCP.
+# Optional session-start checks /hello runs (Step 6.5). Default: [] (none).
+# Entries: calendar, connectors, updates (updates is reserved/inert for now).
+# Inherited down the tree. /hey never runs these. This is what keeps /hello
+# from assuming any external dependency — a fresh install opts into nothing.
+hello:
+  check: []
+
+# Back-compat alias: `calendar: true` == adding `calendar` to hello.check.
 calendar: false
 
 # Keep .meta/ private to this clone in a shared repo with no philset buy-in
@@ -92,6 +97,14 @@ signposts can add more or override by key.
 - `calendar: true` — `/hello` reads today's calendar (Google Calendar MCP)
   and surfaces meetings in the session summary, offering on-demand contact
   context for attendees. Stage 1 of the integrated-workflow-system design.
+  Now an alias for including `calendar` in `hello.check`.
+- `hello.check: [...]` — Optional session-start checks `/hello` runs (Step 6.5):
+  `calendar` (today's calendar), `connectors` (flag stale MCP/API auth up front),
+  `updates` (reserved for the future `mcp.philbas.com` pull — inert for now).
+  Default `[]` — a fresh install runs no optional checks and assumes no external
+  dependency; every check is explicit opt-in. Inherited down the tree. `/hey`
+  never runs these (network/opt-in checks are exempt from its escalation). The
+  session-start instance of the per-skill-config convention (cf. `review.dimensions`).
 - `private-meta: true` — Keeps `.meta/` out of a shared repo's git. Set it
   with `philset private` (sugar for `philset begin --private`), which writes
   `/.meta/` (and `/CLAUDE.md`, if philset scaffolded it and the host doesn't

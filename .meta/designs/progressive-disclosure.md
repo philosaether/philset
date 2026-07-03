@@ -1,8 +1,9 @@
 ---
-Status: draft
+Status: accepted
 Date: 2026-07-03
+Accepted: 2026-07-03
 Assessment: assessments/progressive-disclosure.md
-Likely-supersedes: (none; absorbs the /hey and git-setup-tutorial roadmap items)
+Supersedes: (none; Phase 0 absorbs the /hey + connector-health roadmap items; Phase 2 absorbs git-setup-tutorial)
 ---
 
 # Progressive Disclosure — Desired State
@@ -93,11 +94,10 @@ hello:
   opt-in, but NOT active in v0.3** (Phase 3 — even *checking* it is out of scope,
   per Phil). Listing-is-opt-in / omitting-is-opt-out is the uniform control once it
   exists.
-- Unlisted checks don't run. **Default: a minimal opinionated list** (resolved Q2 —
-  not empty). Proposed default `[connectors]` — cheap, no external dep, catches
-  stale auth; `calendar` stays opt-in (fixes "`/hello` shouldn't assume calendar").
-  *(Open Q2b: is `connectors` the right default, given it only matters once an MCP
-  is connected? Maybe default is truly `[]` until something's connected.)*
+- Unlisted checks don't run. **Default: `[]`** (resolved Q2/Q2b) — a fresh install
+  assumes *nothing* and runs no optional checks; every check is explicit opt-in.
+  Fixes "`/hello` shouldn't assume calendar" completely. (`connectors` only matters
+  once an MCP is connected, so there's no value defaulting it on.)
 
 `hello.check` is an instance of the **per-skill-config convention** just shipped
 via `review.dimensions` — same namespace pattern (`<skill>.<field>`), same tree
