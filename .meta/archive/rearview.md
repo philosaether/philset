@@ -19,6 +19,14 @@
   graduated items go. Standardized in chunk 1: one top-level `.meta/archive/`
   mirroring live structure, with `archive/rearview.md` as the item graveyard.
   Completed: 2026-06-25 (feature/close-the-loop).
+- **`private-meta` signpost flag — shared-codebase unblock** — day-one
+  survival for running philset inside someone else's repo with no buy-in.
+  `philset private` (= `begin --private`, composes with `--dsp`) sets
+  `private-meta: true` and ignores `.meta/` (plus an untracked scaffolded
+  CLAUDE.md) locally via `.git/info/exclude` — invisible to teammates. No
+  runtime skill effect yet (skills don't commit until chunk 2); chunk-2
+  commit guard planted in the state-model assessment. v0.3 Tier 1.
+  Completed: 2026-07-03 (riff/v0.3-portable-welcoming).
 - **`/study` skill proposal** — staged source-grounded learning loop
   (write→annotate→quiz→score), captured 2026-06-19 from the Honcho interview-prep
   session. Authored into the real skill, shipped and dogfooded (passed the Plastic

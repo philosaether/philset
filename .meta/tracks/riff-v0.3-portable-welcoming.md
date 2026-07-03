@@ -120,10 +120,23 @@ repo. That's exactly what `.git/info/exclude` is for.
 **Proposed:** in private mode, also add `/CLAUDE.md` to `.git/info/exclude` (only
 if philset created it / it's untracked — never exclude a CLAUDE.md the host repo
 already tracks). Two-line change to `enablePrivateMeta`.
+- Covered the exact edge case I worried about
 
 **Open for you:**
 - (a) Exclude CLAUDE.md in private mode? (my read: yes — it's the same leak.)
+   - Agreed
 - (b) Guard: only exclude if untracked, so we never hide the host's own tracked
   CLAUDE.md. (my read: yes, essential.)
+   - Agreed
 - (c) Or would you rather private mode *not scaffold* CLAUDE.md at all? (I lean
   no — you want the instructions locally; exclude keeps them working + invisible.)
+   - Agreed
+
+**PLAYED (2026-07-03).** `enablePrivateMeta` now hides `.meta/` always and
+`CLAUDE.md` when present-and-untracked (new `isTracked()` helper). Verified two
+cases: fresh shared repo → both hidden, `git status` clean; host repo that
+*already tracks* its own CLAUDE.md → only `.meta/` hidden, their CLAUDE.md
+stays tracked and untouched. Docs updated (signpost-schema, README).
+
+**Target 1 (private-meta) DONE** — Notes 1+2 played. Graduated to
+`archive/rearview.md`.

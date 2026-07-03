@@ -297,7 +297,8 @@ else's setup — no buy-in required — start in private mode:
 cd their-repo && philset private   # or: philset private --dsp
 ```
 
-This sets `private-meta: true` and ignores `.meta/` locally via the repo's
+This sets `private-meta: true` and ignores `.meta/` (plus a philset-scaffolded
+`CLAUDE.md`, unless the repo already tracks its own) locally via the repo's
 `.git/info/exclude` (not the tracked `.gitignore`), so your philset state
 stays on your machine and teammates see nothing in their diffs.
 

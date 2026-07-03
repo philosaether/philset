@@ -150,9 +150,24 @@ async function cmdInit() {
   console.log(`or launch claude and type \`/hello\`.`);
 }
 
+// Is `filePath` tracked by the git repo at `gitTop`? Used so private mode never
+// hides a file the host repo already commits (e.g. their own CLAUDE.md).
+function isTracked(gitTop, filePath) {
+  try {
+    const rel = path.relative(gitTop, filePath).split(path.sep).join('/');
+    execSync(`git ls-files --error-unmatch -- ${JSON.stringify(rel)}`, {
+      cwd: gitTop, stdio: 'ignore',
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 // Make .meta/ private to this clone: set the signpost flag and ignore .meta/
-// locally via .git/info/exclude (never the tracked .gitignore, so teammates
-// see nothing). Lets philset run inside a shared repo with no dev buy-in.
+// (plus any philset-scaffolded CLAUDE.md) locally via .git/info/exclude — never
+// the tracked .gitignore, so teammates see nothing. Lets philset run inside a
+// shared repo with no dev buy-in.
 function enablePrivateMeta(cwd) {
   const metaDir = path.join(cwd, '.meta');
 
@@ -191,19 +206,30 @@ function enablePrivateMeta(cwd) {
   } catch {
     excludePath = path.join(gitTop, '.git', 'info', 'exclude');
   }
-  const rel = path.relative(gitTop, metaDir).split(path.sep).join('/');
-  const pattern = `/${rel}/`;
+  // Hide .meta/ always; hide CLAUDE.md too, but only if it exists and the host
+  // repo doesn't already track it (never hide their own file).
+  const toHide = [metaDir];
+  const claudeMd = path.join(cwd, 'CLAUDE.md');
+  if (fs.existsSync(claudeMd) && !isTracked(gitTop, claudeMd)) {
+    toHide.push(claudeMd);
+  }
+
   ensureDir(path.dirname(excludePath));
   let exclude = fs.existsSync(excludePath) ? fs.readFileSync(excludePath, 'utf8') : '';
-  const present = exclude.split('\n').some((line) => line.trim() === pattern);
-  if (present) {
-    console.log(`  private-meta: ${pattern} already excluded locally.`);
-  } else {
-    if (exclude.length && !exclude.endsWith('\n')) exclude += '\n';
-    exclude += `${pattern}\n`;
-    fs.writeFileSync(excludePath, exclude);
-    console.log(`  private-meta: ${pattern} ignored locally via .git/info/exclude (invisible to teammates).`);
+  for (const target of toHide) {
+    const rel = path.relative(gitTop, target).split(path.sep).join('/');
+    const isDir = fs.existsSync(target) && fs.statSync(target).isDirectory();
+    const pattern = `/${rel}${isDir ? '/' : ''}`;
+    const present = exclude.split('\n').some((line) => line.trim() === pattern);
+    if (present) {
+      console.log(`  private-meta: ${pattern} already excluded locally.`);
+    } else {
+      if (exclude.length && !exclude.endsWith('\n')) exclude += '\n';
+      exclude += `${pattern}\n`;
+      console.log(`  private-meta: ${pattern} ignored locally via .git/info/exclude (invisible to teammates).`);
+    }
   }
+  fs.writeFileSync(excludePath, exclude);
 }
 
 function cmdBegin(options = {}) {

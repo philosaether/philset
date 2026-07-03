@@ -80,7 +80,8 @@ signposts can add more or override by key.
   context for attendees. Stage 1 of the integrated-workflow-system design.
 - `private-meta: true` — Keeps `.meta/` out of a shared repo's git. Set it
   with `philset private` (sugar for `philset begin --private`), which writes
-  `/.meta/` to the repo's local `.git/info/exclude` — not the tracked
+  `/.meta/` (and `/CLAUDE.md`, if philset scaffolded it and the host doesn't
+  already track it) to the repo's local `.git/info/exclude` — not the tracked
   `.gitignore` — so the ignore is invisible to teammates. The day-one unblock
   for running philset inside someone else's codebase with limited or no
   buy-in. Note: no skill commits `.meta/` yet (auto-commit is chunk 2), so for
