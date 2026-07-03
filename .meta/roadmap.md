@@ -61,6 +61,13 @@ Serves both inflection floors. Cut the release when these four land.
     is the *signpost per-skill config* item (Tier 4) → the deep generalization
     (Tier 3). Flag it as the first thing user feedback will pull in; don't build
     it speculatively.
+  - **Git-setup tutorial / onboarding flow for non-devs** — philset is tightly
+    git-integrated (skills commit, branch, diff), which is a real barrier for a
+    non-developer. The *low-hanging* answer is a guided setup flow, not skill
+    surgery: git *stays* (version history of prose is a feature for a writer, not
+    a tax) and we just help them adopt it. The heavier alternative — a
+    `git-integration: false` flag that makes skills degrade to no-git mode — is
+    Tier 3, gated on feedback (see below). One now, the other later.
   Deferred from: philset/main (2026-07-03, triage).
 
 - **README-for-humans + onboarding pass** *(brand/onboarding — both audiences)* —
@@ -182,8 +189,12 @@ Serves both inflection floors. Cut the release when these four land.
   writer's needs). Candidate scope once feedback lands: **configurable `/review`
   dimensions** (prose review vs. bug/efficiency — depends on *signpost per-skill
   config*, Tier 4), a **document-map** generalization of `logical-architecture.md`,
-  and **prose/writing conventions** as a WORKFLOW-style layer. Do NOT build
-  speculatively — this item exists to *catch* feedback, not to preempt it.
+  **prose/writing conventions** as a WORKFLOW-style layer, and a
+  **`git-integration: false` signpost flag** (no-git mode — ripples across most
+  skills: `/review` diffs branches, `/ship` branches, `/ttyl` commits; only worth
+  building if a live non-dev user actually *refuses* git rather than just needing
+  the Tier-1 setup tutorial). Do NOT build speculatively — this item exists to
+  *catch* feedback, not to preempt it.
   Deferred from: philset/main (2026-07-03, triage).
 
 - **Chunk 3 — onboarding / voice split** — Where git **branch conventions** live
@@ -266,6 +277,19 @@ Serves both inflection floors. Cut the release when these four land.
   `.meta/` directory description, duplicating `templates/meta-README.md`. Should
   reference the template instead.
   Deferred from: philset/feature/riff-defer-skills (2026-05-23).
+
+- **Commit-convention signpost flag** — A signpost flag letting a repo declare
+  its commit/push policy so skills (`/ttyl`, `/triage`, `/ship`, `/review`)
+  commit and push consistently instead of each guessing. Common-sense defaults:
+  `.meta/` bookkeeping commits to the current branch (often main) directly; code
+  changes branch first; never auto-push unless the policy opts in. Motivated by
+  this session — committing `.meta/` bookkeeping straight to main matched project
+  convention but sits in tension with the generic "branch first on the default
+  branch" harness default; the flag makes that policy explicit and machine-read
+  rather than convention-by-memory. Relates to **chunk 3** (branch conventions —
+  where domain/user/project git policy lives) and **signpost per-skill config**
+  (same per-skill namespace mechanism).
+  Deferred from: philset/main (2026-07-03).
 
 ## Backlog (unscoped / later)
 
