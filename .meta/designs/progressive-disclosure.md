@@ -8,10 +8,13 @@ Likely-supersedes: (none; absorbs the /hey and git-setup-tutorial roadmap items)
 # Progressive Disclosure — Desired State
 
 Make philset **reveal complexity only as the user is ready for it** — across
-onboarding, session-start, in-skill nudges, and its own updates. One user-facing
-knob (`disclosure`) tunes how much philset proactively surfaces; one architectural
-principle (**plugin is the floor, MCP is the top of the ladder**) keeps it offline
-by default while allowing a zero-friction install and an opt-in update channel.
+onboarding, session-start, in-skill nudges, and its own updates. philset
+**self-calibrates to the user** (à la the Guide Mark II bird — observe, converge,
+persist, allow correction) rather than making them pick a preset; and one
+architectural principle (**plugin is the floor, MCP is the top of the ladder**)
+keeps it offline by default while allowing a zero-friction install and an opt-in
+update channel. **v0.3 builds only the manual floor (`/hey`/`/hello` +
+`hello.check`); the self-calibrating layer and everything network-touching defer.**
 
 ---
 
@@ -27,19 +30,31 @@ never *requires* the network — it's *better* with it. This resolves the
 CLAUDE.md "no dependencies beyond Node builtins" tension: the floor honours it;
 the ladder is opt-in.
 
-**Experience axis — the `disclosure` level.** A single signpost level tunes how
-much philset proactively offers, spanning session-start weight (surface 2) and
-in-skill nudges (surface 3):
+**Experience axis — self-calibrating, not preset.** The interaction surface
+between Claude and the user is highly configurable, but the user shouldn't have to
+*pick* a configuration up front. Like the Guide Mark II bird calibrating itself to
+Random — probing, watching reactions, homing in on the config that fits *her* —
+philset should **learn** the user's preferred verbosity by observation + light
+questions over the first N sessions, persist it, and let them correct it. (The
+bird also *overshoots* first — "obviously way too many" birds — before converging;
+over-eager calibration is the failure mode, which is why we start manual.)
 
-| `disclosure:` | Session start | In-skill nudges | Who |
-|---------------|---------------|-----------------|-----|
-| `minimal` | `/hey`-weight, no optional checks | rare, only high-value | senior eng |
-| `standard` (default) | `/hello` base + opted-in checks | natural next-step nudges | most users |
-| `guided` | `/hello` + proactive opt-in offers | eager, cross-domain, teaches the workflow | novice / non-code / writer |
+**This is a primitive we already shipped today.** The `/review` dimension loop
+(infer → breadcrumb → N=3 auto-persist → `/retro` correct) *is* this mechanism in
+miniature. Naming it:
 
-`disclosure` is inherited down the tree (child overrides), same as every signpost
-flag. It's the knob that makes the *same skillset* feel right for both a senior
-engineer and a writer — the core progressive-disclosure move.
+> **Self-calibrating preferences** — a philset primitive: the agent infers a
+> per-user/per-project setting from observation, persists it (breadcrumb →
+> signpost), and lets the user correct it. **Instances:** `review.dimensions`
+> (shipped), disclosure-verbosity (deferred, below), convention auto-updating
+> (Q1, same family).
+
+**v0.3 = the manual floor (the N=0 "user declares" case).** `/hey` = sparse,
+`/hello` = verbose; the user picks by which they type. The *self-calibrating*
+verbosity layer — learn the preference, persist, correct — is **deferred**: it
+needs real usage to design the observation heuristics, and it's the second
+consumer that will generalize the self-calibrating-preferences primitive out of
+`/review`. Manual now, smart later.
 
 ---
 
@@ -48,10 +63,15 @@ engineer and a writer — the core progressive-disclosure move.
 ### `/hey` — the lightweight session floor
 The third floor below `/hello`. Loads **light, local context only**: cwd `.meta/`
 (decisions, in-progress, current branch), *no* full tree walk, *no* MCP/API reads.
-A `/riff`-style **escalation gate**: if the session deepens (feature work, a
-cross-project reference, a design ask), offer to run full `/hello`. Absorbs the
-roadmap `/hey` item. At `disclosure: minimal`, `/hey` is the implied default
-session-start.
+Absorbs the roadmap `/hey` item. `/hey` is the "sparse" choice; `/hello` the
+"verbose" one — the manual verbosity floor.
+
+**Escalation gate (Q5):** `/hey` **auto-escalates** to the relevant `/hello` step
+when the session needs more context than the local directory holds (feature work
+spanning the tree, a cross-project reference, a design ask) — no need to ask. But
+**network/opt-in checks are exempt from auto-escalation**: a `/hey` session never
+fires the `updates` MCP check or other `hello.check` network entries, even after
+escalating. Auto-pull *local* context; never auto-reach the network.
 
 ### `hello.check: [...]` — the session-start check list
 Generalize the one-off `calendar` flag into a **uniform opt-in list** of optional
@@ -59,45 +79,44 @@ session-start checks `/hello` runs. First-class entries:
 
 ```yaml
 # signpost.yml
-disclosure: standard
 hello:
-  check: [calendar, connectors, updates]   # run these optional checks at /hello
+  check: [calendar, connectors]   # optional checks /hello runs (updates deferred)
 ```
 
-- `calendar` — today's calendar (supersedes the standalone `calendar: true` flag;
-  keep `calendar: true` as a back-compat alias that maps to adding `calendar` to
-  the list). *(Open Q1: migrate or alias?)*
+- `calendar` — today's calendar. **`calendar: true` is kept as a back-compat alias**
+  (maps to adding `calendar` to the list) rather than a migration — resolved Q1;
+  the general "auto-fix stale conventions on consent" idea is its own deferred
+  design (see Staging).
 - `connectors` — the connector-health check (absorbs that roadmap item): flag stale
   MCP/API auth up front.
-- `updates` — the `mcp.philbas.com` updates pull (Phase 3). **Listing it here is
-  the opt-in; omitting it is the opt-out** — one uniform control, per Phil.
-- Unlisted checks don't run. Default list is conservative (empty or `[]`), so a
-  fresh install assumes nothing (fixes "`/hello` shouldn't assume calendar").
+- `updates` — the `mcp.philbas.com` updates pull. **Documented here as the future
+  opt-in, but NOT active in v0.3** (Phase 3 — even *checking* it is out of scope,
+  per Phil). Listing-is-opt-in / omitting-is-opt-out is the uniform control once it
+  exists.
+- Unlisted checks don't run. **Default: a minimal opinionated list** (resolved Q2 —
+  not empty). Proposed default `[connectors]` — cheap, no external dep, catches
+  stale auth; `calendar` stays opt-in (fixes "`/hello` shouldn't assume calendar").
+  *(Open Q2b: is `connectors` the right default, given it only matters once an MCP
+  is connected? Maybe default is truly `[]` until something's connected.)*
 
 `hello.check` is an instance of the **per-skill-config convention** just shipped
 via `review.dimensions` — same namespace pattern (`<skill>.<field>`), same tree
 inheritance. This is the convention generalizing on its second consumer.
 
-## Phase 1 — the per-skill suggestion layer *(no external dep, philset-native)*
+## Phase 1 — the per-skill suggestion layer *(DEFERRED — not v0.3)*
 
 Turn the *emergent* nudges ("ready for `/review`?", "elevate to `/draft`?") into a
-**deliberate, encouraged, tunable convention**. Shape:
+**deliberate, encouraged convention** — and add *cross-domain* nudges (skills
+noticing when *another* skill serves the user's real goal: "want to `/study` this
+before `/draft`ing a strategy?"). The offer is always a fork, never a command.
 
-- A `references/disclosure.md` convention doc that skills reference: *when* to
-  offer a next step, *how* to phrase it (offer, never force), and the
-  `disclosure`-level gating (minimal = rare; guided = eager).
-- **Next-step nudges** (within the workflow): the assess→draft→ship→review→ttyl
-  transitions, already partly present, made consistent.
-- **Cross-domain nudges** (the new, higher-value part): skills notice when *another*
-  skill would serve the user's actual goal —
-  - "You're writing a chapter set in a culture you don't belong to — want to
-    `/study` its history first?"
-  - "I can't give financial advice, but we could `/study` the instruments you have
-    in mind, then `/draft` a strategy together."
-  These are **opt-in offers**, gated by `disclosure` (silent at `minimal`, eager at
-  `guided`). They're what makes philset *teach* its own workflow to a novice.
-- **The offer is a fork, not a command** — the user can decline and continue; the
-  nudge never blocks.
+**Deferred to its own roadmap item.** Two reasons surfaced in iteration:
+- **Cross-domain nudges are out of scope for v0.3** (Q6) — detecting the
+  opportunity without being preachy or wrong (the "unfamiliar culture" example is a
+  stretch) needs its own design + guardrails.
+- The nudge *eagerness* was going to be gated by the `disclosure` level, which is
+  now the **deferred self-calibrating-verbosity layer**. Phase 1's gating rides on
+  that. Meanwhile the *emergent* next-step nudges continue as they are today.
 
 ## Phase 2 — plugin distribution *(deferred to roadmap; own design + build)*
 
@@ -139,33 +158,40 @@ channel is its own liability — "won't get sued" cuts both ways.
 cached JSON at ~$0 — assessment §Capacity). Not a scaling concern.
 
 *Design-level only here; full spec is its own `/draft` when Phase 3 starts.*
+**Confirmed: even *checking* `/updates` is out of scope for v0.3** — the `updates`
+entry is documented in `hello.check` as the future opt-in, but nothing queries the
+network until Phase 3.
 
 ---
 
 ## Staging → roadmap
 
-| Phase | Scope | External dep | Disposition |
-|-------|-------|--------------|-------------|
-| **0** | `/hey` + `hello.check` list | none | **build now / near-v0.3** |
-| **1** | per-skill suggestion layer + `disclosure` level | none | **build now / near-v0.3** |
-| 2 | plugin distribution | Claude Code plugin system | `/defer` — post-v0.3-cut, pre-philbas-copy |
-| 3 | MCP enhancement (updates + onboarding assist) | `mcp.philbas.com` | `/defer` — after Phase 2 |
+| Item | Scope | External dep | Disposition |
+|------|-------|--------------|-------------|
+| **Phase 0** | `/hey` (+ escalation gate) + `hello.check` list | none | **build now / v0.3** |
+| Self-calibrating disclosure | learn verbosity pref over N sessions; 2nd instance of the `review.dimensions` primitive | none | `/defer` — feedback-gated, iterative |
+| Convention auto-updating | `/hello` detects + fixes stale conventions *with consent* (a signpost flag); generalizes the `calendar`-alias case (Q1) | none | `/defer` — own design pass |
+| Phase 1 | per-skill suggestion layer + cross-domain nudges | none | `/defer` — rides on self-calibration; Q6 guardrails |
+| Phase 2 | plugin distribution | Claude Code plugin system | `/defer` — post-v0.3-cut, pre-philbas-copy |
+| Phase 3 | MCP enhancement (updates + onboarding assist) | `mcp.philbas.com` | `/defer` — after Phase 2 |
 
-`/ship` implements Phases 0–1 (multi-stage-ship: accept, build the no-dep floor,
-`/defer` 2–3 with provenance). `disclosure` + `hello.check` land together since
-Phase 1's nudges read the same knob Phase 0 introduces.
+**Only Phase 0 ships in v0.3.** `/ship` implements it (multi-stage-ship: accept,
+build the no-dep floor, `/defer` the rest with provenance). Everything else is
+captured above as staged roadmap items.
 
 ## Tradeoffs
 
-- **One `disclosure` level vs. per-surface flags.** A single knob is legible and
-  makes the "same skillset, different audience" story crisp; the cost is coarseness
-  (you can't say "guided nudges but minimal session-start"). *Chosen:* one level +
-  `hello.check` as the finer session-start control underneath it. Revisit if users
-  want per-surface granularity.
-- **Migrate `calendar: true` → `hello.check: [calendar]` vs. keep both.** Migration
-  is cleaner long-term; an alias avoids breaking existing signposts. *Leaning:*
-  alias now (pre-v1 has no back-compat tax, but this one's nearly free and avoids a
-  flag-day). Open Q1.
+- **Preset `disclosure` level vs. self-calibration vs. manual floors.** A preset
+  level (minimal/standard/guided) is legible but is exactly the "make the user
+  choose" the Guide-bird pattern rejects. Full self-calibration is the target but
+  needs real usage to tune and risks over-eager nagging (the bird's "too many
+  birds" overshoot). *Chosen:* manual floors (`/hey`/`/hello`) for v0.3 — the honest
+  N=0 case — with self-calibration deferred as the second instance of the
+  `review.dimensions` primitive. Revisit once there's usage signal to learn from.
+- **Migrate `calendar: true` → `hello.check: [calendar]` vs. keep both.** *Resolved
+  (Q1):* keep `calendar: true` as an **alias** now; the general question of
+  auto-updating stale conventions (with consent) becomes its own deferred design,
+  rather than a one-off migration here.
 - **Plugin vs. staying npm-first.** Plugin is the grounded path to easy onboarding
   and supersedes the symlink mess; but it's a distribution rewrite and adds the
   Claude-Code-plugin surface to learn. *Chosen:* plugin (Phase 2) — the onboarding
@@ -176,17 +202,24 @@ Phase 1's nudges read the same knob Phase 0 introduces.
   violates the "offer, never force" principle and the trust model. *Chosen:* always
   offer.
 
-## Open Questions
+## Resolved / Deferred (was Open Questions)
 
-1. `calendar: true` — migrate to `hello.check: [calendar]`, or keep as an alias?
-2. Default `hello.check` value — empty `[]`, or a minimal safe default?
-3. Does `disclosure: guided` change *wording/verbosity* only, or also *which
-   steps* run (e.g. auto-offer scaffolding help)? How much is too much hand-holding?
-4. Where does the `disclosure` level default live for a *fresh* install — plugin
-   default, or asked once at first `/hello`? (Ties to Phase 2.)
-5. Should `/hey`'s escalation gate auto-escalate on certain triggers, or always ask?
-6. Phase 1 cross-domain nudges: how does a skill *detect* the opportunity ("writing
-   about an unfamiliar culture") without being preachy or wrong? Guardrails?
+- **Q1 — `calendar` migrate vs. alias:** *keep as alias now*; the general
+  "auto-update stale conventions with consent" behavior is its own **deferred**
+  design (Phil's preferred future: `/hello` detects + fixes stale conventions
+  without asking, gated on a consent signpost flag). → Staging item.
+- **Q2 — default `hello.check`:** a **minimal opinionated default**, not empty.
+  *Remaining open (Q2b):* is `[connectors]` right, given it only bites once an MCP
+  is connected — or is the true default `[]` until something's connected? (Small;
+  settle in `/ship`.)
+- **Q3 / Q4 — `guided` verbosity + fresh-install default:** *dissolved* by the
+  self-calibration reframe. There is no preset level to configure; verbosity is
+  learned (deferred) and, for v0.3, chosen manually via `/hey` vs `/hello`.
+- **Q5 — `/hey` escalation:** *auto-escalate* when the session needs more than
+  local context; **network/opt-in checks exempt** (never fire the `updates` MCP
+  check on a `/hey`). Specified in the `/hey` section.
+- **Q6 — cross-domain nudge detection:** *out of scope for v0.3* — punted to the
+  deferred Phase 1 roadmap item (needs guardrails; the example was a stretch).
 
 ## Out of Scope
 
