@@ -348,6 +348,16 @@ rest is staged here; all trace to the accepted design.
   reference the template instead.
   Deferred from: philset/feature/riff-defer-skills (2026-05-23).
 
+- **Extract a shared orientation + tree-walk snippet for `/hey` + `/hello`** —
+  `/hey` now restates the orientation (plan-override, auto-`/retro`/`/defer`,
+  cadences) and the tree-walk mechanics that `/hello` already owns, so the two
+  skills carry near-duplicate blocks. DRY them into a shared reference both point
+  at (mirrors the meta-README extraction above; a single "philset session
+  primitives" doc could absorb both). Watch the divergence points: `/hey`'s walk
+  is *minimal* (flags + root `WORKFLOW.md`), `/hello`'s is *full* — the shared
+  snippet needs a minimal/full parameter, not a blind copy.
+  Deferred from: philset/feature/hey-minimal-tree-walk (2026-07-03, /review).
+
 - **Commit-convention signpost flag** — A signpost flag letting a repo declare
   its commit/push policy so skills (`/ttyl`, `/triage`, `/ship`, `/review`)
   commit and push consistently instead of each guessing. Common-sense defaults:

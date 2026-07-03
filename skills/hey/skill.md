@@ -9,6 +9,20 @@ The user typed `/hey` — a light, fast session start. This is the **sparse floo
 below `/hello` (the verbose one). Load just enough local context to get moving;
 pull more only if the work actually needs it.
 
+## Step 0: Orientation
+
+Skip if you've already seen it today. `/hey` is a philset session start — the
+same rules as `/hello` apply, floor or not:
+
+- philset replaces `/plan` and `/ultraplan` with the assess→draft→ship flow.
+  Don't invoke them unless signpost `allow-plan: true`, or the user explicitly
+  asks.
+- Invoke `/retro` yourself on collaboration friction; `/defer` yourself on
+  deferral intent — don't wait to be asked.
+- Two orthogonal cadences: the **workday** (`/hey`|`/hello` open, `/ttyl` close)
+  and the **feature branch** (`/draft` open, `/review` close). Session state lives
+  in the `.meta/` directory — your first stop for reading or writing context.
+
 ## Step 1: Minimal walk + local context
 
 **First, a minimal tree walk (config pass).** Walk up from cwd to the root

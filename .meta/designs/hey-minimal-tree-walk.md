@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-07-03
 Accepted: 2026-07-03
+Implemented: 2026-07-03 (feature/hey-minimal-tree-walk)
+Divergences: none — all 5 planned skill.md changes landed as specced
+Added-in-review: Step 0 orientation block (behavioral-rule parity with /hello — plan-override, auto-/retro//defer, cadence model; also absorbs the jargon gloss). DRY extraction of a shared orientation+walk snippet deferred to roadmap.
 Assessment: none (sourced from live /hey→/hello compare-notes, this session)
 Supersedes: none (edits skills/hey/skill.md in place)
 ---
