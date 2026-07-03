@@ -1,8 +1,9 @@
 ---
-Status: draft
+Status: accepted
 Date: 2026-07-03
+Accepted: 2026-07-03
 Assessment: (none — pulled forward from roadmap Tier 3/4)
-Likely-supersedes: (none; subsumes the /review slice of "signpost per-skill config")
+Supersedes: (none; subsumes the /review slice of "signpost per-skill config")
 ---
 
 # Configurable /review Dimensions — Desired State
@@ -29,6 +30,7 @@ Three threads braid here. Before filling content, we pick how wide the doc goes:
 Tier-4 "signpost per-skill config" item, but only wire `/review`. This is the
 `used-then-iterated` axiom — `/review` is the reality-probe for the general
 pattern.
+- Agreed
 
 **Bracing against the earlier feedback-gate.** The 2026-07-03 triage put the
 `/review` *generalization* behind user feedback (Tier 3, non-code). We're pulling
@@ -54,7 +56,13 @@ Split `/review`'s dimensions into two classes — this is the key structural mov
     consistency, factual accuracy, audience fit.
 
 Only the **medium dimensions** are resolved/configured. Structural ones are
-constant. (Open question 4: is "redundancy" structural or medium?)
+constant.
+
+**`redundancy` is the canonical configurable dimension** (resolved Q2): it's
+*medium* (configurable, can be dropped) but **recommended and default-on** —
+everyone *should* want it, not everyone will. `/review`'s skill description names
+it as the worked example of "a configurable / agent-inferrable dimension," so the
+config mechanism is always in the context window when the skill runs.
 
 ## 2. Resolution precedence
 
@@ -87,34 +95,50 @@ review:
 ```
 
 - `dimensions` **replaces** the inferred medium set; `extra-dimensions` **appends**
-  (covers chipper's "defaults + a docs-alignment check"). (Open question 1.)
+  (covers chipper's "defaults + a docs-alignment check"). **Both supported**
+  (resolved Q1) — gives the directory tree real teeth (e.g. an `html/` category dir
+  can set append-dimensions once, inherited by every site under it).
 - Inherited down the tree like every signpost flag.
-- WORKFLOW.md can declare a personal default set in prose that `/review` reads
-  (lower precedence than signpost). (Open question 3: structured vs prose.)
+- **Division of config surfaces** (resolved Q3): **signpost.yml holds structured
+  config** (`review.dimensions`/`extra-dimensions` — machine-read); **WORKFLOW.md
+  holds prose instructions** the agent interprets (a soft, lowest-precedence
+  default — e.g. "I mostly review prose"). Structured beats prose beats inferred.
 
 ## 4. The novel part — agent-choice + /retro calibration
 
 This is the piece worth designing carefully; it's a philset-native loop:
 
-1. `/review` runs unconfigured → **infers** dimensions → announces them.
-2. `/retro` gains a hook: surface recent *inferred* dimension choices for
-   calibration — "Last review I chose bugs/efficiency/architecture and skipped
-   redundancy — right criteria, or should I have asked?"
-3. If the user corrects, `/retro` (or `/review` on the spot) **writes the
-   corrected set to config** (signpost `review.dimensions` or WORKFLOW).
-4. Next review is now *configured* → silent, correct.
+1. `/review` runs unconfigured → **infers** dimensions → announces them →
+   **records the inferred set + a run-count in `breadcrumbs.log`** under a
+   `## Review Dimensions` note. The breadcrumb is what lets a *next-session*
+   `/retro` calibrate, and what the auto-persist counter reads (resolved: the
+   choice must survive the session boundary).
+2. **Auto-persist at N=3** (resolved Q4): after **3 consecutive `/review` runs
+   that inferred the same set** with no correction, `/review` writes it to the
+   project `signpost.yml` `review.dimensions` and announces "locked in after 3
+   consistent runs," then clears the counter. Users who don't care get
+   consistency without being asked.
+3. `/retro` gains a hook: read the `## Review Dimensions` breadcrumb and surface
+   recent *inferred* choices for calibration — "Last reviews I chose
+   bugs/efficiency/architecture and skipped redundancy — right criteria, or should
+   I have asked?"
+4. **Any correction** (in-session, or via `/retro`, at any point before N=3)
+   **writes the corrected set to config immediately** and resets the counter.
+   A corrected set skips straight to configured.
+5. Once configured → silent, correct.
 
 Net: config **builds itself from calibrated inference** — the `used-then-iterated`
-axiom made mechanical. You never have to configure up front; you correct once and
-it sticks.
+axiom made mechanical. You never configure up front; you either correct once (it
+sticks immediately) or stay consistent 3 runs (it locks itself in).
 
 ## 5. Cross-skill touchpoints
 
 - **/review** — the resolution logic + transparency rule (Steps 2–3 of its skill).
 - **/retro** — the calibration hook (Section 4).
 - **signpost-schema.md / WORKFLOW.md** — document the `review.*` config.
-- **/hello** — *maybe* surface configured review dimensions in the status readout
-  (Open question 5). Probably not — noise.
+- **/hello** — does **not** surface review dimensions (resolved Q5: noise).
+- **breadcrumbs.log** — carries the `## Review Dimensions` inferred-set + run-count
+  note (Section 4); the cross-session substrate for calibration + auto-persist.
 
 ## Tradeoffs
 
@@ -135,16 +159,22 @@ it sticks.
   designing non-code dimensions without a real non-code user. *Mitigated* by
   building only the mechanism + code defaults; prose sets stay gated.
 
-## Open Questions
+## Resolved Decisions
 
-1. `dimensions` (replace) **and** `extra-dimensions` (append), or replace-only?
-2. Is `redundancy` a structural (always-on) or medium (configurable) dimension?
-   It applies to prose too — maybe it's structural.
-3. Does WORKFLOW.md carry dimensions as *structured* data or interpreted prose?
-4. Should `/review` *persist* an inferred set automatically after N consistent
-   runs, or only ever on explicit user confirmation via `/retro`?
-5. Does `/hello` surface configured review dimensions, or is that noise?
-6. Naming: `review.dimensions` vs `review.criteria` vs `review.surface`?
+All six open questions resolved in the 2026-07-03 draft iteration:
+
+1. **Both `dimensions` (replace) and `extra-dimensions` (append).** Gives the tree
+   real teeth — a category dir (e.g. `html/`) sets append-dimensions once,
+   inherited by everything under it.
+2. **`redundancy` is medium (configurable) but recommended + default-on**, and is
+   the *canonical worked example* named in `/review`'s skill description so the
+   config mechanism is always in-context.
+3. **signpost.yml = structured config; WORKFLOW.md = prose instructions** (soft,
+   lowest-precedence default). Structured > prose > inferred.
+4. **Auto-persist at N=3** consecutive identical inferred sets; a correction at any
+   point persists immediately and resets the counter.
+5. **No `/hello` surfacing** — noise.
+6. **`review.dimensions`** (not `criteria`/`surface`).
 
 ## Out of Scope
 

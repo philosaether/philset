@@ -6,7 +6,17 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-_Nothing in flight._ Stage 1 (calendar-into-`/hello`) shipped + merged 2026-07-01.
+- **configurable-review-dimensions** (`feature/review-dimensions`) — accepted
+  2026-07-03, implementing. `/review` resolves medium dimensions
+  (signpost/WORKFLOW/inferred/ask) + structural dimensions always-on; redundancy =
+  recommended canonical example; breadcrumb `## Review Dimensions` note + N=3
+  auto-persist; `/retro` calibration hook; `review.*` documented in
+  signpost-schema. Mechanism + code defaults this session; prose dimension sets
+  stay feedback-gated. Part of the pre-v0.3-cut work (main already carries riff
+  Targets 1–3).
+
+**v0.3 release status:** riff Targets 1–3 merged to `main`; the *cut* (version
+bump/tag) waits on this draft cycle + the README coverage-update (Phil-solo).
 
 **Next up:**
 - **chunk 2 — multi-user state model** (Stage 2 of integrated-workflow-system;

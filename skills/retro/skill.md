@@ -76,6 +76,25 @@ root signpost, stale logical-architecture.md, or outdated project skills).
 Incorporate relevant notes into your interview questions — they represent
 issues the session surfaced but didn't address inline.
 
+### Step 1.6: Review-dimension calibration
+
+Check `breadcrumbs.log` for a `## Review Dimensions` note (written by `/review`
+when it resolved its dimensions by *inference* rather than config). If present,
+surface the recent inferred choice for calibration — this is the human end of
+`/review`'s self-configuring loop:
+
+> "Last review(s) I inferred the dimensions `[bugs, efficiency, redundancy,
+> architecture]` and reviewed against those. Right criteria, or should I have
+> included/dropped something?"
+
+- If the user **corrects** the set: write it to the project `signpost.yml` as
+  `review.dimensions` (propose the write first, per Step 3 rules) and clear the
+  `## Review Dimensions` note. Next `/review` is configured → silent.
+- If the user **confirms**: leave it — `/review` will auto-persist on its own at
+  N=3 consistent runs. Optionally offer to lock it in now.
+
+Skip this step entirely if there's no `## Review Dimensions` note.
+
 ### Step 2: Interview (3 questions max)
 
 Ask all questions at once so the user can answer in one message. Pick from:

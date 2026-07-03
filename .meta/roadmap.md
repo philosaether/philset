@@ -243,6 +243,11 @@ Serves both inflection floors. Cut the release when these four land.
   [string]` + a general per-skill namespace; skills append them as extra
   steps/dimensions. Needs a field-namespace convention + interaction with skill
   overrides. Surfaced 2026-05-22 (chipper) & 2026-06-03 (eventsnyourcity).
+  **Partially delivered 2026-07-03:** the `/review` slice (`review.dimensions` /
+  `review.extra-dimensions`) is designed + shipping via
+  `designs/configurable-review-dimensions.md` (the proving ground). The general
+  per-skill-config convention (other skills, the `review.*` namespace pattern
+  generalized) remains here.
 
 - **Roadmap-inbox association** — Link `.meta/inbox/` items to specific roadmap
   items so they stay connected but don't clutter `/hello` scans. **Doubly

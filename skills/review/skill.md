@@ -1,6 +1,6 @@
 ---
 name: review
-description: Pre-merge code review. Diffs the session's work against the base branch, runs parallel analysis for efficiency, redundancy, bugs, architecture, and design reconciliation, then presents fixes for approval before committing.
+description: Pre-merge review. Diffs the session's work against the base branch, resolves its review dimensions (configurable via signpost `review.dimensions`/`extra-dimensions`, else inferred from the medium — code default: bugs/efficiency/redundancy/architecture — with `redundancy` the recommended-but-configurable example), always runs the structural dimensions (design/track/merge reconciliation), then presents fixes for approval before committing.
 ---
 
 # Review
@@ -40,25 +40,86 @@ Determine what to review based on context:
 Summarize what was touched: files changed, features added, areas modified.
 This is your review surface.
 
-## Step 3: Parallel analysis
+## Step 3: Resolve the review surface, then analyze
 
-Launch explore agents in parallel, each focused on the changed files:
+`/review` has two classes of dimension. **Structural** dimensions are
+philset-native — they check the design/track/state artifacts, not the medium,
+and **always run**. **Medium** dimensions depend on *what* you're reviewing
+(code vs. prose vs. …) and are **resolved** per project. Only the medium set is
+configurable.
 
-1. **Efficiency**: Are there unnecessary allocations, redundant loops, O(n^2) patterns, or things that could be simplified? Look for code that works but could be tighter.
+### 3a: Resolve the medium dimensions
 
-2. **Redundancy**: Is there duplicated logic, copy-pasted patterns that should be extracted, or new code that duplicates something already in the codebase? Check both within the diff and against existing code.
+Resolve in precedence order — first hit wins:
 
-3. **Bugs**: Are there edge cases, off-by-one errors, null/undefined risks, missing error handling at system boundaries, race conditions, or logic errors? Focus on correctness, not style.
+1. **Explicit config.** Walk the signpost tree (as `/hello` does):
+   - `review.dimensions: [...]` in `signpost.yml` — **replaces** the medium set
+     (inherited down the tree; child overrides on collision).
+   - `review.extra-dimensions: [...]` — **appends** to the resolved set (e.g. a
+     category dir sets one project-family check that all children inherit).
+   - Else, dimension preferences stated in prose in `WORKFLOW.md` — a soft,
+     lowest-precedence default (e.g. "I mostly review prose"). Structured
+     (signpost) beats prose (WORKFLOW) beats inferred.
+2. **Infer** (if unconfigured). Judge the medium:
+   - code (has source / `architecture` not false) → **code default set:**
+     `bugs, efficiency, redundancy, architecture`.
+   - non-code (`architecture: false`, prose-heavy) → a prose set
+     (`clarity, structure, voice, factual-accuracy, redundancy`). *The real
+     non-code set is still being calibrated — infer, then lean on 3b + `/retro`.*
+   - factor in what the branch actually changed (docs-only? tests-only?).
+3. **Ask** — only if genuinely ambiguous (e.g. a mixed docs+code branch):
+   "Review for [X, Y], or add [Z]?"
 
-4. **Architecture consistency** (only if `.meta/logical-architecture.md` exists): Does the new code match the structure described in `logical-architecture.md`? Check that new files live where the architecture says they should, and that the architecture doc reflects any new modules or structural changes. Where there are inconsistencies, either update logical-architecture.md to point to the new code, or move the new code to the location indicated by logical-architecture.md — use judgment based on which is more correct. If no `logical-architecture.md` exists, skip this dimension.
+`redundancy` is the **canonical configurable-but-recommended dimension**: on by
+default in every set, but a project can drop it via `review.dimensions`. When
+unsure whether a dimension applies, reason from `redundancy` — everyone *should*
+want it; not everyone will.
 
-5. **Design reconciliation** (only if an accepted design doc exists in `designs/` that matches the branch or recent work): Read the design doc and compare against the diff. Categorize each section: implemented as designed, diverged (different but intentional), deferred (in design but not built), or added (built but not in design). Report divergences alongside other findings and suggest reconciliation steps (update the design doc to match what was actually built).
+**Structural dimensions always run and are never configured:** design
+reconciliation, track reconciliation, merge readiness (see 3c).
 
-6. **Track reconciliation** (only if a track file exists in `tracks/` matching the current branch): Read each note in the track. Categorize: played (implemented and committed), deferred (sent to roadmap via /defer), unplayed (written but not implemented). Flag unplayed notes — they may indicate forgotten work or scope that was silently dropped. Report alongside other findings.
+### 3b: Persist + calibrate (only when resolved by inference/ask)
 
-7. **Merge readiness**: Assess whether `.meta/` state files (decisions.md, in-progress.md) will conflict with the base branch. Check if code merged to main since the branch diverged introduces contradictions — overlapping decisions, conflicting in-progress items, or architectural changes that affect the same areas. Flag contradictory decisions across branches for human resolution.
+If the medium set came from **config**, skip this — configured runs are silent.
+If it came from **inference or ask**:
+
+- **Record a breadcrumb.** Append or update a `## Review Dimensions` note in
+  `breadcrumbs.log`: the inferred set and a run-count, e.g.
+  `- inferred [bugs, efficiency, redundancy, architecture] ×2`. This survives the
+  session boundary so a later `/retro` can calibrate it and the count can
+  accumulate across sessions.
+- **Auto-persist at N=3.** If this is the **3rd consecutive run with the same
+  inferred set** and no correction in between, write it to the project
+  `signpost.yml` as `review.dimensions`, announce *"locked in after 3 consistent
+  runs,"* and clear the note. Users who never configure still get consistency.
+- **On correction** (user changes the set now, or later via `/retro`): write the
+  corrected set to `signpost.yml` immediately and reset the count — a corrected
+  set skips straight to configured.
+
+### 3c: Run the analysis
+
+Launch explore agents in parallel — one per **resolved medium dimension** plus
+the **structural dimensions** — each focused on the changed files.
+
+**Medium (resolved in 3a) — code default descriptions:**
+- **Bugs**: edge cases, off-by-one, null/undefined risks, missing error handling at boundaries, race conditions, logic errors. Correctness, not style.
+- **Efficiency**: unnecessary allocations, redundant loops, O(n^2) patterns, code that works but could be tighter.
+- **Redundancy**: duplicated logic, copy-pasted patterns, new code duplicating something already in the codebase. Check within the diff and against existing code.
+- **Architecture consistency** (only if `.meta/logical-architecture.md` exists): does new code match the documented structure? New files where the architecture says; doc reflects new modules. Reconcile doc ↔ code where they diverge — update whichever is more correct.
+- *(Non-code dimensions, when resolved, are judged by their name — clarity, structure, voice, factual accuracy — against the changed prose.)*
+
+**Structural (always run):**
+- **Design reconciliation** (only if an accepted design doc in `designs/` matches the branch/recent work): categorize each section implemented / diverged / deferred / added; suggest reconciliation steps.
+- **Track reconciliation** (only if a `tracks/` file matches the current branch): categorize each note played / deferred / unplayed; flag unplayed notes (forgotten work or silently-dropped scope).
+- **Merge readiness**: will `.meta/` state files (decisions.md, in-progress.md) conflict with the base branch? Do commits landed on main since the branch diverged introduce contradictions (overlapping decisions, conflicting in-progress, colliding architecture)? Flag cross-branch decision conflicts for human resolution.
 
 ## Step 4: Present findings
+
+**Transparency rule:** if the medium dimensions were resolved by **inference or
+ask** (not config), state at the top of the findings which medium dimensions you
+reviewed against and why, and offer to persist or adjust them — this is the
+calibration surface (it feeds 3b and `/retro`). Configured runs stay silent about
+dimension selection.
 
 Compile the results into a single summary, organized by severity:
 

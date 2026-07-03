@@ -50,7 +50,19 @@ calendar: false
 # which also ignores .meta/ locally via .git/info/exclude — never the tracked
 # .gitignore, so teammates see nothing.
 private-meta: false
+
+# /review dimension configuration (the "medium" dimensions — what to check about
+# the content). Inherited down the tree; child overrides. If unset, /review
+# infers from the medium (code default: bugs/efficiency/redundancy/architecture)
+# and self-configures after 3 consistent runs or a /retro correction.
+review:
+  dimensions: [bugs, efficiency, redundancy, architecture]  # REPLACES the medium set
+  extra-dimensions: [readme-api-alignment]                  # APPENDS to the resolved set
 ```
+
+The **structural** dimensions (design/track/merge reconciliation) always run and
+are not configurable — `review.*` only tunes the medium set. `redundancy` is
+recommended-but-configurable (on by default; drop it via `dimensions`).
 
 ## Inheritance
 
@@ -90,3 +102,10 @@ signposts can add more or override by key.
   now the flag's whole job is the local ignore + graceful degradation when
   `.meta/` is absent. The forward obligation: when a skill *does* gain a commit
   step, it must honor `private-meta` and never commit `.meta/` to a shared repo.
+- `review.dimensions` / `review.extra-dimensions` — Configure `/review`'s
+  *medium* dimensions (what to check about the content). `dimensions` replaces
+  the inferred medium set; `extra-dimensions` appends. Inherited down the tree.
+  If unset, `/review` infers from the medium and self-configures after 3
+  consistent runs or a `/retro` correction. The structural dimensions
+  (design/track/merge reconciliation) always run and are not configurable.
+  First concrete instance of the per-skill-config convention.
