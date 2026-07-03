@@ -70,24 +70,30 @@ Serves both inflection floors. Cut the release when these four land.
   roadmap items (below / Tier 3).
   Deferred from: philset/main (2026-07-03, triage).
 
-- **README-for-humans + onboarding pass** *(brand/onboarding — both audiences)* —
-  The README must read for *humans deciding whether to adopt philset*, not for
-  agents. Key framing (from `inbox/readme-context.md`): assess → draft → ship is
-  a slower, collaborative `/plan` that produces a durable artifact and supersedes
-  built-in plan mode. Absorbs:
-  - `inbox/human-implements.md` — the `/ship`→`/review` loop works even when the
-    *human* is the implementer (design doc = spec; `/review` compares the artifact
-    regardless of who built it). Directly supports the non-code story.
-  - `inbox/anecdotes.md` — concrete "principles in action" evidence for the
-    README / case-study material.
-  - **Developer documentation for `/riff` and `/defer`** — README sections for the
-    newer skills, including verification loops (where to document project
-    conventions like SII). *(was Tier 4)*
-  - **Formalize "external writes go through inbox" as a stated principle** — the
-    invariant that cross-project writes land in inbox, not directly in curated
-    state files. Currently only in the defer-skill design doc. *(was Tier 4)*
-  Backing inbox files: `readme-context.md`, `human-implements.md`, `anecdotes.md`.
-  Deferred from: philset/main (2026-04-30, 2026-05-23; consolidated 2026-07-03).
+- **README update — cover changes since the voice pass** *(brand/onboarding —
+  both audiences; Phil-solo voice work)* — **Audited 2026-07-03 (v0.3 riff):** the
+  voice pass is *done* (README reads for humans, essay-voiced — the "for-humans"
+  goal is met). What's stale is **coverage** — the README documents the *old*
+  library and predates half the current skills. Punch-list for the update:
+  - **Add the 6 missing skills** — `/riff`, `/defer`, `/amend`, `/triage`,
+    `/study`. The Lifecycle/Workday cadence tables list only `/hello`,`/ttyl` /
+    `/assess`,`/draft`,`/ship`,`/review`. Reframe around the gradient-of-altitudes
+    model (mechanical → riff → amend → draft → study) from the dev-state assessment.
+  - **Non-code positioning** — a section: philset works for non-code artifacts
+    (which skills are concept-general, the `architecture: false` hatch, the
+    `/review`-is-code-shaped caveat, a pointer to the future git-setup tutorial).
+  - **`/ship` human-as-implementer note** (from `inbox/human-implements.md`, still
+    unapplied): the `/ship`→`/review` loop works even when the *human* implements
+    (design doc = spec; `/review` compares the artifact regardless of who built it).
+  - **Formalize "external writes go through inbox"** as a stated principle *(was
+    Tier 4)*.
+  - `private-meta`/`philset private` already added (v0.3 Target 1).
+  Backing inbox file: `human-implements.md` (valid gap). `anecdotes.md` → case-study
+  material, not README-structural. `readme-context.md` graduated (applied).
+  Voice-heavy → Phil's solo author time; **/deferred out of the v0.3 build**
+  (2026-07-03). Open release call: does v0.3 cut now with the current (voiced but
+  coverage-stale) README and this update fast-follows, or does the cut wait on it?
+  Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03).
 
 > ═══════════ RELEASE v0.3 "portable + welcoming" cuts here ═══════════
 > Both inflection floors covered: portable (private-meta + clean install) for the

@@ -27,6 +27,13 @@
   runtime skill effect yet (skills don't commit until chunk 2); chunk-2
   commit guard planted in the state-model assessment. v0.3 Tier 1.
   Completed: 2026-07-03 (riff/v0.3-portable-welcoming).
+- **README context: "write for humans, not agents"** — 2026-04-30 guidance that
+  the README should read for humans deciding to adopt philset, not as agent-facing
+  docs. **Applied:** the README voice pass landed essay-voiced and human-facing.
+  Audited 2026-07-03 — the "for-humans" goal is met; remaining README work is
+  coverage (missing skills), tracked as a separate roadmap item.
+  Completed: 2026-07-03 (voice pass in the original README commit; confirmed in the
+  v0.3 riff audit).
 - **`/study` skill proposal** — staged source-grounded learning loop
   (write→annotate→quiz→score), captured 2026-06-19 from the Honcho interview-prep
   session. Authored into the real skill, shipped and dogfooded (passed the Plastic

@@ -298,3 +298,33 @@ mechanical bits; Target 4 is the human framing. No parallel structures.
 **Target 3 (non-code low-hanging pass) DONE.** Net finding: philset was already
 concept-level general, so the pass was small by design — the leverage moved to the
 deferred git tutorial + the Target-4 positioning prose.
+
+## Note 5: README — audit, not rewrite (Target 4)
+
+**Phil's steer:** he already did the README voice pass solo (just never logged in
+decisions.md), so the inbox files are likely stale. Rework Target 4 to "audit the
+README for what's needed since the last voice pass," then likely /defer.
+
+**Audit (grounded):**
+- README history = 3 commits: the original voiced rewrite (`6fb611f`) + my two
+  private-meta edits this session. **Voice pass is done** — essay-voiced,
+  human-facing. The "for-humans" goal is met.
+- **Materially stale on coverage:** cadence tables list only `/hello`,`/ttyl` /
+  `/assess`,`/draft`,`/ship`,`/review`. **Zero mention of `/riff`, `/defer`,
+  `/amend`, `/triage`, `/study`** — half the current library.
+- No non-code positioning. `/ship` section assumes Claude implements (so
+  `human-implements.md` is an *unapplied* gap, not stale).
+
+**Disposition:** voice-heavy → Phil-solo. **Target 4 = audited + /deferred** (not
+built). Roadmap item reworked from "for-humans rewrite" → "README update: cover
+skills shipped since the voice pass + non-code positioning + human-implementer
+note." Inbox: `readme-context` graduated (applied); `human-implements` kept (feeds
+the deferred update); `anecdotes` kept (case-study material).
+
+**Target 4 (README) DONE for the riff** (audit + defer). Actual writing is Phil's
+solo item on the roadmap.
+
+**Open release call (surfaced to Phil):** v0.3's four targets are now
+1 (built) · 2 (built) · 3 (built) · 4 (audited → README-update deferred). Does
+v0.3 **cut now** on the mechanical targets with the current voiced-but-coverage-
+stale README (update fast-follows), or **wait** for Phil's solo README update?
