@@ -19,3 +19,8 @@
   graduated items go. Standardized in chunk 1: one top-level `.meta/archive/`
   mirroring live structure, with `archive/rearview.md` as the item graveyard.
   Completed: 2026-06-25 (feature/close-the-loop).
+- **`/study` skill proposal** — staged source-grounded learning loop
+  (write→annotate→quiz→score), captured 2026-06-19 from the Honcho interview-prep
+  session. Authored into the real skill, shipped and dogfooded (passed the Plastic
+  Labs technical). Superseded by `designs/study-skill.md` (accepted, amended A1).
+  Completed: 2026-07-01 (feature/study-skill).
