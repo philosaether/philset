@@ -376,3 +376,14 @@ rest is staged here; all trace to the accepted design.
 
 - **ultradraft mode** (cloud-based design iteration)
 - **Context compaction resilience testing**
+- **"Sprout a domain" primitive** — formalize the improvised move of promoting an
+  overgrown context cluster into its own domain directory + repo: create the
+  domain skeleton (`.meta/` with signpost/README/CLAUDE/state files), sweep
+  related docs out of wherever they scattered (project `.meta/`, the `study/`
+  domain, inbox), move any owned sub-repo under it (gitignored, history intact),
+  seed `roadmap.md` from deferrals, and leave pointers + an append-only decision
+  trail behind. Second time improvised (2026-07-06, the plastic-labs domain; the
+  `study/` domain creation 2026-06-28 was the first). Superset of **chunk 5's
+  `philset mv`** (which already scopes context-aware move + cross-tree reference
+  rewrite) — sprout = create-domain + mv + seed-state. Candidate: `/sprout`.
+  Deferred from: meta/interview-prep (2026-07-06, plastic-labs domain sprout).
