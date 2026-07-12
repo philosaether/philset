@@ -97,3 +97,15 @@ One new item staged since (2026-07-03), awaiting triage.
   signpost flag that, when set, has skills push status updates to an external PM/ticket
   system as work progresses. Pairs with the Praxis leaf-sync bridge already staged.
   Deferred from: career/meta/heading-adjustment (2026-07-12, repo audit).
+
+- **Topic-checklist deliverable type — formalize "the agenda, not the script"** — A named,
+  reusable deliverable type for pre-drafted comms the human delivers *live*: a sparse,
+  nested-bullet **topic checklist** (topics → subtopics → ✍️ must-nail / get-in-writing
+  points), NOT a drafted message. Matches Phil's own prep habit (sparse Google-doc bullet
+  trees before a meeting or important email). Corollary of *human-implements*: when the
+  human is the delivery channel, the artifact is the agenda, not the script (now a root
+  WORKFLOW.md note under Collaborative Writing, 2026-07-12). **Canonical specimen:** §3 of
+  `plastic-labs/.meta/designs/monday-bundle-vineeth.md` — the shape to generalize from.
+  **Open fork — where it lives:** the pattern library (if we *don't* adopt OpenSpec) vs. a
+  philset primitive (a `/draft` output-mode toggle, or its own skill). Decide later.
+  Deferred from: plastic-labs/monday-bundle ship + career audit session (2026-07-12).
