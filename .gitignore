@@ -1,1 +1,4 @@
 .DS_Store
+
+# Session-ephemeral scratch (quick-links, /review dimension notes) — not durable state
+breadcrumbs.log
