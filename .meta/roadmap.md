@@ -75,10 +75,11 @@ Serves both inflection floors. Cut the release when these four land.
   voice pass is *done* (README reads for humans, essay-voiced — the "for-humans"
   goal is met). What's stale is **coverage** — the README documents the *old*
   library and predates half the current skills. Punch-list for the update:
-  - **Add the 6 missing skills** — `/riff`, `/defer`, `/amend`, `/triage`,
-    `/study`. The Lifecycle/Workday cadence tables list only `/hello`,`/ttyl` /
+  - **Add the 7 missing skills** — `/riff`, `/defer`, `/amend`, `/triage`,
+    `/study`, `/skim`. The Lifecycle/Workday cadence tables list only `/hello`,`/ttyl` /
     `/assess`,`/draft`,`/ship`,`/review`. Reframe around the gradient-of-altitudes
-    model (mechanical → riff → amend → draft → study) from the dev-state assessment.
+    model (mechanical → riff → amend → draft → study/skim) from the dev-state assessment.
+    (`/skim` shipped 2026-07-13 as `/study`'s breadth-first sibling.)
   - **Non-code positioning** — a section: philset works for non-code artifacts
     (which skills are concept-general, the `architecture: false` hatch, the
     `/review`-is-code-shaped caveat, a pointer to the future git-setup tutorial).

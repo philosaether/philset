@@ -29,6 +29,8 @@ Gather current state from the codebase (or your documents/work) and docs. Depend
 - Read relevant source files, templates, endpoints
 - Check `study/` for a relevant study — a `/study` doc is prior research read
   to-the-metal; cite it as a source when it informs the assessment
+- Check `skim/` for a relevant skim — a `/skim` doc is lighter recognition-level
+  research; cite it as a source when it informs the assessment
 - Check git log for recent changes in the area
 - Read related design docs, decisions, and in-progress items
 - Check `roadmap.md` for related deferred items ("is this already on the
