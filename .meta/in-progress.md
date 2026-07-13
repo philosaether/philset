@@ -6,6 +6,15 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
+**skim-skill** — accepted + built on `feature/skim-skill` (off `main`).
+`designs/skim-skill.md` accepted; `skills/skim/skill.md` + `references/skim-format.md`
++ `templates/skim-doc.md`/`skim-index.md` written; `/hello`/`/assess`/`/draft`
+integration touches landed; `logical-architecture.md` updated (14 skills); symlinked
+live. **Next:** `/review` before merge, then dogfood on the AI-ecosystem Decoder Ring
+(`ai-ecosystem-integration.md §1.4`) — the first real `/skim` session. **Cross-branch
+loose end:** the `/skim` roadmap item lives in stashed `meta/readme-updates` WIP, not
+on main — remove it there when the stash is restored (stamped in rearview already).
+
 **readme-coverage-update** — accepted design on `main`
 (`designs/readme-coverage-update.md`); **Phil implements** the README himself
 (human-as-implementer), then `/review` → merge. First-pass prose specimens for all

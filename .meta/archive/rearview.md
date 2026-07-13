@@ -48,3 +48,12 @@
   session. Authored into the real skill, shipped and dogfooded (passed the Plastic
   Labs technical). Superseded by `designs/study-skill.md` (accepted, amended A1).
   Completed: 2026-07-01 (feature/study-skill).
+- **`/skim` skill** — study-family sibling: "goes just deep enough to hurt."
+  Recognition-level, breadth-first learning for name-dropping domains — research the
+  terms worth recognizing, teach them in batched 1–2¶ lessons with a quiz per item,
+  distill to a cold/fuzzy/known one-line-each summary. Built per
+  `designs/skim-skill.md` (accepted). Proving target: the AI-ecosystem Decoder Ring
+  (`ai-ecosystem-integration.md §1.4`). NOTE: the roadmap item lived in stashed
+  `meta/readme-updates` WIP (the heading-adjustment 2026-07-11 M3 dump), not on
+  `main` — remove it from that branch's roadmap when the stash is restored.
+  Completed: 2026-07-13 (feature/skim-skill).

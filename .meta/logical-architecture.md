@@ -7,12 +7,13 @@ philset — Claude Code skills library for iterative, document-driven developmen
 ```
 philset/
 ├── bin/philset.js        # CLI entry point (init, begin, dsp, update, sync, help)
-├── skills/               # Thirteen workflow skills, each a skill.md
+├── skills/               # Fourteen workflow skills, each a skill.md
 │   ├── hello/            # Session startup — context loading, status summary
 │   ├── hey/             # Lightweight session floor — local-only, auto-escalates, network-exempt
 │   ├── ttyl/             # Session wind-down — persist decisions, auto-clean inbox
 │   ├── assess/           # Current state snapshot of a feature/system/area
 │   ├── study/           # Deeply learn an existing system via staged source-grounded loop
+│   ├── skim/            # Recognition-level breadth learning — /study's breadth-first sibling
 │   ├── draft/            # Design doc creation and collaborative iteration
 │   ├── ship/             # Accept design, begin implementation
 │   ├── amend/            # Scoped addition to an accepted design (no supersede)
@@ -31,6 +32,8 @@ philset/
 │   ├── todo.md           # inbox item-inbox template
 │   ├── study-doc.md      # Study artifact — stages, quiz loop, Quiz Log
 │   ├── study-index.md    # Study index — durable learning artifacts
+│   ├── skim-doc.md       # Skim artifact — item list, batched lessons, cold/fuzzy/known summary
+│   ├── skim-index.md     # Skim index — durable recognition artifacts
 │   ├── signpost.yml      # Project-level signpost (no root flag)
 │   └── signpost-root.yml # Root-level signpost (root: true)
 ├── references/           # Format docs installed to user's .meta/references/
@@ -42,6 +45,7 @@ philset/
 │   ├── todo-format.md
 │   ├── designs-index.md
 │   ├── study-format.md
+│   ├── skim-format.md
 │   └── archival.md
 ├── scripts/              # Dev-only tooling, excluded from the npm package
 │   └── dev-link.js       # `npm run link` — symlink skills+refs into place (dev live-edit)

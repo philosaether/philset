@@ -115,6 +115,7 @@ whatever doesn't, skip it:
   frontmatter carries an amendment with `status: proposed` — surface in Step 7)
 - `tracks/` — riff scratchpads (if any exist, note them)
 - `study/` — staged learning docs (note any in-progress studies; surfaced in Step 5)
+- `skim/` — recognition-level skim docs (note any in-progress skims; surfaced in Step 5)
 - `inbox/` — items waiting for review (including `todo.md`)
 - `logical-architecture.md` — codebase map (handled in Step 4)
 - `signpost.yml` — already read during tree walk
@@ -137,6 +138,7 @@ If the user says yes, create:
   - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
   - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
   - `study/` — Staged learning docs. Created with `/study`; durable, citable.
+  - `skim/` — Recognition-level skim docs. Created with `/skim`; durable, citable.
   - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
   - `inbox/` — Drop files here for review (screenshots, references, etc.).
     - `todo.md` — Inbound items from cross-project deferrals or manual capture.
@@ -147,6 +149,7 @@ If the user says yes, create:
 - `.meta/designs/.gitkeep`
 - `.meta/tracks/.gitkeep`
 - `.meta/study/.gitkeep`
+- `.meta/skim/.gitkeep`
 - `.meta/assessments/.gitkeep`
 - `.meta/inbox/todo.md` — header only
 
@@ -193,6 +196,10 @@ If `study/` exists, check for in-progress studies (status not `complete`)
 and surface them in the summary the way riffs are surfaced:
 "`.meta/study/honcho.md` — 4 of 7 stages studied." A multi-day study is
 exactly the resume case worth flagging at startup.
+
+Likewise, if `skim/` exists, surface any in-progress skims (status not
+`complete`): "`.meta/skim/ai-ecosystem.md` — 22 of 35 items covered." Same
+resume-worthy startup flag, lighter loop.
 
 Read `.meta/logical-architecture.md` if it exists — it's the authoritative
 map for navigating and adding to the codebase.
