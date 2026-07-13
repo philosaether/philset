@@ -5,6 +5,9 @@ Accepted: 2026-07-13
 Assessment: ~/Development/.meta/assessments/ai-ecosystem-integration.md (§1.4 Decoder Ring — the proving target; §2.2.4 "study-like loops")
 Supersedes: (none)
 Sibling-of: designs/study-skill.md (study-skill.md:226 foresaw the /study–/skim pair)
+Implemented: 2026-07-13 (feature/skim-skill)
+Divergences: none — all design elements built as specified (verified in /review)
+Deferred: none
 ---
 
 # /skim — Recognition-Level Breadth Learning — Desired State

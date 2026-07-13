@@ -86,7 +86,7 @@ groups, let the learner adjust.* Then, per batch:
    ("Hermes model vs. Hermes Agent?"), *cold-recall a cluster* ("name three memory
    vendors"). **Never** "walk me through MCP's stateless core" — that's a `/study`
    stage.
-4. **Learner answers inline** (bullets, raw answers preserved).
+4. **Learner answers inline** — in bullets beneath each question, raw answers preserved.
 5. **Score + note + next batch** — score the active-recall answers, note anything
    shaky, move to the next batch of ~5.
 
