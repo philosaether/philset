@@ -109,3 +109,21 @@ One new item staged since (2026-07-03), awaiting triage.
   **Open fork — where it lives:** the pattern library (if we *don't* adopt OpenSpec) vs. a
   philset primitive (a `/draft` output-mode toggle, or its own skill). Decide later.
   Deferred from: plastic-labs/monday-bundle ship + career audit session (2026-07-12).
+
+- **`/defer` → skim-list as a deferral target** — `/defer` currently routes to a
+  project's `roadmap.md` or an inbox. Add a recognized deferral target: a **skim-list**
+  (a heap of topics for a *future* `/skim` session), distinct from deferring a full
+  `/study` deep dive. Phrasing that felt natural in use: *"defer MCP extensions to the
+  skim-list."* Implies `/defer` learns skim-list as a destination (create/append a
+  "future skim" roadmap item), and `/skim` learns to drain one at session start.
+  Specimen: `study/.meta/roadmap.md` "deferred skim-list" item, hand-created
+  2026-07-16. Deferred from: study/decoder-ring skim (2026-07-16).
+
+- **`/skim` feedback round — respond to learner's inline notes before the quiz** — The
+  batch loop is teach → learner reacts → quiz. Add an optional **feedback round**: a
+  second pass of Claude comments *answering the learner's inline notes/questions* (can be
+  authored alongside the quiz), before or beside the quiz. `/study` does something
+  similar (annotate → comment). Improvised by hand in the decoder-ring skim and it earned
+  its place — learner questions ("what's multi-tenancy here?", "is onchain stablecoin
+  USD-backed?") deserve answers, not just a score. Deferred from: study/decoder-ring skim
+  (2026-07-16).
