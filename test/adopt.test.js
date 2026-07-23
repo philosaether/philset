@@ -79,7 +79,9 @@ test('fresh adopt moves .meta into central and symlinks back', () => {
   assert.strictEqual(fs.readFileSync(path.join(target, 'decisions.md'), 'utf8'), 'state\n');
   assert.ok(!fs.existsSync(path.join(target, '.git')), 'nested .git dropped');
   assert.ok(fs.existsSync(path.join(sandbox.centralDir, '.git')), 'central repo initialized');
-  assert.ok(fs.existsSync(path.join(sandbox.centralDir, '.gitignore')), 'central .gitignore written');
+  const gitignore = fs.readFileSync(path.join(sandbox.centralDir, '.gitignore'), 'utf8');
+  assert.ok(gitignore.includes('**/inbox/*.pdf'), 'inbox binaries ignored in central');
+  assert.ok(!gitignore.includes('eml'), '.eml stays tracked (approved design call)');
 });
 
 // --- Case 1: already adopted → no-op ---

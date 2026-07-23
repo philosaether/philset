@@ -69,7 +69,8 @@ function findRoot(startDir) {
 function findSignpostField(startDir, field) {
   let current = startDir;
   const home = os.homedir();
-  const fieldPattern = new RegExp(`^${field}:(.*)$`, 'm');
+  const escapedField = field.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const fieldPattern = new RegExp(`^${escapedField}:(.*)$`, 'm');
   while (true) {
     const signpostPath = path.join(current, '.meta', 'signpost.yml');
     if (fs.existsSync(signpostPath)) {
@@ -157,7 +158,9 @@ function ensureMetaExcluded(cwd) {
 // state, stop and let the human reconcile (accepted-design call).
 function adoptMeta(cwd, centralDir) {
   const metaDir = path.join(cwd, '.meta');
-  const relFromHome = path.relative(os.homedir(), cwd);
+  // realpath both sides: a symlinked $HOME or cwd (macOS /var -> /private/var,
+  // a linked ~/Development) would otherwise make cwd look outside $HOME.
+  const relFromHome = path.relative(fs.realpathSync(os.homedir()), fs.realpathSync(cwd));
   if (relFromHome.startsWith('..') || path.isAbsolute(relFromHome)) {
     console.error(`  central-meta: ${cwd} is outside $HOME — cannot mirror by home-relative path.`);
     process.exit(1);
@@ -191,7 +194,17 @@ function adoptMeta(cwd, centralDir) {
       process.exit(1); // case 4: no auto-merge
     }
     ensureDir(path.dirname(target));
-    fs.renameSync(metaDir, target); // case 3: move into central
+    try {
+      fs.renameSync(metaDir, target); // case 3: move into central
+    } catch (error) {
+      if (error.code === 'EXDEV') {
+        // rename fails atomically — nothing moved, nothing to clean up
+        console.error(`  central-meta: cannot move .meta across filesystems (central at ${centralDir}).`);
+        console.error('  Keep the central repo on the same volume as your projects.');
+        process.exit(1);
+      }
+      throw error;
+    }
     const nestedGit = path.join(target, '.git');
     if (fs.existsSync(nestedGit)) {
       fs.rmSync(nestedGit, { recursive: true }); // e.g. a stray 0-commit repo

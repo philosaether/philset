@@ -5,6 +5,11 @@ Accepted: 2026-07-22
 Assessment: (none — ports an accepted design: phil-meta-context
   Development/.meta/designs/central-meta-repo.md, 2026-07-21)
 Supersedes: (none; delivers the "ttyl commit step" slice of chunk 2)
+Implemented: 2026-07-22 (feature/central-meta-port)
+Divergences: none (exclude pattern better-specced than designed — `/.meta` no
+  trailing slash, symlink-safe; .eml tracked by omission from the ignore list,
+  pinned by test)
+Deferred: none
 ---
 
 # Central-Meta Library Port — Desired State
