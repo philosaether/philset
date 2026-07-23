@@ -160,6 +160,24 @@ test('both-exist conflict exits 1 and moves nothing', () => {
   assert.strictEqual(fs.readFileSync(path.join(target, 'decisions.md'), 'utf8'), 'central\n');
 });
 
+// --- Guard: host repo tracks .meta → refuse, exit 1, nothing moved ---
+test('adopt refuses when the host repo tracks .meta', () => {
+  const sandbox = makeSandbox();
+  execFileSync('git', ['init'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  const metaDir = path.join(sandbox.projectDir, '.meta');
+  fs.mkdirSync(metaDir);
+  fs.writeFileSync(path.join(metaDir, 'decisions.md'), 'tracked state\n');
+  execFileSync('git', ['add', '.meta'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  execFileSync('git', ['commit', '-m', 'track meta'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+
+  const error = runAdoptExpectFailure(sandbox);
+
+  assert.strictEqual(error.status, 1);
+  assert.match(error.stderr, /TRACKS \.meta/);
+  assert.ok(fs.lstatSync(metaDir).isDirectory(), 'tracked .meta untouched');
+  assert.ok(!fs.existsSync(centralTarget(sandbox)), 'nothing copied to central');
+});
+
 // --- Guard: unset flag → clear error, exit 1 ---
 test('adopt without central-meta configured fails with guidance', () => {
   const sandbox = makeSandbox();
