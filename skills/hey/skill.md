@@ -26,7 +26,9 @@ same rules as `/hello` apply, floor or not:
 ## Step 1: Minimal walk + local context
 
 **First, a minimal tree walk (config pass).** Walk up from cwd to the root
-(`signpost.yml` with `root: true`, or `~`). Do exactly two things:
+(a `signpost.yml` with `root: true`, or `~`). At each level, `signpost.yml` and
+`WORKFLOW.md` live *inside* that level's `.meta/` directory — not at the
+directory root. Do exactly two things:
 
 - **Merge signpost flags**, child overriding parent — full inheritance
   (`architecture`, `calendar`, `hello.check`, `private-meta`, `allow-plan`, …).
@@ -35,8 +37,15 @@ same rules as `/hello` apply, floor or not:
   on none. (Config lives above cwd often enough — e.g. a project with no local
   `signpost.yml` under a `root: true` parent — that skipping the walk leaves the
   session silently unconfigured.)
-- **Read the root `WORKFLOW.md`** (user context) — loads working preferences and
+- **Read the root `.meta/WORKFLOW.md`** (user context) — loads working preferences and
   guardrails, e.g. *explicit consent required before merging to `main`*.
+
+**Relink check (cwd only, when `central-meta` is set):** if cwd's `.meta` is a
+dangling symlink — or absent while the central repo holds state at
+`<central-meta>/<cwd relative to $HOME>/.meta` (the re-clone case) — offer to
+run `philset adopt`. A broken link means the session runs context-blind, which
+defeats the floor's own purpose; the check is pure local fs, no network. Quiet
+when healthy; unlike `/hello`, do NOT check other walk levels.
 
 **Then, the local `.meta/`** in cwd, if it exists:
 - `in-progress.md` — what's active

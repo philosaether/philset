@@ -56,6 +56,14 @@ calendar: false
 # .gitignore, so teammates see nothing.
 private-meta: false
 
+# Path to the central .meta state repo (symlink farm). Default: unset = off.
+# When set, `philset private`/`philset adopt` move this project's .meta into
+# <central-meta>/<project relative to $HOME>/.meta and symlink it back;
+# /hello Step 1.5 offers relinks (re-clone recovery); /ttyl Step 6.5 commits
+# the central repo once per session (push non-fatal). Inherited down the tree.
+# PHILSET_CENTRAL env var overrides (tests/sandboxes).
+central-meta: ~/phil-meta-context
+
 # /review dimension configuration (the "medium" dimensions — what to check about
 # the content). Inherited down the tree; child overrides. If unset, /review
 # infers from the medium (code default: bugs/efficiency/redundancy/architecture)
@@ -111,10 +119,20 @@ signposts can add more or override by key.
   already track it) to the repo's local `.git/info/exclude` — not the tracked
   `.gitignore` — so the ignore is invisible to teammates. The day-one unblock
   for running philset inside someone else's codebase with limited or no
-  buy-in. Note: no skill commits `.meta/` yet (auto-commit is chunk 2), so for
-  now the flag's whole job is the local ignore + graceful degradation when
-  `.meta/` is absent. The forward obligation: when a skill *does* gain a commit
-  step, it must honor `private-meta` and never commit `.meta/` to a shared repo.
+  buy-in. Note: no skill commits `.meta/` *to the project repo* (that question
+  is chunk 2); with `central-meta` set, `.meta` state is versioned in the
+  central repo instead (`/ttyl` Step 6.5), which never touches the shared repo.
+  The forward obligation stands: any skill that gains a project-repo commit
+  step must honor `private-meta` and never commit `.meta/` to a shared repo.
+- `central-meta: <path>` — One private repo versions **all** `.meta` state
+  across the tree, mirrored by path relative to `$HOME`; each project's
+  `.meta` on disk is an absolute symlink into it (editing through the link IS
+  editing the central repo). `philset adopt` is the single adopt/relink entry
+  point (`philset private` calls it; `/hello`/`/hey` offer it on a broken
+  link; five cases, both-exist = stop-and-ask). `/ttyl` commits central once
+  per session and pushes non-fatally. Unset = feature off, zero new behavior.
+  Design: `designs/central-meta-port.md` (ports the accepted central-meta-repo
+  design from the work machine).
 - `review.dimensions` / `review.extra-dimensions` — Configure `/review`'s
   *medium* dimensions (what to check about the content). `dimensions` replaces
   the inferred medium set; `extra-dimensions` appends. Inherited down the tree.

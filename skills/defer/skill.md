@@ -19,7 +19,8 @@ workstream suspension (`in-progress.md` Parked section).
 Extract from the user's message (or conversation context):
 
 1. **What** — the item, in the user's words (lightly edited for clarity)
-2. **Destination** — local (current project) or cross-project (named target)
+2. **Destination** — local (current project), cross-project (named target),
+   or the **skim-list** (a heap of topics for a future `/skim` session)
 3. **Resumption condition** — one of:
    - **Blocker**: "don't build until X"
    - **Deadline**: a date
@@ -67,6 +68,15 @@ chipper's backlog").
 Cross-project items always land in `inbox/todo.md`, never directly
 in `roadmap.md`. You don't have full project context from an external
 session — the inbox is the staging area for triage during a local session.
+
+### Skim-list deferral
+
+The item is a *topic to learn later*, not work to do — phrasing like "defer
+MCP extensions to the skim-list." Route it to the owning project's
+`roadmap.md` **"deferred skim-list"** item: append the topic as a sub-bullet,
+creating the item if absent. One heap per project; `/skim` offers to drain it
+at session start. Distinct from deferring a full `/study` deep dive — that's
+a normal roadmap item. Specimen: `study/.meta/roadmap.md` "deferred skim-list".
 
 ## Step 3: Write the item
 

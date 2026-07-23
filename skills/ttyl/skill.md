@@ -64,6 +64,21 @@ complete (based on git log and in-progress.md). If found, remind the
 user — they may want to run `/review` to formally close them before ending.
 Don't block on this.
 
+## Step 6.5: Central commit (only when `central-meta` is set)
+
+Skip this step entirely — silently — when the `central-meta` signpost field is
+unset, the central repo directory doesn't exist, or nothing is staged/changed
+there.
+
+Otherwise, after all `.meta` writes have landed: run one commit in the central
+repo — `cd <central-meta> && git add -A && git commit -m "<short session
+summary>"`. One commit per session captures every project's meta changes
+(edits went through the symlinks, so they all live here).
+
+Then push, **non-fatal**: attempt `git push`; if it fails (offline, stale
+auth, ruleset), warn in one line and move on — the commit is the durable
+part, the push is backup. Never let a push failure block session wind-down.
+
 ## Step 7: Confirm
 
 Show the user what you wrote/changed so they can adjust before the session ends.

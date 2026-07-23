@@ -63,6 +63,167 @@ function findRoot(startDir) {
   return null;
 }
 
+// Walk startDir → $HOME reading each level's .meta/signpost.yml; the closest
+// occurrence of `field:` wins (child overrides parent, matching skill-side
+// signpost inheritance). Returns the value with any trailing comment stripped.
+function findSignpostField(startDir, field) {
+  let current = startDir;
+  const home = os.homedir();
+  const escapedField = field.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const fieldPattern = new RegExp(`^${escapedField}:(.*)$`, 'm');
+  while (true) {
+    const signpostPath = path.join(current, '.meta', 'signpost.yml');
+    if (fs.existsSync(signpostPath)) {
+      const match = fs.readFileSync(signpostPath, 'utf8').match(fieldPattern);
+      if (match) {
+        const value = match[1].split('#')[0].trim();
+        if (value) return value;
+      }
+    }
+    if (current === home || current === path.dirname(current)) return null;
+    current = path.dirname(current);
+  }
+}
+
+// Resolve the central-meta repo location: env override (tests, sandboxes) →
+// inherited signpost field → null. Null means the feature is off and philset
+// behaves exactly as it did before central-meta existed.
+function resolveCentral(cwd) {
+  const configured = process.env.PHILSET_CENTRAL || findSignpostField(cwd, 'central-meta');
+  return configured ? expandTilde(configured) : null;
+}
+
+// Initialize the central repo on first use. Inbox binaries stay out of git;
+// text state (including .eml email drops) stays tracked.
+function ensureCentralRepo(centralDir) {
+  if (fs.existsSync(path.join(centralDir, '.git'))) return;
+  ensureDir(centralDir);
+  execFileSync('git', ['init'], { cwd: centralDir, stdio: 'ignore' });
+  const gitignorePath = path.join(centralDir, '.gitignore');
+  if (!fs.existsSync(gitignorePath)) {
+    fs.writeFileSync(gitignorePath, [
+      '**/.DS_Store',
+      '**/inbox/*.pdf',
+      '**/inbox/*.png',
+      '**/inbox/*.jpg',
+      '**/inbox/*.jpeg',
+      '**/inbox/*.gif',
+      '',
+    ].join('\n'));
+  }
+  const readmePath = path.join(centralDir, 'README.md');
+  if (!fs.existsSync(readmePath)) {
+    fs.writeFileSync(readmePath,
+      '# Central .meta state\n\n' +
+      'One private repo versioning all philset `.meta/` state, mirrored by path\n' +
+      'relative to `$HOME`. Each project\'s `.meta` on disk is a symlink into this\n' +
+      'repo (`philset adopt`). Committed once per session by `/ttyl`.\n');
+  }
+  try {
+    execFileSync('git', ['add', '-A'], { cwd: centralDir });
+    execFileSync('git', ['commit', '-m', 'init: central .meta state repo'], {
+      cwd: centralDir, stdio: 'ignore',
+    });
+  } catch {
+    console.log('  central-meta: initial commit failed (git identity unset?) — repo initialized, commit left to you.');
+  }
+  console.log(`  central-meta: initialized ${centralDir}`);
+}
+
+// Exclude .meta locally via .git/info/exclude. Pattern is `/.meta` with NO
+// trailing slash: after adoption .meta is a symlink, and git's dir-only
+// patterns (`/.meta/`) do not match symlinks.
+function ensureMetaExcluded(cwd) {
+  let gitTop;
+  try {
+    gitTop = execSync('git rev-parse --show-toplevel', {
+      cwd, stdio: ['ignore', 'pipe', 'ignore'],
+    }).toString().trim();
+  } catch {
+    return; // not a git repo — nothing to exclude
+  }
+  const excludePath = path.join(gitTop, '.git', 'info', 'exclude');
+  const rel = path.relative(gitTop, path.join(cwd, '.meta')).split(path.sep).join('/');
+  const pattern = `/${rel}`;
+  ensureDir(path.dirname(excludePath));
+  let exclude = fs.existsSync(excludePath) ? fs.readFileSync(excludePath, 'utf8') : '';
+  if (!exclude.split('\n').some((line) => line.trim() === pattern)) {
+    if (exclude.length && !exclude.endsWith('\n')) exclude += '\n';
+    fs.writeFileSync(excludePath, exclude + `${pattern}\n`);
+  }
+}
+
+// Make this project's .meta central-backed. Idempotent; the five cases are
+// pinned by test/adopt.test.js. Never merges: when both local and central hold
+// state, stop and let the human reconcile (accepted-design call).
+function adoptMeta(cwd, centralDir) {
+  const metaDir = path.join(cwd, '.meta');
+  // realpath both sides: a symlinked $HOME or cwd (macOS /var -> /private/var,
+  // a linked ~/Development) would otherwise make cwd look outside $HOME.
+  const relFromHome = path.relative(fs.realpathSync(os.homedir()), fs.realpathSync(cwd));
+  if (relFromHome.startsWith('..') || path.isAbsolute(relFromHome)) {
+    console.error(`  central-meta: ${cwd} is outside $HOME — cannot mirror by home-relative path.`);
+    process.exit(1);
+  }
+  const target = path.join(centralDir, relFromHome, '.meta');
+
+  const linkStat = fs.lstatSync(metaDir, { throwIfNoEntry: false });
+  const targetExists = fs.existsSync(target);
+
+  if (linkStat && linkStat.isSymbolicLink()) {
+    const currentDest = path.resolve(path.dirname(metaDir), fs.readlinkSync(metaDir));
+    if (currentDest === target && targetExists) {
+      return; // case 1: already adopted
+    }
+    if (fs.existsSync(metaDir)) {
+      console.error(`  central-meta: .meta is a symlink to ${currentDest}, not the central target ${target}. Fix by hand.`);
+      process.exit(1);
+    }
+    if (!targetExists) {
+      console.error(`  central-meta: .meta is a dangling symlink (${currentDest}) and central has no state at ${target}. Fix by hand.`);
+      process.exit(1);
+    }
+    fs.unlinkSync(metaDir); // dangling link, central has state — relink below (case 2)
+  } else if (linkStat) {
+    // real local .meta
+    if (targetExists) {
+      console.error('  central-meta: CONFLICT — both local and central hold state:');
+      console.error(`    local:   ${metaDir}`);
+      console.error(`    central: ${target}`);
+      console.error('  Merge by hand, remove one side, then re-run.');
+      process.exit(1); // case 4: no auto-merge
+    }
+    ensureDir(path.dirname(target));
+    try {
+      fs.renameSync(metaDir, target); // case 3: move into central
+    } catch (error) {
+      if (error.code === 'EXDEV') {
+        // rename fails atomically — nothing moved, nothing to clean up
+        console.error(`  central-meta: cannot move .meta across filesystems (central at ${centralDir}).`);
+        console.error('  Keep the central repo on the same volume as your projects.');
+        process.exit(1);
+      }
+      throw error;
+    }
+    const nestedGit = path.join(target, '.git');
+    if (fs.existsSync(nestedGit)) {
+      fs.rmSync(nestedGit, { recursive: true }); // e.g. a stray 0-commit repo
+    }
+    console.log(`  central-meta: moved .meta into ${target}`);
+  } else if (!targetExists) {
+    return; // case 5: nothing local, nothing central — scaffold-then-adopt handles it
+  }
+
+  fs.symlinkSync(target, metaDir);
+  console.log(`  central-meta: linked .meta -> ${target}`);
+  ensureMetaExcluded(cwd);
+  try {
+    execFileSync('git', ['add', '-A'], { cwd: centralDir }); // commit left to /ttyl
+  } catch {
+    // staging is best-effort; /ttyl stages again before committing
+  }
+}
+
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
@@ -240,9 +401,32 @@ function enablePrivateMeta(cwd) {
   fs.writeFileSync(excludePath, exclude);
 }
 
+// Adopt/relink the current project's .meta into the central repo. The shared
+// entry point for `philset private` (internal) and /hello, /hey (relink offers).
+function cmdAdopt() {
+  const cwd = process.cwd();
+  const centralDir = resolveCentral(cwd);
+  if (!centralDir) {
+    console.error('central-meta is not configured.');
+    console.error('Set `central-meta: <path>` in a signpost.yml up the tree (or PHILSET_CENTRAL).');
+    process.exit(1);
+  }
+  ensureCentralRepo(centralDir);
+  adoptMeta(cwd, centralDir);
+}
+
 function cmdBegin(options = {}) {
   const cwd = process.cwd();
   const metaDir = path.join(cwd, '.meta');
+  const centralDir = options.private ? resolveCentral(cwd) : null;
+
+  // Relink a central-backed .meta (the re-clone case) BEFORE the scaffold
+  // check — otherwise we'd scaffold a fresh .meta over restorable state and
+  // turn a one-prompt relink into a both-exist conflict.
+  if (centralDir) {
+    ensureCentralRepo(centralDir);
+    adoptMeta(cwd, centralDir);
+  }
 
   // Scaffold .meta/ if it doesn't exist
   if (!fs.existsSync(metaDir)) {
@@ -268,6 +452,11 @@ function cmdBegin(options = {}) {
   // Make .meta/ private to this clone before launching (shared-repo mode)
   if (options.private) {
     enablePrivateMeta(cwd);
+  }
+
+  // Move a freshly-scaffolded .meta into central (no-op if adopted above)
+  if (centralDir) {
+    adoptMeta(cwd, centralDir);
   }
 
   // Launch claude
@@ -357,7 +546,13 @@ Usage:
                             Scaffold .meta/ + CLAUDE.md if needed, launch claude
   philset dsp               Alias for begin --dsp
   philset private [--dsp]   Alias for begin --private: ignore .meta/ locally
-                            (via .git/info/exclude) for a shared repo, then launch
+                            (via .git/info/exclude) for a shared repo, then launch.
+                            With central-meta configured, also adopts/relinks .meta
+                            into the central state repo (symlink farm)
+  philset adopt             Adopt/relink this project's .meta into the central
+                            repo named by the \`central-meta:\` signpost field
+                            (or PHILSET_CENTRAL). No-op if already adopted;
+                            stops on a local↔central conflict
   philset update            Update global skills and reference docs
   philset sync [--remove]   Copy (or remove) skills to project .claude/skills/
   philset help              Show this message
@@ -385,6 +580,9 @@ switch (command) {
     break;
   case 'private':
     cmdBegin({ private: true, dsp: args.includes('--dsp') });
+    break;
+  case 'adopt':
+    cmdAdopt();
     break;
   case 'update':
     cmdUpdate();

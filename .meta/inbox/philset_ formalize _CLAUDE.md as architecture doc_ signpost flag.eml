@@ -1,0 +1,208 @@
+Delivered-To: me@philbas.com
+Received: by 2002:a05:6521:68f:20b0:33d:be39:e0f1 with SMTP id f15-n2csp258487lkb;
+        Wed, 22 Jul 2026 12:09:33 -0700 (PDT)
+X-Received: by 2002:a17:907:c0b:b0:c16:1a3:9022 with SMTP id a640c23a62f3a-c1c509359b9mr7083766b.38.1784747372882;
+        Wed, 22 Jul 2026 12:09:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1784747372; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=D5uGVKkHM/jCUtW8KlNxmz9YQfBGaiREi+U/DTEHGWJwAlig0DVC05NQDUA8z4c8V5
+         dncVCEXLmoHjXthHEWBRPQRJ8XMAlztEci7+HxlwMvDCjF4CuXsBxMGhxXJ6HusbLKhE
+         RcmBpELMoVpLKIO5wGtmJuLN4XbMOg5w5e/7r2QGUOtqS/blVjrZrusBaGZYE1vl24Ml
+         kLmvfg6x1mDDc2W0mbshKiqIesIlXUdPu9wwjtmszWfRFbNaAXVNsZqOhiTDJer4kexR
+         PLPwXTKYI8dgOFDSN5KYeQF/3RryMiIiyBDCOT3QGIvm7S6du9GAEW9MTmJ8wCyxvnjw
+         6tUg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=fUr2t4iASSHAO3auh44/jGduSZDVovo76YJVrzqdp58=;
+        fh=2gLdfJGmA/d0aiApaARFqZo3DnIPylAaBjIsT0OItRI=;
+        b=ReiCZ5LbrtQQMSYvpww0zTYAT+t/EFc9BBuEkP1WxMypRIo8qhE0I+2imF7d09gpzd
+         Jui1hl2kCKlzJ7/d9ukfasVTiN3V+hrJVhAum3tNVTB5BLP6GU1/aBsQIJR/Rge+r7s6
+         l8L9NkGgY9JieNlS6D2gzFjCyMxTBo8QODvjrFiEjpUe2CctD7t6sWWywWY1LsGFTGFF
+         b+iKiDbq+iqb19TxTmbtuCRpkNr+rjl0YD759bTVTJxe5k8gfUwBxqO0ZiqwQTTQ4NcY
+         tcgcv7po7neGtRyLT5gU7usy2w/bDbPxN69bTevnr0JwflefyG/sO3g/bz82nAb3W3l2
+         fqCg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@plasticlabs-ai.20251104.gappssmtp.com header.s=20251104 header.b=RMPOTBWz;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) smtp.mailfrom=phil@plasticlabs.ai;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=plasticlabs.ai;
+       dara=neutral header.i=@philbas.com
+Return-Path: <phil@plasticlabs.ai>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id a640c23a62f3a-c1c32c23445sor99307366b.15.2026.07.22.12.09.32
+        for <me@philbas.com>
+        (Google Transport Security);
+        Wed, 22 Jul 2026 12:09:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plasticlabs-ai.20251104.gappssmtp.com header.s=20251104 header.b=RMPOTBWz;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) smtp.mailfrom=phil@plasticlabs.ai;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=plasticlabs.ai;
+       dara=neutral header.i=@philbas.com
+ARC-Seal: i=1; a=rsa-sha256; t=1784747372; cv=none;
+        d=google.com; s=arc-20260327;
+        b=s1Y0hTiVgAwl5y2wp6Af7bMfTanpW2xkFsMxEVdacS+i66J4Fpyz67/Kzg5ZcEkw2v
+         glDEwcFxOWPsKteuaTeJ8HJPVkO+aMOsVx7+DinnpX9fqNWAMakQNSOX2gAGaFWWI0sH
+         lP7kFMx9vygmoRriTnUKFivEkLHWQ53xDZBM/msG7OnSJ32yeoumcHRet0YMeOZDU385
+         IYTX0iH6CknZmS/BlFnFUpt+GiP0nm09zecxAUfS+PzRklNhTKBBJTstNtqpcdHHDO6v
+         eyxbDsK5n8Oit7uQI+FkzPR2/VHLbXH9GMhhYkGBkRoD7x75x7gBY8hL5xEKDWV3pkaw
+         ELkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=fUr2t4iASSHAO3auh44/jGduSZDVovo76YJVrzqdp58=;
+        fh=2gLdfJGmA/d0aiApaARFqZo3DnIPylAaBjIsT0OItRI=;
+        b=AqxYyAqkpI+2mq/ndcpPrkT4/f217OY4EE5BAyrZvBE0A3dWxiQYvq2Tk49Xy9pLrn
+         lUITsnyxrOt3DQ/Hjz7S08iHlGdBu/imoW8VQQ3dJblslzBBPb/iJS/dVDYrKibAiZEo
+         WSpm4afkiQtRZQrDTHm0A31YAA6OR+OmrTo/sEg9Y8XVvo4UuROK2DNRhfilNZ6iuQ2D
+         l+Q7AOmn+yi7qHUbr3pN4xvZA0z6D0tiZKCJUkE6qZFEIv1TiMJCYc9DGcLnAbr1hdQE
+         5gTuYxAtHX5bOv4FPPwQ/HLLtf3fADrBuYB/FEE+4U0/pLLazE+VvybYZnseN6VPdXP0
+         otww==;
+        darn=philbas.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=plasticlabs-ai.20251104.gappssmtp.com; s=20251104; t=1784747372; x=1785352172; darn=philbas.com;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=fUr2t4iASSHAO3auh44/jGduSZDVovo76YJVrzqdp58=;
+        b=RMPOTBWzqxf2PyGdAZiEmcnepKrGkHCpbj957XyWVRtUFkrRtt/B6nm9N9zVM2ASCs
+         xGzm5Pja7uQy3CIL5P39tgoHlK0y2Z1x4TD+BYxtiIGFRO65kabs9lQx8PGkiFxuEVms
+         AY9mFRaAsKaoalIPBu8sero6rLukzZSL/VNX2gu9nYABiKjQrt8HZIQ+VIpmrb7FQJWL
+         1ulZnKTJXioszvTiII433tsuFiNTHww8p6/tvw0BMx9CO1SSrI76sFLf//0RjAe2jxlG
+         RGpM1jEb5KWaS6qpQEgdhAiCezNMzwOD/RSHF1TCY4fT/LbVjcYfySHTtIwvnKT+Waay
+         q5ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784747372; x=1785352172;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fUr2t4iASSHAO3auh44/jGduSZDVovo76YJVrzqdp58=;
+        b=cyJK+1k6bEtxOcR/KWLWqALme8PLIKbgLuBwifx3cgHM6PeenYUTTs+Ll8PyMbcrJy
+         Jw+NmYdbalB6F+IAf0PUaIUlSBBPGXxZbCniV2/ZgfgE59sRdv5QIK0mFqnpbOlAEWxU
+         JF97EGT5dSj/2DR6llnNSvmc6CCNkb69DaXpDQOae+k9jn0DpBclfQGZzDMN2julZtIX
+         KxsvsAclkWFQf3DDy8JdpgYjQ1cZk2oDQ38VRyWj4nMQ8YdYrGjwNKhd1PyURoPcUoBE
+         uxkZ+4hH7eKjhkr+o3VB41toH5E1HA/x1/W0e8ins5vFPUTuD+kXTx3YOPtH+zLcDQve
+         eVtQ==
+X-Gm-Message-State: AOJu0YwYoxNZUoXYFfSflKoHV3ejncy4x5uw0bu/FDlo/YKfAjblhq+b
+	Fr4QTrxG0+YfmtGyl5ezqJnSfj1NWpBnTbh7ss7pb5n/m9KsvFqsBudtD44lneN0tLTOSPCzbBK
+	klL4H0nD79BDGPsujfLoo/hKTP8HFrjwqgOoDtz0T3ZCVUciawdyKYGc=
+X-Gm-Gg: AR+sD10bnsmQiNM8M5fABppcSEaP/O4GsdazZs9mauAqSlEqIm71QMAOQKnqvLgx/ky
+	hlWxmOBQzeZEQzpKHmXjs2/GAkdIH4SCTCVLENFcBAvqrmWS1XpbNgzFL3hkLbkyn3+PYrVyTZg
+	W/Rr3WgR5qElivZ+Ch1wErefHgHU20IN/8nLHMj3PaEcbp14SDxRmyocKOSmQu5j+ANxyQ9+0Cu
+	mBauP0o86vjwGVR/zGYiS8hYv6sXeXC+VhbP9woJOo+Opcs607m/polTS2TmFPgzvoQuJGN9Rr7
+	zGnz6GS8holOVYSQ
+X-Received: by 2002:a17:907:a4a:b0:c1c:2c92:fd60 with SMTP id
+ a640c23a62f3a-c1c5074a669mr6284366b.13.1784747372127; Wed, 22 Jul 2026
+ 12:09:32 -0700 (PDT)
+MIME-Version: 1.0
+From: Phil Bascom <phil@plasticlabs.ai>
+Date: Wed, 22 Jul 2026 15:09:19 -0400
+X-Gm-Features: AUfX_mx4b7_2y0AD1XEoSxPLxYVYxLrP3ufAR7olhXGxbOdyHTPCb_YKB-3H20g
+Message-ID: <CAN6c49R8DDvtOzkUPhsG2zt96ce=LF1t1fkRTj7VP3=SDt2b9w@mail.gmail.com>
+Subject: philset: formalize "CLAUDE.md as architecture doc" signpost flag
+To: me@philbas.com
+Content-Type: multipart/alternative; boundary="000000000000213a66065737e1d6"
+
+--000000000000213a66065737e1d6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Note to self =E2=80=94 for a future philset design session.
+
+## The pattern
+Company repos (all of plastic-labs, and probably beyond) ship their own
+CLAUDE.md that already documents architecture. Maintaining a separate
+.meta/logical-architecture.md alongside it is redundant and drifts. So:
+in projects configured for it, treat CLAUDE.md AS the architecture doc =E2=
+=80=94
+/hello should NOT offer to generate logical-architecture.md, and when
+architecture changes during a session, the update target is CLAUDE.md.
+
+## Proposed signpost flag
+- `architecture-doc: CLAUDE.md` (path, relative to project root) =E2=80=94 =
+names
+the file that IS the architecture doc. When set:
+* /hello skips the logical-architecture.md generate/maintenance offer
+* architecture-change tracking points here instead
+* default (unset) preserves today's behavior (.meta/logical-architecture.md=
+)
+- Consider whether the existing boolean `architecture:` flag should be
+folded into this (e.g. `architecture: false` | `true` | `<path>`), or
+kept separate. Separate is cleaner to reason about; overloading is fewer
+flags. Design call.
+
+Inherited down the tree (set once at a domain level, applies to all
+projects under it) =E2=80=94 hunch is one line at plastic-labs covers every=
+ repo.
+
+## Stopgap already on this machine (so the library update won't surprise us=
+)
+In ~/Development/plastic-labs/.meta/signpost.yml I added:
+architecture: false # understood today; suppresses the logical-arch offer
+architecture-doc: CLAUDE.md # additive/forward-compat; inert until philset
+formalizes it
+`architecture-doc` is an unknown flag to the current library, so it's
+inert (ignored) =E2=80=94 nothing breaks. `architecture: false` is already
+understood and does the suppression today. When the library learns
+`architecture-doc`, this config should Just Work without edits.
+
+## Design-session checklist
+- [ ] Canonical flag shape: separate `architecture-doc` vs. overloaded
+`architecture`
+- [ ] /hello step 4 changes (skip offer, maybe surface "arch doc:
+CLAUDE.md" in summary)
+- [ ] Where does /review's architecture dimension read from when this is
+set?
+- [ ] Does "track architecture changes" mean /hello nudges when code
+structure
+drifts from CLAUDE.md? (parallels the current logical-architecture.md
+staleness check in step 4)
+- [ ] Backward-compat: unset flag =3D=3D current behavior; verify no machin=
+e
+breaks
+
+Captured 2026-07-22 during a groudon session.
+
+--000000000000213a66065737e1d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div dir=3D"auto">Note to self =E2=80=94 for a future=
+ philset design session.<br><br>## The pattern<br>Company repos (all of pla=
+stic-labs, and probably beyond) ship their own<br>CLAUDE.md that already do=
+cuments architecture. Maintaining a separate<br>.meta/logical-architecture.=
+md alongside it is redundant and drifts. So:<br>in projects configured for =
+it, treat CLAUDE.md AS the architecture doc =E2=80=94<br>/hello should NOT =
+offer to generate logical-architecture.md, and when<br>architecture changes=
+ during a session, the update target is CLAUDE.md.<br><br>## Proposed signp=
+ost flag<br>- `architecture-doc: CLAUDE.md` (path, relative to project root=
+) =E2=80=94 names<br>  the file that IS the architecture doc. When set:<br>=
+    * /hello skips the logical-architecture.md generate/maintenance offer<b=
+r>    * architecture-change tracking points here instead<br>    * default (=
+unset) preserves today&#39;s behavior (.meta/logical-architecture.md)<br>- =
+Consider whether the existing boolean `architecture:` flag should be<br>  f=
+olded into this (e.g. `architecture: false` | `true` | `&lt;path&gt;`), or<=
+br>  kept separate. Separate is cleaner to reason about; overloading is few=
+er<br>  flags. Design call.<br><br>Inherited down the tree (set once at a d=
+omain level, applies to all<br>projects under it) =E2=80=94 hunch is one li=
+ne at plastic-labs covers every repo.<br><br>## Stopgap already on this mac=
+hine (so the library update won&#39;t surprise us)<br>In ~/Development/plas=
+tic-labs/.meta/signpost.yml I added:<br>    architecture: false        # un=
+derstood today; suppresses the logical-arch offer<br>    architecture-doc: =
+CLAUDE.md # additive/forward-compat; inert until philset formalizes it<br>`=
+architecture-doc` is an unknown flag to the current library, so it&#39;s<br=
+>inert (ignored) =E2=80=94 nothing breaks. `architecture: false` is already=
+<br>understood and does the suppression today. When the library learns<br>`=
+architecture-doc`, this config should Just Work without edits.<br><br>## De=
+sign-session checklist<br>- [ ] Canonical flag shape: separate `architectur=
+e-doc` vs. overloaded `architecture`<br>- [ ] /hello step 4 changes (skip o=
+ffer, maybe surface &quot;arch doc: CLAUDE.md&quot; in summary)<br>- [ ] Wh=
+ere does /review&#39;s architecture dimension read from when this is set?<b=
+r>- [ ] Does &quot;track architecture changes&quot; mean /hello nudges when=
+ code structure<br>      drifts from CLAUDE.md? (parallels the current logi=
+cal-architecture.md<br>      staleness check in step 4)<br>- [ ] Backward-c=
+ompat: unset flag =3D=3D current behavior; verify no machine breaks<br><br>=
+Captured 2026-07-22 during a groudon session.</div></div></div>
+
+--000000000000213a66065737e1d6--

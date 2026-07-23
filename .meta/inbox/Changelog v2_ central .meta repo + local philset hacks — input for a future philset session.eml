@@ -1,0 +1,276 @@
+Delivered-To: me@philbas.com
+Received: by 2002:aa6:c78a:0:b0:33d:be39:e0f1 with SMTP id u10csp2073658lkq;
+        Tue, 21 Jul 2026 05:17:01 -0700 (PDT)
+X-Received: by 2002:a17:907:841:b0:c16:66dc:3abe with SMTP id a640c23a62f3a-c16b46fe83dmr764099266b.28.1784636221221;
+        Tue, 21 Jul 2026 05:17:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1784636221; cv=pass;
+        d=google.com; s=arc-20260327;
+        b=IWObLwboEu6Pd3lH7uP1F6QMxexcKyhc6sL6La7DZT4xLQFVwIDqeT+gaJybeDP1Jg
+         Xu23K3iN3PEjRftZaICNdS7reKCWdI6WPzv01hQc05LBrcWJH+5agUAwomBcgVAwC7pC
+         H5PwJ0HQ1wU9JNKmXqpaF54+nzf4Bw29L/LgOk0sKlfPPpZeFbSYPpVMPf2v6psB0D7K
+         LwD7J5dyE6qlO+zF9VTxDQytF4LLdA9OnzmqTW97C+hOlxfmaNlNTg+C6GBbLULH2Id9
+         csNQtcBw9BHJqneA00GNw8ecE7zm2uwXHM54CavqiGQenvPM20oMiLtT5Rs/g/xyue9u
+         Lb4A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=KMEjwvdNRSxWlY50veZ3gYGVUOn6FVDem9V2/QGQjOY=;
+        fh=2gLdfJGmA/d0aiApaARFqZo3DnIPylAaBjIsT0OItRI=;
+        b=Gu3PsSaY7cdJRmh/Ku6gEfFB/yIyFtiizCOjnsYWOmnSi9W4BCVUYBJirVj+twGZBw
+         z91RMJ1QcscYPfVOFw8ygZDLhwP2OkqbD1KMVw87P3ILJaJIF5Z5cnXptUnEbylzIjtR
+         Oyd8qHnABFc5gp0T5Ydd+GnAx1VZdqDYEQHxHhThQx4VEiyl3rp8mBGDu1DhcmuUO+/H
+         Gig8IRZcDy0DYBr6fzg8Hb947lY/L+dsLf5lUBTaGYAaoQVZ169dTEvLC5hdlMigIkwp
+         kCcW4Nqzig74urrCa2aoDywhYxtO3PhUS4R99Oz8flwrt8MCghtaUHI+9tlKc630lRJg
+         0W7g==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@plasticlabs-ai.20251104.gappssmtp.com header.s=20251104 header.b=fKB4GIGn;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) smtp.mailfrom=phil@plasticlabs.ai;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=plasticlabs.ai;
+       dara=neutral header.i=@philbas.com
+Return-Path: <phil@plasticlabs.ai>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id a640c23a62f3a-c1712a41ae9sor256334866b.16.2026.07.21.05.17.01
+        for <me@philbas.com>
+        (Google Transport Security);
+        Tue, 21 Jul 2026 05:17:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plasticlabs-ai.20251104.gappssmtp.com header.s=20251104 header.b=fKB4GIGn;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of phil@plasticlabs.ai designates 209.85.220.41 as permitted sender) smtp.mailfrom=phil@plasticlabs.ai;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=plasticlabs.ai;
+       dara=neutral header.i=@philbas.com
+ARC-Seal: i=1; a=rsa-sha256; t=1784636221; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NB8/6EURrITCRjKRpc7GMo5dXPr2L0SHJFNXhP6prhLfKz2qby0lLgvEF+T9mHq8ud
+         /KNnmbNTDpS/qEzYIYLdEl6UWVcki2MzQ5r/HYRt41OjBtv2gg7a1+OXWYcEX92lbRps
+         z0SfIXxKEHTV6UgRjQajAvPzg3a1NPovVWm6opxagk7H1awhqjBWk13yb60GtQWH29tO
+         FLGbHfTApv8p6rlf3Irg11Rn1RTyPBQpT6Ro7xve+nVNzR0liTywsi6HRVRwsyWr1/8y
+         3FXpsBTZ2rDhVzb8uvUcRp5AHf3YB+TnSvsBIgTcHfspijaIpxTpMlkoqd2uRR0xP6x+
+         VIAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=KMEjwvdNRSxWlY50veZ3gYGVUOn6FVDem9V2/QGQjOY=;
+        fh=2gLdfJGmA/d0aiApaARFqZo3DnIPylAaBjIsT0OItRI=;
+        b=e1ZQP3+9m9BB2BpPwLpqxzpCnASs4shOK85/+GfWtHol1mDNhx1JAGtxyhYHplV5tM
+         560sa1vTov4VmklYUhSuq/ekaZHvlo8CsSEvXJVod1NNE1VyqOMrIbvqfhjB/gkFH2Z6
+         p69ceAbwOt2eFc5VqErJVmkFBFsjC1hUIJqGoVXa8r5UlelPoBrIc0NXatX0Egy5WYec
+         Jd8Phm+bG23uysST+lQcD32kJTXsq1pCMYdBAGD875TbKHkU1UI6+R5gH50vPEwz9eiv
+         QFqh/5Cw6QFq15bwI77aTGchGSdhnmDw+wtXfzJLg0vxr0PhpmLE3RSlVzec5UxGn7wk
+         PvDQ==;
+        darn=philbas.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=plasticlabs-ai.20251104.gappssmtp.com; s=20251104; t=1784636221; x=1785241021; darn=philbas.com;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=KMEjwvdNRSxWlY50veZ3gYGVUOn6FVDem9V2/QGQjOY=;
+        b=fKB4GIGnKVDN7Afmz60eSulH/G1elJoE3ohyXgCocIJIF/6uaFFMfijR2mGiieMzht
+         aHvAUYwhW8h3xKYSRRBfQEW3CZA7ZiGDctnHNXvZalbd+HEosKYWE/C6DLNYo7pJEG+U
+         LZIk89AFhwlhrzhV+uPHkV1nPMc0NPituEb4NTjeVYuCMngnd0DI6nY2RGfibsFVote4
+         4W+JcvDnUocqQSV3GUCifDiOqLXA41SSRrr1/jLLdVq1iM/q5PNrszog4WZrMAFDbyP4
+         LGP28Q1GuheHqjLGVzdUxa7H0U5bQGUF8nlqwuSJX5NIPIQj74o7EGMKrcsc+Q/XZB+R
+         KfuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784636221; x=1785241021;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KMEjwvdNRSxWlY50veZ3gYGVUOn6FVDem9V2/QGQjOY=;
+        b=tEKrdNQ29pHidA7FjjCSp2aCIfmxiDIJSSTKs/NmX3kBHyjuYaEVZoxf/KldgK28BF
+         kK0bDNSck+YejnoxfW/Qgbk3YclPHgOAYlcHw5V6IJwfB5X5Ik0ZNL3GauXXMng8DHlq
+         EhQyapkwkiImqahLUdTgXDTqdGQGlCgkRdb0bQQtHHCsdaN7uIeWp4ks4bcGR6HrdbQH
+         uxQRKFR/Ewa0gDwd5F7CHWu8PT1S0mNPHPomRG+NuiTSZvYbmUMe9oUTi+gzbRyL2Sjp
+         tPp2l1Jy8Ow/42mSmb3M3cEX5ja6k3utzCTxjloAwZ4OcAA5rmXVfB9iTaAyMraicJD0
+         W+sw==
+X-Gm-Message-State: AOJu0YwVb7jUFA9F79g0q672dpmdIOT2QK5adh7KPFv/WxPP2Rmnw7GM
+	AjvFx8Yv/X0bCh3C7kXFEgWWK4LHn1xIljhEW/Iw6/YP2YwQBAeGw1jGztDJSFcjo3FgHMzYKBN
+	/zDC9wqBZ9DPl7J8SSLY1DOtemtRD76xCXw468J5TC7IGMt1anwW/aB9b9A==
+X-Gm-Gg: AR+sD13YXdjWTa8Hu9ejS6JEIBypWiENDDbw4CefqI+3Yj9Kh8e0A6TBlfNX9GScMK7
+	h/NA2pvrcTlXLuf6ehIMz8vXFlpy7GscGwr4a1ZrVoTUOpofwWzzuwNcYYkMzjA9DT/L9D0dPmu
+	3VAw8pu6E2/FthVfpMtmNnc/BjdbWhPpHb/RJKeoDA8J4Ap9xjvhkHKNTriGP5I3dsvIhaPlZfc
+	yKiinzTbSaYwX2CZCJEY3GcmxteLb9j830CU6h13KDjZMjnRlE1FxutkO22I9us3aXSJxagFIZg
+	W4p3vSqwhMPn5Y14
+X-Received: by 2002:a17:907:8745:b0:c1c:2b61:b9e6 with SMTP id
+ a640c23a62f3a-c1c2b61ba46mr19655966b.34.1784636220497; Tue, 21 Jul 2026
+ 05:17:00 -0700 (PDT)
+MIME-Version: 1.0
+From: Phil Bascom <phil@plasticlabs.ai>
+Date: Tue, 21 Jul 2026 08:16:49 -0400
+X-Gm-Features: AUfX_myyEi9xsRzpfiL2ojNrBsTkBs4Sr5q-rB2jgAEY2BveOKC5BBTEFYZUrto
+Message-ID: <CAN6c49R=iue8dWBx0Uvv-JA0Py_2eMLLbSstQ33egkYUGgYWkw@mail.gmail.com>
+Subject: =?UTF-8?Q?Changelog_v2=3A_central_=2Emeta_repo_=2B_local_philset_hac?=
+	=?UTF-8?Q?ks_=E2=80=94_input_for_a_future_philset_session?=
+To: me@philbas.com
+Content-Type: multipart/alternative; boundary="000000000000f9f26c06571dff38"
+
+--000000000000f9f26c06571dff38
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Phil =E2=80=94
+
+Supersedes the earlier "Changelog: central .meta repo" draft (that one said
+the philset behaviors were deferred/not-done; they're now implemented
+locally). Delete the earlier draft. This is the handoff for a future
+philset dev session to port these into the library cleanly.
+
+=3D=3D=3D PART 1: WHAT SHIPPED (concrete setup) =3D=3D=3D
+- New private repo
+https://www.google.com/url?q=3Dhttp://github.com/plastic-labs/phil-meta-con=
+text&source=3Dgmail&ust=3D1784722409381000&sa=3DE
+(plastic-labs org, PRIVATE, team-visible). One repo versions ALL .meta
+state across ~/Development.
+- Mechanism =3D symlink farm: central repo owns the real .meta files
+(mirrored by path relative to $HOME); each project's .meta is an absolute
+symlink into it. Editing through the link IS editing central, so a session
+commits meta in one place; company repos keep excluding .meta
+(private-meta).
+- Migrated + symlinked: ~/Development/.meta,
+~/Development/plastic-labs/.meta, ~/Development/onboarding/.meta (dropped
+the old 0-commit .git at root .meta).
+- .gitignore: **/.DS_Store + inbox binaries. Verified read-through; pushed.
+
+WHY THIS SHAPE (verified, not assumed):
+- One repo rooted at ~/Development, gitignore-all-but-.meta -> FAILS
+SILENTLY. Git treats an embedded .git as a hard boundary, so an outer repo
+can't track .meta inside cloned company repos (`git add company/.meta/x`
+exits 0, stages nothing).
+- Bare-repo / dotfiles trick (--work-tree=3D$HOME) -> same wall.
+- Inverting ownership (central outside the tree, projects symlink in)
+sidesteps it.
+
+=3D=3D=3D PART 2: LOCAL PHILSET HACKS (now IMPLEMENTED on this machine) =3D=
+=3D=3D
+Implemented in the on-machine install (philset v0.3.0) as LOCAL HACKS. All
+marked with "[LOCAL HACK - central-meta-repo]" comments. philset install is
+not a git repo, so these persist until `npm update philset` =E2=80=94 hence=
+:
+reimplement in the library before the next release.
+
+1. philset private -> auto-adopt. bin/philset.js:
+- New const CENTRAL_DIR =3D process.env.PHILSET_CENTRAL ||
+~/phil-meta-context.
+- ensureCentralRepo(): git-inits central + writes .gitignore on first use.
+- adoptMeta(cwd): computes target =3D CENTRAL/<cwd-rel-to-$HOME>/.meta; cas=
+es:
+already-symlink-into-central -> no-op
+central has state, local missing -> relink (re-clone / new machine)
+real local .meta, central absent -> move into central + drop nested .git +
+symlink back
+BOTH real-local AND central exist -> CONFLICT, print + exit 1 (no
+auto-merge; your "prompt-and-manual" call)
+- Wired into cmdBegin under options.private, called BOTH pre-scaffold
+(relink a re-clone before we'd scaffold over it) and post-scaffold (move a
+freshly-scaffolded .meta in). Idempotent.
+- Help text updated.
+
+2. /ttyl central-commit. skills/ttyl/skill.md new "Step 6.5": after all
+.meta writes, `cd ~/phil-meta-context && git add -A && git commit && git
+push` (one commit =3D all projects). Skips if no central repo / nothing
+staged. Notes the plastic-labs PR-ruleset bypass is expected.
+
+3. /hello relink health-check. skills/hello/skill.md new "Step 1.5": during
+the tree walk, detect dangling .meta symlinks or
+missing-but-central-has-state (re-clone), offer to relink. Quiet when
+healthy.
+
+Propagation: edited package sources under
+/opt/homebrew/lib/node_modules/philset, then `philset update` to copy
+skills into ~/.claude/skills.
+
+VERIFICATION: adoptMeta tested in a sandboxed HOME (stub claude, throwaway
+central) across all 5 cases =E2=80=94 fresh adopt, idempotent re-run, re-cl=
+one
+relink, fresh-scaffold adopt, both-exist conflict (exit 1, nothing moved).
+All pass. Real machine state re-checked healthy afterward.
+
+=3D=3D=3D PORTING NOTES FOR THE LIBRARY =3D=3D=3D
+- Make the central location a signpost field (e.g. central-meta:
+~/phil-meta-context) rather than a hardcoded const/env; inherit down the
+tree.
+- Gate /ttyl Step 6.5 and /hello Step 1.5 on that flag so philset with no
+central repo is unaffected (keep the no-dependency floor).
+- Consider sharing adoptMeta's relink path between `philset private` and
+/hello rather than duplicating logic.
+- Decide push policy: /ttyl auto-push vs local-commit-only (org PR-ruleset
+bypass is currently accepted for the personal repo).
+
+Design doc: ~/Development/.meta/designs/central-meta-repo.md (accepted).
+Session log: root .meta/decisions.md (2026-07-21 entries).
+
+=E2=80=94 Claude
+
+--000000000000f9f26c06571dff38
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div dir=3D"auto">Phil =E2=80=94<br><br>Supersedes th=
+e earlier &quot;Changelog: central .meta repo&quot; draft (that one said th=
+e philset behaviors were deferred/not-done; they&#39;re now implemented loc=
+ally). Delete the earlier draft. This is the handoff for a future philset d=
+ev session to port these into the library cleanly.<br><br>=3D=3D=3D PART 1:=
+ WHAT SHIPPED (concrete setup) =3D=3D=3D<br>- New private repo <a href=3D"h=
+ttps://www.google.com/url?q=3Dhttp://github.com/plastic-labs/phil-meta-cont=
+ext&amp;source=3Dgmail&amp;ust=3D1784722409381000&amp;sa=3DE" target=3D"_bl=
+ank">https://www.google.com/url?q=3Dhttp://github.com/plastic-labs/phil-met=
+a-context&amp;source=3Dgmail&amp;ust=3D1784722409381000&amp;sa=3DE</a> (pla=
+stic-labs org, PRIVATE, team-visible). One repo versions ALL .meta state ac=
+ross ~/Development.<br>- Mechanism =3D symlink farm: central repo owns the =
+real .meta files (mirrored by path relative to $HOME); each project&#39;s .=
+meta is an absolute symlink into it. Editing through the link IS editing ce=
+ntral, so a session commits meta in one place; company repos keep excluding=
+ .meta (private-meta).<br>- Migrated + symlinked: ~/Development/.meta, ~/De=
+velopment/plastic-labs/.meta, ~/Development/onboarding/.meta (dropped the o=
+ld 0-commit .git at root .meta).<br>- .gitignore: **/.DS_Store + inbox bina=
+ries. Verified read-through; pushed.<br><br>WHY THIS SHAPE (verified, not a=
+ssumed):<br>- One repo rooted at ~/Development, gitignore-all-but-.meta -&g=
+t; FAILS SILENTLY. Git treats an embedded .git as a hard boundary, so an ou=
+ter repo can&#39;t track .meta inside cloned company repos (`git add compan=
+y/.meta/x` exits 0, stages nothing).<br>- Bare-repo / dotfiles trick (--wor=
+k-tree=3D$HOME) -&gt; same wall.<br>- Inverting ownership (central outside =
+the tree, projects symlink in) sidesteps it.<br><br>=3D=3D=3D PART 2: LOCAL=
+ PHILSET HACKS (now IMPLEMENTED on this machine) =3D=3D=3D<br>Implemented i=
+n the on-machine install (philset v0.3.0) as LOCAL HACKS. All marked with &=
+quot;[LOCAL HACK - central-meta-repo]&quot; comments. philset install is no=
+t a git repo, so these persist until `npm update philset` =E2=80=94 hence: =
+reimplement in the library before the next release.<br><br>1. philset priva=
+te -&gt; auto-adopt. bin/philset.js:<br>   - New const CENTRAL_DIR =3D proc=
+ess.env.PHILSET_CENTRAL || ~/phil-meta-context.<br>   - ensureCentralRepo()=
+: git-inits central + writes .gitignore on first use.<br>   - adoptMeta(cwd=
+): computes target =3D CENTRAL/&lt;cwd-rel-to-$HOME&gt;/.meta; cases:<br>  =
+     already-symlink-into-central -&gt; no-op<br>       central has state, =
+local missing -&gt; relink (re-clone / new machine)<br>       real local .m=
+eta, central absent -&gt; move into central + drop nested .git + symlink ba=
+ck<br>       BOTH real-local AND central exist -&gt; CONFLICT, print + exit=
+ 1 (no auto-merge; your &quot;prompt-and-manual&quot; call)<br>   - Wired i=
+nto cmdBegin under options.private, called BOTH pre-scaffold (relink a re-c=
+lone before we&#39;d scaffold over it) and post-scaffold (move a freshly-sc=
+affolded .meta in). Idempotent.<br>   - Help text updated.<br><br>2. /ttyl =
+central-commit. skills/ttyl/skill.md new &quot;Step 6.5&quot;: after all .m=
+eta writes, `cd ~/phil-meta-context &amp;&amp; git add -A &amp;&amp; git co=
+mmit &amp;&amp; git push` (one commit =3D all projects). Skips if no centra=
+l repo / nothing staged. Notes the plastic-labs PR-ruleset bypass is expect=
+ed.<br><br>3. /hello relink health-check. skills/hello/skill.md new &quot;S=
+tep 1.5&quot;: during the tree walk, detect dangling .meta symlinks or miss=
+ing-but-central-has-state (re-clone), offer to relink. Quiet when healthy.<=
+br><br>Propagation: edited package sources under /opt/homebrew/lib/node_mod=
+ules/philset, then `philset update` to copy skills into ~/.claude/skills.<b=
+r><br>VERIFICATION: adoptMeta tested in a sandboxed HOME (stub claude, thro=
+waway central) across all 5 cases =E2=80=94 fresh adopt, idempotent re-run,=
+ re-clone relink, fresh-scaffold adopt, both-exist conflict (exit 1, nothin=
+g moved). All pass. Real machine state re-checked healthy afterward.<br><br=
+>=3D=3D=3D PORTING NOTES FOR THE LIBRARY =3D=3D=3D<br>- Make the central lo=
+cation a signpost field (e.g. central-meta: ~/phil-meta-context) rather tha=
+n a hardcoded const/env; inherit down the tree.<br>- Gate /ttyl Step 6.5 an=
+d /hello Step 1.5 on that flag so philset with no central repo is unaffecte=
+d (keep the no-dependency floor).<br>- Consider sharing adoptMeta&#39;s rel=
+ink path between `philset private` and /hello rather than duplicating logic=
+.<br>- Decide push policy: /ttyl auto-push vs local-commit-only (org PR-rul=
+eset bypass is currently accepted for the personal repo).<br><br>Design doc=
+: ~/Development/.meta/designs/central-meta-repo.md (accepted). Session log:=
+ root .meta/decisions.md (2026-07-21 entries).<br><br>=E2=80=94 Claude<br><=
+/div></div></div>
+
+--000000000000f9f26c06571dff38--

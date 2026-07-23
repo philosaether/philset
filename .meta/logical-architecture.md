@@ -49,9 +49,11 @@ philset/
 │   └── archival.md
 ├── scripts/              # Dev-only tooling, excluded from the npm package
 │   └── dev-link.js       # `npm run link` — symlink skills+refs into place (dev live-edit)
+├── test/                 # Sandboxed tests (dev-only, excluded from the npm package)
+│   └── adopt.test.js     # `npm test` — pins the five `philset adopt` cases (throwaway $HOME)
 ├── assets/               # Static assets (XKCD image for README)
 ├── .meta/                # This project's own working state
-├── package.json          # v0.2.3, zero dependencies, Node builtins only
+├── package.json          # v0.3.x, zero dependencies, Node builtins only; scripts: link (dev), test
 ├── CLAUDE.md             # Project-specific instructions
 └── README.md             # User-facing documentation
 ```
@@ -65,12 +67,13 @@ Single executable, no dependencies. Commands:
 | `init` | One-time setup: root signpost, references, global skills |
 | `begin [--dsp] [--private]` | Scaffold .meta/ + CLAUDE.md, launch Claude Code |
 | `dsp` | Shorthand for `begin --dsp` |
-| `private [--dsp]` | Shorthand for `begin --private`: ignore .meta/ locally (shared repo) |
+| `private [--dsp]` | Shorthand for `begin --private`: ignore .meta/ locally (shared repo); with `central-meta` configured, also adopts/relinks .meta into the central repo (pre- and post-scaffold) |
+| `adopt` | Adopt/relink this project's .meta into the central repo (`central-meta:` signpost field or `PHILSET_CENTRAL`); no-op when adopted, stop-and-ask on a local↔central conflict. Shared entry point for `/hello`/`/hey` relink offers |
 | `update` | Update global skills and references from package |
 | `sync [--remove]` | Copy global skills to project-local .claude/skills/ |
 | `help` | Usage summary |
 
-Key utilities: `findRoot()` (tree walk), `diffReport()` (compare dirs), `copyDirRecursive()`, `enablePrivateMeta()` (signpost flag + `.git/info/exclude`).
+Key utilities: `findRoot()` (tree walk), `findSignpostField()` (inherited signpost value, closest wins), `resolveCentral()` (env → signpost → off), `ensureCentralRepo()` (first-use init), `adoptMeta()` (five-case adopt/relink), `ensureMetaExcluded()` (symlink-safe `/.meta` exclude), `diffReport()` (compare dirs), `copyDirRecursive()`, `enablePrivateMeta()` (signpost flag + `.git/info/exclude`).
 
 ## Skills Pipeline
 

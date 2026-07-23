@@ -40,7 +40,9 @@ Capture two things before researching anything:
   common observability metrics`, `/skim major players in the Lithuanian political
   scene`). Unlike `/study`, there need not be a pre-given source — `/skim` will do the
   research to build the item set (Step 2). If the domain already ships as a list (an
-  existing decoder ring), note it for ingest.
+  existing decoder ring), note it for ingest. If the project's roadmap carries a
+  **deferred skim-list** item (`/defer`'s skim-list destination), offer its topics
+  as the domain — and remove what you take from the heap.
 - **Goal** — free text: *why* we're skimming ("recognize these in conversation,"
   "scout which parts deserve a deep dive," "literacy before the meetup"). The goal
   frames how tight the recognition bar is.
@@ -80,14 +82,18 @@ groups, let the learner adjust.* Then, per batch:
    Cover **what it is, what it's like, how it differs** — but *not* to the metal.
 2. **Learner reads and reacts.** Keep their voice; annotations/notes go in **bullet
    lists** (typing into IDE table cells is awkward — reserve tables for the summary).
-3. **Quiz the batch** — one targeted question per item, posted **after** the
+3. **Feedback round (optional)** — when the learner's notes carry questions
+   ("what's multi-tenancy here?"), answer them in a second pass of inline comments,
+   before or alongside the quiz. Questions deserve answers, not just a score.
+   (Mirrors `/study`'s annotate→comment move.)
+4. **Quiz the batch** — one targeted question per item, posted **after** the
    paragraphs (never pre-staged). Forms: *identify* ("what's OpenSpec, one sentence?"),
    *place* ("where does philset sit relative to it?"), *distinguish confusables*
    ("Hermes model vs. Hermes Agent?"), *cold-recall a cluster* ("name three memory
    vendors"). **Never** "walk me through MCP's stateless core" — that's a `/study`
    stage.
-4. **Learner answers inline** — in bullets beneath each question, raw answers preserved.
-5. **Score + note + next batch** — score the active-recall answers, note anything
+5. **Learner answers inline** — in bullets beneath each question, raw answers preserved.
+6. **Score + note + next batch** — score the active-recall answers, note anything
    shaky, move to the next batch of ~5.
 
 ## Step 4: Final exam + summary

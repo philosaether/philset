@@ -57,6 +57,18 @@ Discover context by walking up from the current working directory:
 5. Merge inherited signpost flags (child overrides parent)
 6. At each level with a `.meta/`, note sibling directories for neighborhood awareness
 
+### Step 1.5: Relink health-check (only when `central-meta` is set)
+
+Local-fs checks only — no network. For each `.meta` encountered in the walk:
+
+- **Dangling symlink** (`.meta` is a symlink whose target is gone), or
+- **Missing but restorable** (no local `.meta`, but the central repo holds
+  state at `<central-meta>/<dir relative to $HOME>/.meta` — the re-clone case)
+
+→ offer to run `philset adopt` in that directory (it relinks; the five-case
+logic lives in the CLI, don't reimplement it here). Quiet when healthy —
+say nothing if all links resolve.
+
 **Read context outermost-first** (root → domain → project):
 - From the root `.meta/`: read `WORKFLOW.md` (user context)
 - From intermediate `.meta/` dirs: read context files (domain conventions),
@@ -85,6 +97,7 @@ note to `breadcrumbs.log` `## Notes`:
 | `hello.check` | `[]` | List of optional session-start checks `/hello` runs (Step 6.5): `calendar`, `connectors`, `updates` (inert). Empty = run none. Inherited down the tree. |
 | `calendar` | `false` | **Alias** for adding `calendar` to `hello.check` (back-compat). Surface today's calendar at session start (Google Calendar MCP). |
 | `private-meta` | `false` | Keep `.meta/` out of a shared repo's git (ignored locally via `.git/info/exclude`, invisible to teammates). Set by `philset private`. Inherited down the tree. |
+| `central-meta` | unset | Path to the central `.meta` state repo (symlink farm). Unset = feature off. When set: `philset private`/`philset adopt` adopt `.meta` into it, `/hello` Step 1.5 offers relinks, `/ttyl` Step 6.5 commits it once per session. Inherited down the tree. |
 
 When reading signpost.yml at each level, collect any `links` entries
 into a merged map (outermost-first, child overrides on key collision).
@@ -244,7 +257,10 @@ the entries present in the resolved list:
 When `calendar` is enabled and a Google Calendar MCP tool is available:
 
 1. Read **today + early next morning** in a single `list_events` call (window:
-   now → tomorrow ~10am — one API call, so session-start stays light). The
+   now → tomorrow ~noon — one API call, so session-start stays light). Pad the
+   upper bound generously: `list_events` treats `endTime` as *exclusive*, so a
+   tight cap silently drops a meeting starting exactly at it (a 10am cap once
+   hid a 10:00am final-round interview). The
    early-morning reach means an evening session warns about an early start the
    next day, instead of hiding it behind the day boundary.
 2. Surface them in the summary (Step 7): "2 meetings today (3pm mixer, 5pm warm
