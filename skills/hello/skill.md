@@ -244,7 +244,10 @@ the entries present in the resolved list:
 When `calendar` is enabled and a Google Calendar MCP tool is available:
 
 1. Read **today + early next morning** in a single `list_events` call (window:
-   now → tomorrow ~10am — one API call, so session-start stays light). The
+   now → tomorrow ~noon — one API call, so session-start stays light). Pad the
+   upper bound generously: `list_events` treats `endTime` as *exclusive*, so a
+   tight cap silently drops a meeting starting exactly at it (a 10am cap once
+   hid a 10:00am final-round interview). The
    early-morning reach means an evening session warns about an early start the
    next day, instead of hiding it behind the day boundary.
 2. Surface them in the summary (Step 7): "2 meetings today (3pm mixer, 5pm warm

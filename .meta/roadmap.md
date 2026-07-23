@@ -109,6 +109,31 @@ Serves both inflection floors. Cut the release when these four land.
 
 ## Tier 2 — v0.4 "the real multi-user fix" + strategic bridge
 
+- **Port central-meta-repo local hacks into the library** *(NEW 2026-07-22 —
+  first concrete slice of chunk 2; the work exists, port it before it dies)* —
+  The work laptop already *implemented* the central `.meta` repo model
+  (github.com/plastic-labs/phil-meta-context, private): central repo owns the
+  real `.meta` files mirrored by path relative to `$HOME`, each project's
+  `.meta` is a symlink into it, company repos never see `.meta`. Three philset
+  behaviors are live there as **local hacks in the npm install** (marked
+  `[LOCAL HACK - central-meta-repo]`), which **get wiped by the next
+  `npm update philset`** — hence the priority:
+  1. **`philset private` → auto-adopt** (`adoptMeta`: move/relink `.meta` into
+     central, idempotent, all 5 cases sandbox-tested; conflict = stop-and-ask).
+  2. **`/ttyl` central-commit** (Step 6.5: one commit in central per session
+     captures every project's meta changes).
+  3. **`/hello` relink health-check** (Step 1.5: dangling/missing `.meta`
+     symlinks → offer relink; makes re-clone/new-machine recovery one prompt).
+  Porting notes from the field: make the central location a **signpost field**
+  (e.g. `central-meta:`) instead of a hardcoded const; gate the new steps on it
+  (no central repo = unaffected, keep the no-dependency floor); share the
+  relink path between `philset private` and `/hello`; decide `/ttyl` push
+  policy. **This answers chunk 2's ttyl-commit "where does it land" question
+  with a reality-tested design** — one repo per session, not per project.
+  Design doc: `~/Development/.meta/designs/central-meta-repo.md` (accepted).
+  Backing inbox file: the "Changelog v2" email (2026-07-22).
+  Deferred from: plastic-labs work machine (2026-07-21, via email inbox).
+
 - **Chunk 2 — multi-user state model (the real fix)** — The #1 structural
   project; the full multi-user story `private-meta` only stopgaps. Thread-vs-project
   state partition, branch-based `.meta`, and where `/ttyl`'s commit lands so
@@ -161,6 +186,10 @@ Serves both inflection floors. Cut the release when these four land.
     `/triage`/`/ttyl`. First concrete value = cross-machine `/defer`.
   - **Stage 4** (horizon) — Praxis-as-orientation-GUI, time-aware nudges,
     why-layer→philset-agent-context, notebook↔inbox convergence.
+  - **PM-integration signpost flag** *(merged 2026-07-22 from todo)* — a flag
+    that has skills push status updates to an external PM/ticket system as work
+    progresses; Stage 3-adjacent (external ticket systems generalize the Praxis
+    leaf-sync). Deferred from: career/meta/heading-adjustment (2026-07-12).
   Praxis-side work (key endpoint, leaf upsert/pull, Rules agent-context) is
   cross-deferred to the praxis inbox.
   Designed: philset/feature/integrated-workflow-system (2026-07-01).
@@ -215,7 +244,19 @@ rest is staged here; all trace to the accepted design.
   distribution mechanism; `npm run link` stays dev-only), and the **work-laptop
   release** (Tier 1 — "install the plugin"). **Timing: after cutting v0.3, before
   rewriting the philbas.com copy.**
-  Deferred from: philset/feature/progressive-disclosure (2026-07-03).
+  **Cowork/marketplace confirmation (merged 2026-07-22 from todo):** Cowork has
+  a plugins marketplace — plugins bundle skills/slash-commands/sub-agents/
+  connectors; Anthropic ships a default "Knowledge Work" marketplace and
+  supports adding marketplaces from a GitHub repo; the same plugin skills run
+  across web/Desktop/Cowork (refs: anthropics/knowledge-work-plugins,
+  claude.com/blog/cowork-plugins). Cooperate-with-Anthropic play. **Open
+  question:** skills are the right primitive already, but the `.meta/` tree +
+  tree-walk context model likely needs adaptation for Cowork's environment.
+  Related: orientation-page copy currently assumes the npm install (ship as
+  plugin now vs. rewrite copy after — tradeoff lives in the philbas.com
+  orientation-page draft).
+  Deferred from: philset/feature/progressive-disclosure (2026-07-03) +
+  philbas.com/feature/philset-orientation-page (2026-07-03).
 
 - **Phase 3 — MCP enhancement layer** — stand up `mcp.philbas.com` as the opt-in
   top-of-ladder: the `updates` `hello.check` (pull-at-session-start, user-visible,
@@ -264,6 +305,40 @@ rest is staged here; all trace to the accepted design.
   file: `philset-mv.md` (full spec — context-aware directory move that rewrites
   references across the tree; `--dry-run` default, git-aware, path normalization).
 
+- **`/sprout` — organically extend a tree without disrupting it** *(consolidated
+  2026-07-22 from three scattered entries: todo item, Backlog "Sprout a domain
+  primitive", heading-adjustment "/sprout formalization")* — A skill for growing
+  a new layer of an existing tree structure in place: a new directory level in
+  the `.meta/` hierarchy, a new archetype in a family, a context cluster promoted
+  to its own domain. **Hand-performed three times** (study/ 2026-06-28,
+  plastic-labs 2026-07-06, wotr/social per heading-adjustment) — steps known:
+  detect promotion, create domain skeleton (`.meta/` with signpost/README/state
+  files), move state down, lift shared state up, sweep scattered docs in, move
+  owned sub-repos under (gitignored, history intact), seed `roadmap.md` from
+  deferrals, scaffold siblings, reconcile tree walk, leave pointers + decision
+  trail. Superset of chunk 5's `philset mv` (sprout = create-domain + mv +
+  seed-state). Also surfaced for archetype families ("tired of the same three
+  overrides → sprout a new noun").
+  Deferred from: pattern-language draft (Development/.meta, 2026-07-09) +
+  meta/interview-prep (2026-07-06) + heading-adjustment (2026-07-11).
+
+- **Formalize `/bet`** *(promoted 2026-07-22)* — Full specimen exists
+  (gaming/grim-dawn/.meta/bets/neris-line/ + designs/bet-prediction-system.md +
+  postvivem). Shape: `bets/<name>/` layout (evidence / domain-notes /
+  prediction-per-envelope / scoring / postvivem); two species (sealed-ante vs
+  futures — the inline chassis wager is the futures specimen); verbs
+  open/seal/reveal/settle; pre-registered predictions with confidences + Brier
+  calibration + Δ-between-rounds as the system grade; the postmark principle
+  (envelope exteriors fair game, contents sealed) pending ratification;
+  scoreboard braid (house vs disagreement bets) undesigned.
+  - **Sealed-path isolation as a first-class subagent parameter** *(backing
+    note, same run)* — the bet's orchestration problem was *isolation*, not
+    parallelism: research subagents provably unable to touch `.meta/ante/`.
+    Solved with web-only agents + explicit no-local-files instructions; the
+    formal treatment (per-agent path exclusions in skill/agent definitions)
+    belongs in the philset orchestration answer alongside fan-out patterns.
+  Deferred from: gaming/grim-dawn neris-line /bet run (2026-07-18).
+
 - **`/bounce` skill (single-session project switch)** — Runs ttyl-writes for the
   outgoing project + hello-reads for the incoming one in one move, without
   resetting conversation context. `/suspend`+`/restore` covers the multi-session
@@ -286,6 +361,55 @@ rest is staged here; all trace to the accepted design.
   `designs/configurable-review-dimensions.md` (the proving ground). The general
   per-skill-config convention (other skills, the `review.*` namespace pattern
   generalized) remains here.
+
+- **`architecture-doc` signpost flag — CLAUDE.md as the architecture doc**
+  *(promoted 2026-07-22 from email inbox)* — Company repos (all of
+  plastic-labs, probably beyond) ship a CLAUDE.md that already documents
+  architecture; a separate `.meta/logical-architecture.md` is redundant and
+  drifts. Flag names the file that IS the architecture doc (e.g.
+  `architecture-doc: CLAUDE.md`); when set, `/hello` skips the
+  logical-architecture offer and architecture-change tracking targets that file.
+  Inherited down the tree (one line at plastic-labs covers every repo).
+  **Stopgap already live on the work machine:** `architecture: false` (does the
+  suppression today) + inert forward-compat `architecture-doc: CLAUDE.md` in
+  `plastic-labs/.meta/signpost.yml` — when the library learns the flag, that
+  config should Just Work. Design checklist in the backing email: flag shape
+  (separate vs. overloading `architecture:` — separate is cleaner, overload is
+  fewer flags), `/hello` step-4 changes, where `/review`'s architecture
+  dimension reads from, staleness-nudge parallels, unset = current behavior.
+  Same family as signpost per-skill config (below).
+  Backing inbox file: the "formalize CLAUDE.md as architecture doc" email.
+  Deferred from: plastic-labs work machine (2026-07-22, via email inbox).
+
+- **`/postmortem` skill — formalize the incident-writeup improvisation**
+  *(promoted 2026-07-22)* — Capture a production incident as a structured
+  postmortem: symptom → root cause → fix → approaches-tried-and-rejected →
+  lessons → files changed. Improvised once (Praxis tutorial-hotfix 2026-04-19,
+  now at `praxis/.meta/postmortems/2026-04-19-tutorial-hotfix.md`). Cousin to
+  `/retro` (session friction) but aimed at *production* incidents; output is a
+  durable, citable incident doc. The specimen already has the section shape.
+  Deferred from: career/meta/heading-adjustment (2026-07-12, repo audit).
+
+- **`/clear-inbox` skill — normalize dropped files** *(promoted 2026-07-22)* —
+  Auto-rename inbox files to a consistent scheme (strip spaces, kebab-case,
+  maybe date-prefix) so screenshots, emails, and dropped references don't
+  collide or read as noise. Small, self-contained tooling.
+  Deferred from: career/meta/heading-adjustment (2026-07-12, repo audit).
+
+- **`/draft` Step 0 non-repo fallback** *(promoted 2026-07-22)* — In a non-repo
+  project there's no branch to check and no commit to serve as a seal.
+  Formalize the improvised fallback (SHA-256 content hash appended to
+  append-only `decisions.md` as the pre-registration seal) + add a git-init
+  nudge now that proactive commits are ratified (root WORKFLOW.md, 2026-07-18).
+  Deferred from: gaming/grim-dawn neris-line /bet run (2026-07-18).
+
+- **Name the consent-by-charter pattern** *(promoted 2026-07-22)* — What gates
+  `/ship` when the counterpart is autonomous: a standing document (bet.md's
+  blanket strategy freedom) authorizes a class of decisions, and the artifact
+  trail substitutes for the live mutual-consent loop (mid-run inline annotation
+  as the async consent channel). Where's the line? Deserves a written answer in
+  the philset docs; relates to the pattern language.
+  Deferred from: gaming/grim-dawn neris-line /bet run (2026-07-18).
 
 - **Roadmap-inbox association** — Link `.meta/inbox/` items to specific roadmap
   items so they stay connected but don't clutter `/hello` scans. **Doubly
@@ -376,14 +500,59 @@ rest is staged here; all trace to the accepted design.
 
 - **ultradraft mode** (cloud-based design iteration)
 - **Context compaction resilience testing**
-- **"Sprout a domain" primitive** — formalize the improvised move of promoting an
-  overgrown context cluster into its own domain directory + repo: create the
-  domain skeleton (`.meta/` with signpost/README/CLAUDE/state files), sweep
-  related docs out of wherever they scattered (project `.meta/`, the `study/`
-  domain, inbox), move any owned sub-repo under it (gitignored, history intact),
-  seed `roadmap.md` from deferrals, and leave pointers + an append-only decision
-  trail behind. Second time improvised (2026-07-06, the plastic-labs domain; the
-  `study/` domain creation 2026-06-28 was the first). Superset of **chunk 5's
-  `philset mv`** (which already scopes context-aware move + cross-tree reference
-  rewrite) — sprout = create-domain + mv + seed-state. Candidate: `/sprout`.
-  Deferred from: meta/interview-prep (2026-07-06, plastic-labs domain sprout).
+- **`/address` — the autonomous sibling to `/defer`** *(far-future; pre-draft
+  vision, promoted 2026-07-22)* — Where `/defer` parks ("this matters, not
+  now"), `/address` dispatches ("small enough to knock out on your own"):
+  originating session writes a task spec to the target repo, spawns a headless
+  session with self-shipping permissions, the dispatched session runs the
+  normal philset flow (the paper trail IS the autonomy), and a
+  `ratifications.md` queue holds autonomously-shipped changes for sign-off at
+  the next partnered session (`/hello` surfaces pending ratifications).
+  Open threads: bounding vs. the human-implements microethic; per-project vs.
+  root-tree queue; provenance chain back to the originating call; stuck/wrong
+  failure path (revert via the ratification gate); reuse `/ship`+`/review` or
+  its own headless review bar. **Cross-ref: the commit-convention signpost flag
+  (Tier 4)** — the git-autonomy toggle `/address` needs (`autonomy: self-ship`?)
+  is plausibly the same signpost surface; the skill and its enabling setting
+  may co-design.
+  Deferred from: career/main (2026-07-19).
+- **Archetype skill-behavior layer** *(merged 2026-07-22; gated on the pattern
+  language shipping + the `philset-archetypes/` repo existing)* — two pieces:
+  - **"Working with archetypes" gloss on `/draft` + `/ship`** — `/draft` from an
+    archetype renders the slot consent-block at the top of the delta-doc,
+    pre-seeds the outline from the slot list, blocks on required default-less
+    slots; `/ship` writes the archetype-version pin into frontmatter; archetype
+    files resolve from the runtime source (local `philset-archetypes/` clone →
+    else `mcp.philbas.com/archetypes`).
+  - **Placeholder-reference reconciliation** — on minting a new archetype, check
+    existing entries for placeholder references to it (Worker's `Composes`
+    naming "KV" pre-mint) and redirect to the new noun; a signpost flag on
+    `philset-archetypes` + an extra step in `/draft`/`/ship`/`/review`. The
+    forward-reference analogue of composition-by-rule (pattern-language.md §3).
+  Deferred from: pattern-language draft + philset-archetypes/feature/
+  trunk-archetypes (2026-07-09).
+
+## From heading-adjustment (2026-07-11) — un-tiered; sort at next philset session
+
+_(from: ~/Development/.meta/designs/heading-adjustment.md M3)_
+
+<!-- /skim skill — shipped 2026-07-13 (see archive/rearview.md); graduated off this list. -->
+
+- **OpenSpec integration exploration** — /skim OpenSpec first, then explore the "yes and":
+  an OpenSpec companion doc alongside the /draft design doc (spec = precision/density;
+  design doc = nuance, decision tracking, altitude flow). Assessment verdict: closest
+  lifecycle neighbor on the shelf (§2.2).
+- **Calendar writes in /defer** — date-carrying deferrals land on the calendar
+  (Google Calendar MCP), not just todo.md.
+- **Workday-vs-session cadence redesign** — context-window-management reframe: /hello opens
+  a workday, sessions reset within it; /ttyl robust to falling-asleep-mid-session
+  (retroactive tidy is the norm, not the exception). Chunk-2-adjacent.
+- **README/docs refresh — PROMOTED near-term** — six skills missing from tables; two
+  non-phil users exist. Bundle with: governance repositioning (decisions-as-provenance,
+  amend-without-supersede, defer/triage, /study, consent slots — the rare-on-shelf set per
+  ai-ecosystem-integration §2.2), marketplace/plugin listing, one mechanical-verification
+  hook for /review.
+<!-- /sprout formalization — consolidated 2026-07-22 into the Tier 3 /sprout item. -->
+- **Weekly-digest autogen** — compile the week's decisions/commits/design-diffs + metrics
+  (tokens, hours; product SLIs later) into the Tier-1 digest (heading D2). A skill or
+  /ttyl-adjacent script; feeds the social pipeline.

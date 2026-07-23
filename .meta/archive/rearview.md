@@ -57,3 +57,29 @@
   `meta/readme-updates` WIP (the heading-adjustment 2026-07-11 M3 dump), not on
   `main` — remove it from that branch's roadmap when the stash is restored.
   Completed: 2026-07-13 (feature/skim-skill).
+- **`/hey` + `/hello` minimal walk misses philset config at bare paths** — walk
+  instructions said "signpost.yml / root WORKFLOW.md" without naming `.meta/` as
+  their home; a fresh session checked bare paths and ran unconfigured. Fixed in
+  `/hey` (names `<dir>/.meta/signpost.yml` + `<root>/.meta/WORKFLOW.md`
+  explicitly); `/hello`'s walk already anchored `.meta/` and needed no change.
+  Reproduced live at this session's own `/hey` before fixing.
+  Completed: 2026-07-22 (meta/readme-updates, 3bc0840).
+- **`/hello` calendar window boundary-exclusive bug** — `list_events` treats
+  `endTime` as exclusive, so a next-morning meeting starting exactly at the
+  ~10am cap was silently dropped (cost a 10:00am final-round interview surfacing,
+  2026-07-06). Fixed: window padded to tomorrow ~noon + an explicit
+  exclusive-bound warning in the skill.
+  Completed: 2026-07-22 (meta/readme-updates).
+- **`/defer` → skim-list as a deferral target** — `/defer` now recognizes the
+  skim-list destination (append topics to a project's "deferred skim-list"
+  roadmap item) and `/skim` Step 1 offers to drain it. Specimen:
+  `study/.meta/roadmap.md`.
+  Completed: 2026-07-22 (meta/readme-updates).
+- **`/skim` feedback round** — optional second pass answering the learner's
+  inline notes/questions before/alongside the quiz, now Step 3.3 of the batch
+  loop (mirrors `/study`'s annotate→comment). Earned in the decoder-ring skim.
+  Completed: 2026-07-22 (meta/readme-updates).
+- **signpost.yml `extra-steps` field** *(discarded as duplicate)* — already
+  absorbed into the Tier 4 "Signpost per-skill config" roadmap item (merge noted
+  there since 2026-07-01); the todo copy was never cleaned. No new work.
+  Resolved: 2026-07-22.
