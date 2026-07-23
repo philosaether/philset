@@ -109,31 +109,6 @@ Serves both inflection floors. Cut the release when these four land.
 
 ## Tier 2 — v0.4 "the real multi-user fix" + strategic bridge
 
-- **Port central-meta-repo local hacks into the library** *(NEW 2026-07-22 —
-  first concrete slice of chunk 2; the work exists, port it before it dies)* —
-  The work laptop already *implemented* the central `.meta` repo model
-  (github.com/plastic-labs/phil-meta-context, private): central repo owns the
-  real `.meta` files mirrored by path relative to `$HOME`, each project's
-  `.meta` is a symlink into it, company repos never see `.meta`. Three philset
-  behaviors are live there as **local hacks in the npm install** (marked
-  `[LOCAL HACK - central-meta-repo]`), which **get wiped by the next
-  `npm update philset`** — hence the priority:
-  1. **`philset private` → auto-adopt** (`adoptMeta`: move/relink `.meta` into
-     central, idempotent, all 5 cases sandbox-tested; conflict = stop-and-ask).
-  2. **`/ttyl` central-commit** (Step 6.5: one commit in central per session
-     captures every project's meta changes).
-  3. **`/hello` relink health-check** (Step 1.5: dangling/missing `.meta`
-     symlinks → offer relink; makes re-clone/new-machine recovery one prompt).
-  Porting notes from the field: make the central location a **signpost field**
-  (e.g. `central-meta:`) instead of a hardcoded const; gate the new steps on it
-  (no central repo = unaffected, keep the no-dependency floor); share the
-  relink path between `philset private` and `/hello`; decide `/ttyl` push
-  policy. **This answers chunk 2's ttyl-commit "where does it land" question
-  with a reality-tested design** — one repo per session, not per project.
-  Design doc: `~/Development/.meta/designs/central-meta-repo.md` (accepted).
-  Backing inbox file: the "Changelog v2" email (2026-07-22).
-  Deferred from: plastic-labs work machine (2026-07-21, via email inbox).
-
 - **Chunk 2 — multi-user state model (the real fix)** — The #1 structural
   project; the full multi-user story `private-meta` only stopgaps. Thread-vs-project
   state partition, branch-based `.meta`, and where `/ttyl`'s commit lands so

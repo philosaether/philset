@@ -83,3 +83,14 @@
   absorbed into the Tier 4 "Signpost per-skill config" roadmap item (merge noted
   there since 2026-07-01); the todo copy was never cleaned. No new work.
   Resolved: 2026-07-22.
+- **Port central-meta-repo local hacks into the library** — the work machine's
+  central-`.meta`-repo behaviors, reimplemented from the Changelog-v2 spec as
+  signpost-gated library features: inherited `central-meta:` field (unset =
+  off; PHILSET_CENTRAL override), `philset adopt` subcommand as the single
+  5-case adopt/relink path (`philset private` wraps it pre+post scaffold),
+  `/ttyl` Step 6.5 central commit + non-fatal push, `/hello` Step 1.5 +
+  `/hey` cwd relink checks, signpost schema/docs updated, 9-case sandboxed
+  test suite (`npm test`). Delivers chunk 2's ttyl-commit slice with the
+  reality-tested one-repo-per-session answer. Design:
+  `designs/central-meta-port.md` (accepted 2026-07-22).
+  Completed: 2026-07-22 (feature/central-meta-port).

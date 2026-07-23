@@ -40,6 +40,13 @@ directory root. Do exactly two things:
 - **Read the root `.meta/WORKFLOW.md`** (user context) — loads working preferences and
   guardrails, e.g. *explicit consent required before merging to `main`*.
 
+**Relink check (cwd only, when `central-meta` is set):** if cwd's `.meta` is a
+dangling symlink — or absent while the central repo holds state at
+`<central-meta>/<cwd relative to $HOME>/.meta` (the re-clone case) — offer to
+run `philset adopt`. A broken link means the session runs context-blind, which
+defeats the floor's own purpose; the check is pure local fs, no network. Quiet
+when healthy; unlike `/hello`, do NOT check other walk levels.
+
 **Then, the local `.meta/`** in cwd, if it exists:
 - `in-progress.md` — what's active
 - `decisions.md` — recent tail (last few entries), not the whole log
