@@ -6,17 +6,24 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-**central-meta-port** (`feature/central-meta-port`) — **BUILT, awaiting
-`/review` → merge → v0.3.1 cut.** Design `designs/central-meta-port.md`
-(accepted 2026-07-22); all four open calls approved as recommended (auto-push
-non-fatal, /hey gets the cwd check, .eml tracked in central .gitignore,
-v0.3.1 promptly). Implementation: `philset adopt` + flag-gated CLI wiring,
-/ttyl 6.5, /hello 1.5, /hey check, signpost docs, `npm test` (9 pass).
-**Post-merge:** cut v0.3.1 to npm; then on the WORK machine add `central-meta:
-~/phil-meta-context` to its root signpost *before* running `npm update`
-(hacks get overwritten; config carries the behavior). Also flag there: its
-exclude patterns may be `/.meta/` (dir-only), which won't match the
-post-adoption *symlink* — the library port writes `/.meta`.
+**✅ v0.3.1 — MERGED + TAGGED + PUSHED 2026-07-27. `npm publish` is Phil's,
+and is the last step blocking the work machine.** Carries the central-meta
+port (`designs/central-meta-port.md`, accepted 2026-07-22), the tracked-`.meta`
+adopt guard, and the `private` exclude-pattern fix. `npm test` 11 pass.
+
+Root cause of the cross-machine block, now cleared: the port merged to `main`
+on 2026-07-22 but **was never pushed** — `origin/main` sat 11 commits behind,
+so `3de8ca9` 404'd from the work machine and the whole feature read as
+nonexistent. Pushed 2026-07-27.
+
+**Once published, tell the work machine:**
+- `central-meta:` is **path-valued**, `~/` **is** expanded (`expandTilde`),
+  resolved `PHILSET_CENTRAL` env → nearest `central-meta:` in a
+  `.meta/signpost.yml` walking up to `$HOME`; trailing `#` comments are
+  stripped. Its annotated line is live, not inert — the §1a gate is satisfied.
+- Its local `philset.js` patch can be dropped on update: the `statSync` fix now
+  ships on **both** exclude paths (`ensureMetaExcluded` *and* `enablePrivateMeta`
+  — only the former was fixed when its report said "already merged upstream").
 
 **Queued — dogfood `/skim`** on the AI-ecosystem Decoder Ring
 (`~/Development/.meta/assessments/ai-ecosystem-integration.md §1.4`, ~35 terms) — the
