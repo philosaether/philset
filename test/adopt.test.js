@@ -226,4 +226,32 @@ test('adoption excludes /.meta (no trailing slash) in a git repo', () => {
   assert.ok(!status.includes('.meta'), 'git does not see the .meta symlink');
 });
 
+// --- `philset private` writes the same symlink-safe pattern as adopt ---
+// Regression: enablePrivateMeta used to derive the trailing slash from
+// fs.statSync().isDirectory(), which FOLLOWS symlinks — so a .meta already
+// adopted into central reported as a directory and got a dir-only `/.meta/`,
+// which git never matches against a symlink. Teammate-visible .meta leak.
+test('private on an adopted .meta excludes it symlink-safely', () => {
+  const sandbox = makeSandbox();
+  execFileSync('git', ['init'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  const metaDir = path.join(sandbox.projectDir, '.meta');
+  fs.mkdirSync(metaDir);
+  fs.writeFileSync(path.join(metaDir, 'decisions.md'), 'state\n');
+  runAdopt(sandbox); // .meta is now a symlink into central
+  assert.ok(fs.lstatSync(metaDir).isSymbolicLink(), 'precondition: .meta adopted');
+
+  execFileSync('node', [PHILSET_BIN, 'private'], {
+    cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore',
+  });
+
+  const excludeLines = fs.readFileSync(
+    path.join(sandbox.projectDir, '.git', 'info', 'exclude'), 'utf8').split('\n');
+  assert.ok(excludeLines.includes('/.meta'), 'symlink-safe pattern present');
+  assert.ok(!excludeLines.includes('/.meta/'), 'no dead dir-only pattern written');
+  const status = execFileSync('git', ['status', '--porcelain'], {
+    cwd: sandbox.projectDir, env: sandbox.env, encoding: 'utf8',
+  });
+  assert.ok(!status.includes('.meta'), 'git does not see the .meta symlink');
+});
+
 console.log(`\n${passed} tests passed`);

@@ -402,8 +402,11 @@ function enablePrivateMeta(cwd) {
   let exclude = fs.existsSync(excludePath) ? fs.readFileSync(excludePath, 'utf8') : '';
   for (const target of toHide) {
     const rel = path.relative(gitTop, target).split(path.sep).join('/');
-    const isDir = fs.existsSync(target) && fs.statSync(target).isDirectory();
-    const pattern = `/${rel}${isDir ? '/' : ''}`;
+    // Anchored, slash-less — the same form ensureMetaExcluded writes. A trailing
+    // slash makes the pattern dir-only, and git dir-only patterns never match a
+    // symlink, so an adopted .meta (a symlink into central) would go unignored
+    // and show up in a teammate's `git status`. Slash-less matches both.
+    const pattern = `/${rel}`;
     const present = exclude.split('\n').some((line) => line.trim() === pattern);
     if (present) {
       console.log(`  private-meta: ${pattern} already excluded locally.`);
