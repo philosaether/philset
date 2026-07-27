@@ -105,8 +105,10 @@ function resolveCentral(cwd) {
   return configured ? expandTilde(configured) : null;
 }
 
-// Initialize the central repo on first use. Inbox binaries stay out of git;
-// text state (including .eml email drops) stays tracked.
+// Initialize the central repo on first use. Inbox binaries stay out of git, and
+// so do .eml drops: emailing yourself context was superseded by the handoff /
+// handback cycle through this very repo, and an unopened mail file is exactly
+// the kind of thing a credential rides in on. Other text state stays tracked.
 function ensureCentralRepo(centralDir) {
   if (fs.existsSync(path.join(centralDir, '.git'))) return;
   ensureDir(centralDir);
@@ -120,6 +122,7 @@ function ensureCentralRepo(centralDir) {
       '**/inbox/*.jpg',
       '**/inbox/*.jpeg',
       '**/inbox/*.gif',
+      '**/inbox/*.eml',
       '',
     ].join('\n'));
   }

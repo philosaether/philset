@@ -81,7 +81,9 @@ test('fresh adopt moves .meta into central and symlinks back', () => {
   assert.ok(fs.existsSync(path.join(sandbox.centralDir, '.git')), 'central repo initialized');
   const gitignore = fs.readFileSync(path.join(sandbox.centralDir, '.gitignore'), 'utf8');
   assert.ok(gitignore.includes('**/inbox/*.pdf'), 'inbox binaries ignored in central');
-  assert.ok(!gitignore.includes('eml'), '.eml stays tracked (approved design call)');
+  // Reversed 2026-07-27: the email-drop channel is closed (superseded by the
+  // handoff/handback cycle), and a mail file is a natural credential carrier.
+  assert.ok(gitignore.includes('**/inbox/*.eml'), '.eml drops ignored in central');
 });
 
 // --- Case 1: already adopted → no-op ---
