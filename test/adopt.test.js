@@ -160,6 +160,24 @@ test('both-exist conflict exits 1 and moves nothing', () => {
   assert.strictEqual(fs.readFileSync(path.join(target, 'decisions.md'), 'utf8'), 'central\n');
 });
 
+// --- Guard: host repo tracks .meta → refuse, exit 1, nothing moved ---
+test('adopt refuses when the host repo tracks .meta', () => {
+  const sandbox = makeSandbox();
+  execFileSync('git', ['init'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  const metaDir = path.join(sandbox.projectDir, '.meta');
+  fs.mkdirSync(metaDir);
+  fs.writeFileSync(path.join(metaDir, 'decisions.md'), 'tracked state\n');
+  execFileSync('git', ['add', '.meta'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  execFileSync('git', ['commit', '-m', 'track meta'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+
+  const error = runAdoptExpectFailure(sandbox);
+
+  assert.strictEqual(error.status, 1);
+  assert.match(error.stderr, /TRACKS \.meta/);
+  assert.ok(fs.lstatSync(metaDir).isDirectory(), 'tracked .meta untouched');
+  assert.ok(!fs.existsSync(centralTarget(sandbox)), 'nothing copied to central');
+});
+
 // --- Guard: unset flag → clear error, exit 1 ---
 test('adopt without central-meta configured fails with guidance', () => {
   const sandbox = makeSandbox();
@@ -202,6 +220,34 @@ test('adoption excludes /.meta (no trailing slash) in a git repo', () => {
   const exclude = fs.readFileSync(
     path.join(sandbox.projectDir, '.git', 'info', 'exclude'), 'utf8');
   assert.ok(exclude.split('\n').includes('/.meta'), 'symlink-safe exclude pattern present');
+  const status = execFileSync('git', ['status', '--porcelain'], {
+    cwd: sandbox.projectDir, env: sandbox.env, encoding: 'utf8',
+  });
+  assert.ok(!status.includes('.meta'), 'git does not see the .meta symlink');
+});
+
+// --- `philset private` writes the same symlink-safe pattern as adopt ---
+// Regression: enablePrivateMeta used to derive the trailing slash from
+// fs.statSync().isDirectory(), which FOLLOWS symlinks — so a .meta already
+// adopted into central reported as a directory and got a dir-only `/.meta/`,
+// which git never matches against a symlink. Teammate-visible .meta leak.
+test('private on an adopted .meta excludes it symlink-safely', () => {
+  const sandbox = makeSandbox();
+  execFileSync('git', ['init'], { cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore' });
+  const metaDir = path.join(sandbox.projectDir, '.meta');
+  fs.mkdirSync(metaDir);
+  fs.writeFileSync(path.join(metaDir, 'decisions.md'), 'state\n');
+  runAdopt(sandbox); // .meta is now a symlink into central
+  assert.ok(fs.lstatSync(metaDir).isSymbolicLink(), 'precondition: .meta adopted');
+
+  execFileSync('node', [PHILSET_BIN, 'private'], {
+    cwd: sandbox.projectDir, env: sandbox.env, stdio: 'ignore',
+  });
+
+  const excludeLines = fs.readFileSync(
+    path.join(sandbox.projectDir, '.git', 'info', 'exclude'), 'utf8').split('\n');
+  assert.ok(excludeLines.includes('/.meta'), 'symlink-safe pattern present');
+  assert.ok(!excludeLines.includes('/.meta/'), 'no dead dir-only pattern written');
   const status = execFileSync('git', ['status', '--porcelain'], {
     cwd: sandbox.projectDir, env: sandbox.env, encoding: 'utf8',
   });

@@ -185,7 +185,22 @@ function adoptMeta(cwd, centralDir) {
     }
     fs.unlinkSync(metaDir); // dangling link, central has state — relink below (case 2)
   } else if (linkStat) {
-    // real local .meta
+    // real local .meta — refuse if the host repo TRACKS it: that state already
+    // travels with the repo itself, and adoption would make git see every
+    // tracked .meta file as deleted (info/exclude only hides untracked files).
+    let gitTop = null;
+    try {
+      gitTop = execSync('git rev-parse --show-toplevel', {
+        cwd, stdio: ['ignore', 'pipe', 'ignore'],
+      }).toString().trim();
+    } catch {
+      // not a git repo — nothing tracked, adoption is safe
+    }
+    if (gitTop && isTracked(gitTop, metaDir)) {
+      console.error('  central-meta: this repo TRACKS .meta — its state already syncs through the repo itself.');
+      console.error('  Adoption is for private/untracked .meta (private-meta repos). Nothing moved.');
+      process.exit(1);
+    }
     if (targetExists) {
       console.error('  central-meta: CONFLICT — both local and central hold state:');
       console.error(`    local:   ${metaDir}`);
@@ -387,8 +402,11 @@ function enablePrivateMeta(cwd) {
   let exclude = fs.existsSync(excludePath) ? fs.readFileSync(excludePath, 'utf8') : '';
   for (const target of toHide) {
     const rel = path.relative(gitTop, target).split(path.sep).join('/');
-    const isDir = fs.existsSync(target) && fs.statSync(target).isDirectory();
-    const pattern = `/${rel}${isDir ? '/' : ''}`;
+    // Anchored, slash-less — the same form ensureMetaExcluded writes. A trailing
+    // slash makes the pattern dir-only, and git dir-only patterns never match a
+    // symlink, so an adopted .meta (a symlink into central) would go unignored
+    // and show up in a teammate's `git status`. Slash-less matches both.
+    const pattern = `/${rel}`;
     const present = exclude.split('\n').some((line) => line.trim() === pattern);
     if (present) {
       console.log(`  private-meta: ${pattern} already excluded locally.`);

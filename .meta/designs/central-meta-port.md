@@ -74,6 +74,11 @@ New helpers (Node builtins only, as ever):
   4. **both** real-local and central exist → **print both paths and exit 1**
      (prompt-and-manual merge; no auto-merge — accepted design's call)
   5. neither exists → no-op (scaffold creates it; post-scaffold pass adopts)
+  *(Added post-review 2026-07-22: a **tracked-`.meta` guard** ahead of cases
+  3/4 — if the host repo tracks `.meta` (philset itself, any repo using
+  `.meta` as public provenance), refuse and exit 1: that state already syncs
+  through the repo's own remote, and adoption would fork it out while git
+  reports mass deletions. Adoption is for the private/untracked regime only.)*
   Then `ln -s` (absolute), and inside a git repo ensure `.meta` in
   `.git/info/exclude` (reuse `enablePrivateMeta`'s exclude step). Stage in
   central (`git add -A`) but **don't commit** — commits are `/ttyl`'s job.
