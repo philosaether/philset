@@ -432,20 +432,15 @@ rest is staged here; all trace to the accepted design.
   `.meta/token-costs.md`.
   Deferred from: philbas.com/feature/activity-connector (2026-06-01).
 
-- **`copyDirRecursive` dereferences symlinked *sources*** — the v0.3 symlink-skip
-  guards the *destination*, but when a *source* entry is a symlink,
-  `entry.isDirectory()` is false (lstat semantics) → it falls to
-  `fs.copyFileSync(symlink, dest)`, which errors `EISDIR` for a symlinked dir. Bites
-  `philset sync` run on a dev box (where `~/.claude/skills/*` are symlinks into the
-  repo) → copying global→project skills would break. Pre-existing; surfaced by the
-  v0.3 `/review`. Fix: resolve source symlinks (dereference + recurse for dirs) or
-  skip them, per the intended `sync` semantics (probably dereference — you want the
-  real skill content copied into the shared repo).
+- ~~**`copyDirRecursive` dereferences symlinked *sources***~~ **DONE 2026-07-27**
+  (`b167b3e`). Dereference chosen over skip. Correction to the original entry: the
+  errno is `EISDIR` on Linux but **`ENOTSUP` on macOS**, and this was **live, not
+  latent** — `philset sync` broke on the first entry on any dev box. Dangling links
+  now skipped; `test/sync.test.js` (4 cases) added to `npm test`.
   Deferred from: philset/riff/v0.3-portable-welcoming (2026-07-03, /review).
 
-- **Extract hardcoded meta-README from `/hello`** — `/hello` Step 3 inlines the
-  `.meta/` directory description, duplicating `templates/meta-README.md`. Should
-  reference the template instead.
+- ~~**Extract hardcoded meta-README from `/hello`**~~ **DONE 2026-07-27** (`b167b3e`)
+  — Step 3 now points at `templates/meta-README.md`; the blocks were byte-identical.
   Deferred from: philset/feature/riff-defer-skills (2026-05-23).
 
 - **Extract a shared orientation + tree-walk snippet for `/hey` + `/hello`** —
