@@ -34,10 +34,22 @@ function copyDirRecursive(source, destination) {
     if (destLink && destLink.isSymbolicLink()) {
       continue;
     }
-    if (entry.isDirectory()) {
+    // Dereference symlinked SOURCES. readdir's Dirent uses lstat semantics, so a
+    // symlink pointing at a directory reports isDirectory() === false and would
+    // fall through to copyFileSync — which fails (EISDIR on Linux, ENOTSUP on
+    // macOS). `philset sync` hits this on a dev box, where ~/.claude/skills/*
+    // are symlinks back into this repo. Dereference rather than skip: sync's job
+    // is to copy the real skill content into the shared project.
+    let sourceIsDirectory = entry.isDirectory();
+    if (entry.isSymbolicLink()) {
+      const resolved = fs.statSync(sourcePath, { throwIfNoEntry: false });
+      if (!resolved) continue; // dangling link — nothing to copy
+      sourceIsDirectory = resolved.isDirectory();
+    }
+    if (sourceIsDirectory) {
       copyDirRecursive(sourcePath, destinationPath);
     } else {
-      fs.copyFileSync(sourcePath, destinationPath);
+      fs.copyFileSync(sourcePath, destinationPath); // follows symlinked files
     }
   }
 }

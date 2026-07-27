@@ -8,7 +8,7 @@
   },
   "scripts": {
     "link": "node scripts/dev-link.js",
-    "test": "node test/adopt.test.js"
+    "test": "node test/adopt.test.js && node test/sync.test.js"
   },
   "files": [
     "bin/",

@@ -139,23 +139,9 @@ whatever doesn't, skip it:
 > one up? (decisions.md, in-progress.md, designs/, assessments/, inbox/)"
 
 If the user says yes, create:
-- `.meta/README.md` with convention explainer:
-  ```
-  # .meta/
-
-  Project working state. Tracked in git, maintained by the team.
-
-  - `decisions.md` — Append-only decision log. Add entries, never edit old ones.
-  - `in-progress.md` — Current work state (Active, Parked). Present-tense only.
-  - `roadmap.md` — Future work and deferred items. Append-forward via `/defer`.
-  - `designs/` — Design docs. Created with `/draft`, implemented with `/ship`.
-  - `tracks/` — Riff scratchpads. Created with `/riff`, one per branch.
-  - `study/` — Staged learning docs. Created with `/study`; durable, citable.
-  - `skim/` — Recognition-level skim docs. Created with `/skim`; durable, citable.
-  - `assessments/` — State-of-the-world snapshots. Created with `/assess`.
-  - `inbox/` — Drop files here for review (screenshots, references, etc.).
-    - `todo.md` — Inbound items from cross-project deferrals or manual capture.
-  ```
+- `.meta/README.md` — the convention explainer. Copy it verbatim from
+  `templates/meta-README.md`; that file is the canonical text, so a new
+  directory in the scaffold list below only has to be described once.
 - `.meta/decisions.md` — header + empty log
 - `.meta/in-progress.md` — header only
 - `.meta/roadmap.md` — header only
