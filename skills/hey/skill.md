@@ -50,6 +50,11 @@ when healthy; unlike `/hello`, do NOT check other walk levels.
 **Then, the local `.meta/`** in cwd, if it exists:
 - `in-progress.md` — what's active
 - `decisions.md` — recent tail (last few entries), not the whole log
+- `inbox/` — scan for **handoff files** (`handoff-*.md`, or anything addressed
+  to this session) and read what you find. A hub session may have routed work
+  here, and an unread handoff is an undelivered message — this is the pickup
+  half of the hub→spoke channel, it's pure local fs, so it belongs in the
+  floor. Skim filenames only when nothing handoff-shaped is present.
 - Current git branch + `git status` (uncommitted work, branch name)
 - If on a `riff/` branch with a matching `tracks/` file, read it (you're resuming
   a riff)

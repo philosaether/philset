@@ -1,6 +1,6 @@
 ---
 name: review
-description: Pre-merge review. Diffs the session's work against the base branch, resolves its review dimensions (configurable via signpost `review.dimensions`/`extra-dimensions`, else inferred from the medium — code default: bugs/efficiency/redundancy/architecture — with `redundancy` the recommended-but-configurable example), always runs the structural dimensions (design/track/merge reconciliation), then presents fixes for approval before committing.
+description: Pre-merge review. Diffs the session's work against the base branch, resolves its review dimensions (configurable via signpost `review.dimensions`/`extra-dimensions`, else inferred from the medium — code default: bugs/efficiency/redundancy/architecture/comment-reconciliation/runtime-multiplicity/peer-consistency — with `redundancy` the recommended-but-configurable example), always runs the structural dimensions (design/track/merge reconciliation), reports a required `Cleared` section, then presents fixes for approval before committing.
 ---
 
 # Review
@@ -65,7 +65,8 @@ Resolve in precedence order — first hit wins:
      (signpost) beats prose (WORKFLOW) beats inferred.
 2. **Infer** (if unconfigured). Judge the medium:
    - code (has source / `architecture` not false) → **code default set:**
-     `bugs, efficiency, redundancy, architecture`.
+     `bugs, efficiency, redundancy, architecture, comment-reconciliation,
+     runtime-multiplicity, peer-consistency`.
    - non-code (`architecture: false`, prose-heavy) → a prose set
      (`clarity, structure, voice, factual-accuracy, redundancy`). *The real
      non-code set is still being calibrated — infer, then lean on 3b + `/retro`.*
@@ -120,6 +121,32 @@ the **structural dimensions** — each focused on the changed files.
 - **Efficiency**: unnecessary allocations, redundant loops, O(n^2) patterns, code that works but could be tighter.
 - **Redundancy**: duplicated logic, copy-pasted patterns, new code duplicating something already in the codebase. Check within the diff and against existing code.
 - **Architecture consistency** (only if `.meta/logical-architecture.md` exists): does new code match the documented structure? New files where the architecture says; doc reflects new modules. Reconcile doc ↔ code where they diverge — update whichever is more correct.
+- **Comment reconciliation** (the audience pass): every durable string in the
+  diff — comment, docstring, log/error message — must serve an enumerated
+  persona or move. Personae: **P1** the next maintainer (an agent; primary —
+  wins conflicts), **P2** the operator, **P3** a repo teammate with no `.meta/`
+  access, **P4** runtime readers (log consumers). Predicate: *who acts on this
+  string, and when?* Dispositions: **keep / rewrite / split / relocate /
+  delete**. Preservation is restricted to channels with working read-halves —
+  the code itself, the blame→PR walk, commit messages; **never introduce new
+  channels** (`.meta/` gets nothing new). Named rule: **keep the incident,
+  strip the session** — durable regression receipts stay; phase labels, run
+  numbers, authoring dates, personal attribution go. On large diffs run this
+  as its own subagent — writer and editor must be different instruments.
+  Honor inheritable domain rules from signpost
+  `review.comment-reconciliation.rules: [...]` (walked and merged like the
+  other review config). Report per-run disposition counts in the findings.
+- **Runtime multiplicity**: for state written to a process global
+  (module-level mutable, in-process cache or counter), answer *"how many
+  processes run this line?"* from **deployment config** — process groups,
+  replica counts, worker settings — not from the code, because the evidence
+  lives in files a code-focused pass never opens.
+- **Peer consistency**: when the diff adds a member to an existing family (a
+  handler among handlers, a config key among keys, a script among scripts),
+  enumerate the siblings and find the invariant that breaks — in **both
+  polarities**: the new member may break the family's standing invariant, or
+  the new member may introduce an invariant the existing siblings don't
+  follow.
 - *(Non-code dimensions, when resolved, are judged by their name — clarity, structure, voice, factual accuracy — against the changed prose.)*
 
 **Structural (always run):**
@@ -146,7 +173,18 @@ For each finding, show:
 - What the issue is
 - What the fix would be
 
-If nothing is found, say so — don't invent issues.
+Every report ends with a required **`Cleared`** section: per dimension, what
+was examined and affirmatively cleared ("checked X against Y — holds").
+Deliberately not a dimension — it detects nothing and costs a paragraph, but
+it buys three things: it disambiguates silence (an unmentioned concern
+otherwise reads identically to an unexamined one), it carries the argument for
+the real findings (a finding stated against cleared near-neighbours reads as a
+conclusion, not an opinion), and it is the measurement substrate for the
+dimensions themselves (a dimension that only ever emits `Cleared` lines is a
+prune candidate).
+
+If nothing is found, say so — don't invent issues; the `Cleared` section still
+runs.
 
 ## Step 5: Get approval
 
