@@ -107,7 +107,12 @@ Serves both inflection floors. Cut the release when these four land.
 
 ---
 
-## Tier 2 — v0.4 "the real multi-user fix" + strategic bridge
+## Tier 2 — chunk 2 "the real multi-user fix" + strategic bridge
+
+> **Renumbered 2026-08-15:** v0.4 = the **Ace drift harvest** (shipped —
+> `designs/ace-drift-harvest.md`); v0.5 = the **record-retention tier model**
+> (first slice of a feature dogfooding on the Ace over the coming weeks; spec
+> crosses via ferry when it stabilizes). Chunk 2 slots after those.
 
 - **Chunk 2 — multi-user state model (the real fix)** — The #1 structural
   project; the full multi-user story `private-meta` only stopgaps. Thread-vs-project
@@ -125,8 +130,8 @@ Serves both inflection floors. Cut the release when these four land.
   friction — the thread concept, in-progress.md serving two masters),
   `workstream-switching.md` (the /suspend+/resume assessment). Full plan in the
   `philset-development-state` assessment.
-  → **v0.4 = private-meta + chunk 2 + `/study`** (the significant work-laptop
-  release: full multi-user correctness, not just the stopgap).
+  → **the chunk-2 release** = full multi-user correctness, not just the
+  stopgap (was numbered "v0.4" before the 2026-08-15 renumber).
 
 - **`/refresh` — lightweight `/study` sibling (working name)** — Fast
   re-orientation / shallow-overview skill: what `/riff` is to `/draft`,

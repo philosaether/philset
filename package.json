@@ -1,6 +1,6 @@
 {
   "name": "philset",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Claude Code skills library for iterative, document-driven development",
   "license": "MIT",
   "bin": {

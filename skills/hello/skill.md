@@ -94,7 +94,7 @@ note to `breadcrumbs.log` `## Notes`:
 | `links` | `{}` | Named shortcuts to frequently-used files. Merged across tree walk (parent + child, child overrides on key collision). |
 | `allow-plan` | `false` | Re-enable `/plan` and `/ultraplan` for this directory tree. |
 | `archive-screenshots` | `false` | Keep consumed screenshots at `/ttyl` instead of deleting them. |
-| `hello.check` | `[]` | List of optional session-start checks `/hello` runs (Step 6.5): `calendar`, `connectors`, `updates` (inert). Empty = run none. Inherited down the tree. |
+| `hello.check` | `[]` | List of optional session-start checks `/hello` runs (Step 6.5): `calendar`, `connectors`, `github`, `updates` (inert). Empty = run none. Inherited down the tree. |
 | `calendar` | `false` | **Alias** for adding `calendar` to `hello.check` (back-compat). Surface today's calendar at session start (Google Calendar MCP). |
 | `private-meta` | `false` | Keep `.meta/` out of a shared repo's git (ignored locally via `.git/info/exclude`, invisible to teammates). Set by `philset private`. Inherited down the tree. |
 | `central-meta` | unset | Path to the central `.meta` state repo (symlink farm). Unset = feature off. When set: `philset private`/`philset adopt` adopt `.meta` into it, `/hello` Step 1.5 offers relinks, `/ttyl` Step 6.5 commits it once per session. Inherited down the tree. |
@@ -236,6 +236,8 @@ the entries present in the resolved list:
 - **`updates`** — reserved for the future `mcp.philbas.com` updates pull. **Inert
   in this version** — if present, note it's not yet active and continue; do NOT
   reach the network.
+- **`github`** — gh state read: pull the live PR surface and cross-check it
+  against the state files (below).
 - Any entry with no available MCP tool: note it once quietly and continue — never
   error or block the summary.
 
@@ -260,6 +262,27 @@ When `calendar` is enabled and a Google Calendar MCP tool is available:
 
 The "N more this week" tail is a *count*, not a full listing — a cheap
 lookahead cue. Only expand it if the user asks.
+
+### `github` entry — how to run it
+
+Requires the `gh` CLI, authed (`gh auth status`). If unauthed or offline, note
+it once quietly and continue — never block the summary. Read-only throughout.
+
+1. **Pull the live PR surface in two cheap calls:**
+   - `gh search prs --author=@me --state=open` — my open PRs across the org
+   - `gh search prs --review-requested=@me --state=open` — waiting on me
+2. **Cross-check against state files, don't just list.** The value is catching
+   drift: `in-progress.md` asserting `MERGEABLE` when GitHub says
+   `CHANGES_REQUESTED`, a "blocked" PR whose blocker merged days ago. For each
+   PR the state files make a claim about, verify with
+   `gh pr view <n> -R <repo> --json state,reviewDecision,mergeStateStatus`
+   (follow one hop to a named blocker/counterpart PR). Fresh reviews since the
+   last session are part of the diff — name the reviewer and state.
+3. **Surface only diffs and arrivals in the summary**: corrections
+   ("in-progress says X, GitHub says Y"), new reviews, newly-unblocked PRs,
+   review-requests no state file mentions. All-match → one line. Corrections
+   belong in the state files too — fix during the session, not just the
+   readout.
 
 ## Step 7: Brief summary
 

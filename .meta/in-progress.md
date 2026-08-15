@@ -6,24 +6,18 @@ Current work state. Update constantly, delete items when done.
 
 ## Active
 
-**✅ v0.3.1 — MERGED + TAGGED + PUSHED 2026-07-27. `npm publish` is Phil's,
-and is the last step blocking the work machine.** Carries the central-meta
-port (`designs/central-meta-port.md`, accepted 2026-07-22), the tracked-`.meta`
-adopt guard, and the `private` exclude-pattern fix. `npm test` 11 pass.
+**🚢 v0.4.0 "ace drift harvest" — cut 2026-08-15 on `feature/ace-drift-harvest`
+(`designs/ace-drift-harvest.md`, accepted).** `/review` + comment-reconciliation
+(audience pass) + runtime-multiplicity + peer-consistency + required `Cleared`;
+`/hey` inbox pickup; `/hello` `github` check. Tier model → **0.5** (first slice
+of a coming-weeks Ace dogfood). Remaining: npm publish (Phil's OTP) → `philset
+update` on the Fool → ferry note to the Ace (its update block lifts;
+snapshot-then-diff per its own 07-28 method).
 
-Root cause of the cross-machine block, now cleared: the port merged to `main`
-on 2026-07-22 but **was never pushed** — `origin/main` sat 11 commits behind,
-so `3de8ca9` 404'd from the work machine and the whole feature read as
-nonexistent. Pushed 2026-07-27.
-
-**Once published, tell the work machine:**
-- `central-meta:` is **path-valued**, `~/` **is** expanded (`expandTilde`),
-  resolved `PHILSET_CENTRAL` env → nearest `central-meta:` in a
-  `.meta/signpost.yml` walking up to `$HOME`; trailing `#` comments are
-  stripped. Its annotated line is live, not inert — the §1a gate is satisfied.
-- Its local `philset.js` patch can be dropped on update: the `statSync` fix now
-  ships on **both** exclude paths (`ensureMetaExcluded` *and* `enablePrivateMeta`
-  — only the former was fixed when its report said "already merged upstream").
+**✅ v0.3.1 — SHIPPED end-to-end: npm-published, verified live 2026-08-01; the
+Ace updated to it 2026-07-28** (local-hack count there 5 → 2; the
+"once published, tell the work machine" items were all delivered). Historical
+detail: decisions.md 2026-07-27.
 
 **Queued — dogfood `/skim`** on the AI-ecosystem Decoder Ring
 (`~/Development/.meta/assessments/ai-ecosystem-integration.md §1.4`, ~35 terms) — the
