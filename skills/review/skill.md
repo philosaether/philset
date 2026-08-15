@@ -96,7 +96,7 @@ If it came from **inference or ask**:
   reflect the project's *normal* medium accumulate below. (See design amendment A1.)
 - **Record a breadcrumb.** Keep a *single* `## Review Dimensions` note in
   `breadcrumbs.log` holding one line — the current inferred set and a run-count:
-  `- inferred [bugs, efficiency, redundancy, architecture] ×2`. Update it by
+  `- inferred [bugs, efficiency, redundancy, architecture, comment-reconciliation, runtime-multiplicity, peer-consistency] ×2`. Update it by
   comparing this run's inferred set to the line's set:
   - **same set** → increment the count (`×2` → `×3`).
   - **different set** → replace the line entirely with the new set at `×1`.

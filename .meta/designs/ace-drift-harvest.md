@@ -2,6 +2,9 @@
 Status: accepted
 Date: 2026-08-15
 Accepted: 2026-08-15
+Implemented: 2026-08-15 (feature/ace-drift-harvest)
+Divergences: none
+Deferred: none (tier model resolved out to 0.5 at acceptance, not deferred from implementation)
 Assessment: none (specs are the Ace's own records: its decisions.md 07-24/07-29/08-05/08-06, ferry items, and the standing drift inventory in its in-progress.md)
 Supersedes: none (additive to configurable-review-dimensions.md and hey-minimal-tree-walk.md)
 ---
