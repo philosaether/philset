@@ -50,3 +50,18 @@ One item left staging (below).
   unreconciled prior session) hit the `todo.md`-missing stop-condition and bailed. A
   missing `todo.md` is the least informative possible reason to stop triaging.
   Deferred from: WWTS/main (2026-07-26).
+
+- **update/init symlinked-destination guard (live incident)** — `philset
+  update` on a dev-linked box copies the installed package's (stale)
+  skills/references *through* dev-link's dir-level symlinks into the repo
+  working tree. Predicted by the 2026-06-25 "deploy/symlink inconsistency"
+  deferral; fired 2026-08-15 09:15:33 (37s after the v0.4.0 tag): the
+  global 0.2.1 silently reverted 7 skills + 3 references in the repo.
+  Caught 2026-08-16 at publish preflight (tag-worktree publish shipped
+  exact tag bits; worktree restored; global bumped to 0.4.0). Fix shape:
+  extend `sync`'s symlinked-destination dev-link guard to the update/init
+  deploy paths (skip or refuse, say why); consider warning when
+  installed-package version < repo version on a dev box. NB the hazard
+  re-arms as soon as repo skills move past the installed version —
+  currently defused only because both sit at 0.4.0.
+  Deferred from: Development root hub session (2026-08-16).
