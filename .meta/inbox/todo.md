@@ -65,3 +65,38 @@ One item left staging (below).
   re-arms as soon as repo skills move past the installed version —
   currently defused only because both sit at 0.4.0.
   Deferred from: Development root hub session (2026-08-16).
+
+- **Formalize `/plant` (+ the `seeds/` primitive) — the upstream half of `/sprout`**
+  *(deferred from Development/ hub, 2026-08-19)* — Improvised live at
+  `~/.claude/skills/plant/` (plain dir beside the symlink farm; unsynced, one-disk —
+  spec recoverable from the skill file, root decisions 2026-08-19, and the specimen
+  seed). `/plant` persists an idea-seed to `.meta/seeds/` (frontmatter lifecycle
+  `dormant → sprouted → composted`; `index.md`; file-at-the-subject; bar: "no salient
+  thread unfollowable"; agent-invoked on plant intent) so `/sprout` (roadmap Tier 3,
+  consolidated 2026-07-22) can later open a workspace from it. Reconcile the pair at
+  formalization: sprout's "seed roadmap.md from deferrals" step gains "read Sprout
+  Paths from the seed," and plant defines the seed interface sprout consumes. Adoption
+  wants: `philset sync`/`update` awareness of non-farm skill dirs, `/hello` surfacing
+  a dormant-seed count (index exists for exactly this), template into `templates/`.
+  Specimen: `~/Development/.meta/seeds/persona-harness.md`.
+
+- **/sprout dogfood datum #2 (2026-08-22, hub session):** Phil: "/sprout a
+  workspace to handle household management." No seed file existed — the input
+  was a live directive + an exemplar pointer (the Magician), not
+  `.meta/seeds/`. Performed by hand (`~/Development/household/` + nested
+  `furniture/` exemplar project). Contract implication: /sprout's input is
+  *seed-file OR live charter* — the seed file is one entry point, not the
+  definition. Pairs with the 2026-08-19 /plant improvisation.
+
+- **A philset browser layer on the muster-roll UI** — The WOTR dossier
+  artifact (one tab per subject; each panel in the order the need arises;
+  sparse-and-critical per viewport; persisted per-viewer checklist; light +
+  dark tokens; Marcellus / IBM Plex) turned out to be "damn close to optimal
+  for reading philset docs, too." Investigate it as the basis for a browser
+  layer over `.meta/` — designs, assessments, decisions, roadmaps rendered as
+  tabbed, reading-moment-tuned panels rather than raw markdown. Source and
+  README: `~/Development/gaming/wotr/.meta/dossier/`; the working pattern is
+  recorded in root `WORKFLOW.md` (Design Work, "Tune each panel to the
+  moment it will be read", 2026-09-05). Scope the read-only projection first;
+  editing stays in the IDE (inline-annotation workflow).
+  Deferred from: gaming/feature/eidolon (2026-09-05).
