@@ -88,15 +88,7 @@ One item left staging (below).
   *seed-file OR live charter* — the seed file is one entry point, not the
   definition. Pairs with the 2026-08-19 /plant improvisation.
 
-- **A philset browser layer on the muster-roll UI** — The WOTR dossier
-  artifact (one tab per subject; each panel in the order the need arises;
-  sparse-and-critical per viewport; persisted per-viewer checklist; light +
-  dark tokens; Marcellus / IBM Plex) turned out to be "damn close to optimal
-  for reading philset docs, too." Investigate it as the basis for a browser
-  layer over `.meta/` — designs, assessments, decisions, roadmaps rendered as
-  tabbed, reading-moment-tuned panels rather than raw markdown. Source and
-  README: `~/Development/gaming/wotr/.meta/dossier/`; the working pattern is
-  recorded in root `WORKFLOW.md` (Design Work, "Tune each panel to the
-  moment it will be read", 2026-09-05). Scope the read-only projection first;
-  editing stays in the IDE (inline-annotation workflow).
+- **A philset browser layer on the muster-roll UI** — superseded by
+  `handoff-2026-09-06-viewport.md` in this inbox (the full brief: a
+  lightweight, npm-shippable philset viewport executable).
   Deferred from: gaming/feature/eidolon (2026-09-05).
