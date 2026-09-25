@@ -8,10 +8,12 @@
   },
   "scripts": {
     "link": "node scripts/dev-link.js",
-    "test": "node test/adopt.test.js && node test/sync.test.js"
+    "test": "node test/adopt.test.js && node test/sync.test.js && node test/viewport-markdown.test.js && node test/viewport-manifest.test.js && node test/viewport-server.test.js && node test/viewport-tree.test.js"
   },
   "files": [
     "bin/",
+    "lib/",
+    "assets/viewport/",
     "skills/",
     "templates/",
     "references/",

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="{{csp}}">
+<title>{{title}}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style nonce="{{nonce}}">
+{{css}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">{{eyebrow}}</div>
+    <div class="controls">
+      <button type="button" class="tray-open" aria-controls="tray" aria-expanded="false" title="Find a document (⌘K)">docs <kbd>⌘K</kbd></button>
+      <div class="theme" role="group" aria-label="Theme">
+        <button type="button" data-theme="system" aria-pressed="true">system</button>
+        <button type="button" data-theme="light" aria-pressed="false">light</button>
+        <button type="button" data-theme="dark" aria-pressed="false">dark</button>
+      </div>
+    </div>
+  </div>
+{{sessions}}
+  <div class="tabs" role="tablist" aria-label="Documents">
+{{tabs}}
+  </div>
+{{panels}}
+  <footer>{{footer}}</footer>
+</div>
+<div class="tray-backdrop" hidden></div>
+<aside class="tray" id="tray" hidden aria-label="Documents across the tree">
+  <div class="tray-head">
+    <input type="search" class="tray-search" placeholder="find a doc by subject — title, section, status, project" autocomplete="off" spellcheck="false" aria-label="Search documents">
+    <button type="button" class="tray-close" aria-label="Close">esc</button>
+  </div>
+  <div class="tray-status eyebrow"></div>
+  <div class="tray-list" role="listbox"></div>
+</aside>
+<div class="tip" id="tip" hidden role="tooltip"></div>
+<script nonce="{{nonce}}">window.__pv = {{config}};</script>
+{{vendor}}
+<script nonce="{{nonce}}">
+{{js}}
+</script>
+</body>
+</html>

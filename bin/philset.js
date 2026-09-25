@@ -588,6 +588,17 @@ Usage:
                             stops on a local↔central conflict
   philset update            Update global skills and reference docs
   philset sync [--remove]   Copy (or remove) skills to project .claude/skills/
+  philset view [dir] [--tree|--project] [--tabs a.md,b.md] [--port N] [--open] [--edit]
+                            Serve <dir>/.meta/ docs as a tabbed page in the
+                            muster-roll format (live reload; Ctrl-C to stop).
+                            Tree mode (automatic at a \`root: true\` signpost,
+                            or --tree) serves every project under <dir>, with
+                            a document tray and token → definition hovers.
+                            --edit adds an inline editor per panel
+  philset hook session-state
+                            Claude Code hook: records this session as crunching
+                            or ready for the hub page (stdin = hook JSON).
+                            \`philset hook\` prints the settings.json fragment
   philset help              Show this message
 
 Quick start:
@@ -622,6 +633,13 @@ switch (command) {
     break;
   case 'sync':
     cmdSync({ remove: args.includes('--remove') });
+    break;
+  case 'view':
+    require('../lib/viewport/cli').cmdView(args.slice(1));
+    break;
+  case 'hook':
+    if (args[1] === 'session-state') require('../lib/viewport/sessions').cmdHook(args.slice(1));
+    else console.log(JSON.stringify(require('../lib/viewport/sessions').hookSettings(__filename), null, 2));
     break;
   case 'help':
   case '--help':

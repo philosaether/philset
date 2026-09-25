@@ -268,7 +268,39 @@ Or launch Claude Code however you prefer and type `/hello`.
 | `philset private [--dsp]` | Alias for `begin --private`: ignore `.meta/` locally for a shared repo, then launch |
 | `philset update` | Update global skills and reference docs to latest |
 | `philset sync [--remove]` | Copy (or remove) skills to project `.claude/skills/` |
+| `philset view [dir] [--tabs a.md,b.md] [--port N] [--open] [--edit]` | Serve `.meta/` docs as a tabbed page in the muster-roll format |
 | `philset help` | Show usage summary |
+
+### Reading your docs: `philset view`
+
+`philset view` serves a project's `.meta/` work docs as one page with a tab
+per document — real typographic hierarchy instead of the IDE preview, tables
+that scroll in their own container, `⚠` callouts, front-matter as a card,
+and every `- [ ]` item as a checkbox that persists in your browser without
+touching the source. Live reload on save; light/dark by system or the toggle.
+
+```
+cd my-project && philset view          # prints the URL of the default view (per-project port); --open launches the browser
+philset view --tabs designs/x.md,roadmap.md
+```
+
+The default view is `in-progress.md`, `roadmap.md`, and the newest designs
+from `designs/index.md` (drafts always, then accepted, up to five). To pick
+your own five of a hundred, write `.meta/viewport.yml`:
+
+```yaml
+title: my-project
+tabs:
+  - in-progress.md
+  - path: designs/x.md
+    label: x
+    role: shipping this week
+```
+
+Read-only by default; the markdown stays the source of truth. With `--edit`
+each panel gains an *edit* control that opens the raw markdown in place and
+saves it back atomically (refusing if the file changed on disk meanwhile).
+Loopback only, zero dependencies. Design: `.meta/designs/viewport.md`.
 
 ### Multi-contributor repos
 
