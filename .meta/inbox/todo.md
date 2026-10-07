@@ -92,3 +92,14 @@ One item left staging (below).
   `handoff-2026-09-06-viewport.md` in this inbox (the full brief: a
   lightweight, npm-shippable philset viewport executable).
   Deferred from: gaming/feature/eidolon (2026-09-05).
+
+- **Tree mode walks the central-meta farm instead of the passed root** — `lib/viewport/cli.js:89`
+  sets `rootDir = dirname(realpath(<root>/.meta))`. When the root `.meta` is symlinked into
+  central-meta, the walk runs over `~/phil-meta-context/Development` instead of `~/Development`, so
+  any project whose `.meta` is tracked in-repo and not adopted is invisible. Maestro is one
+  (its 2026-09-18 `private-meta: false` exception), and every one of its docs is missing.
+  Proposed fix: walk the passed root. `discoverProjects` (`tree.js:58-90`) already
+  realpath-dedupes each `.meta`, so adopted projects still collapse to one entry. Cost to weigh:
+  the walk grows from the farm (~15 projects) to all ~170 repos under `~/Development` (startup time).
+  Workaround in use on the Ace: a second single-project server on maestro (port 4700).
+  Deferred from: Ace hub/~ (2026-10-06). For the next viewport working session on the Fool.
