@@ -103,3 +103,18 @@ One item left staging (below).
   the walk grows from the farm (~15 projects) to all ~170 repos under `~/Development` (startup time).
   Workaround in use on the Ace: a second single-project server on maestro (port 4700).
   Deferred from: Ace hub/~ (2026-10-06). For the next viewport working session on the Fool.
+
+- **Live-reload streams use up the browser's connection pool, so the doc tray hangs on "indexing…"** — Each
+  open page holds one `/events` stream (`lib/viewport/server.js:128`). Chromium allows 6 HTTP/1.1
+  connections per host, shared across every tab and pane in a browser process. On the Ace on 10-09 the
+  VS Code integrated browser held exactly 6 to `:4704`. A new pane pushed it over the limit; after that
+  the tray's `fetch('/api/index')` queued forever. It never rejects, so the `.catch` ("the index did not
+  load") never fires. Every pane in that process was affected, including ones that had worked before.
+  The server was healthy: all 522 docs returned 200 and the index rebuilt live.
+  Fixes, cheapest first:
+  (1) Close the `EventSource` on `visibilitychange` → hidden and reopen it on visible.
+  (2) Share one stream per browser via `BroadcastChannel` (one leader tab) or a `SharedWorker`.
+  (3) Give the tray fetch a timeout (`AbortController`) whose message names the likely cause.
+  (HTTP/2 would remove the limit, but browsers only speak it over TLS, which is overkill for loopback.)
+  Workaround: close spare viewport panes.
+  Deferred from: Ace hub/~ (2026-10-09). For the next viewport working session on the Fool.
